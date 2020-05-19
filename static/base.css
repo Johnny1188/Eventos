@@ -1,0 +1,75 @@
+html {
+    min-height: 100vh;
+}
+body {
+    min-height: 100vh;
+    font-family: 'League Spartan';
+}
+
+/* 
+Registration and Login pages (forms)---->
+*/
+.reg_container {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ac99ca;
+    margin: 0;
+    width: 100%
+}
+.form_box {
+    min-width: 40vw;
+    background-color: #623aa1;
+    border: 8px #2b0170 solid;
+    color: white;
+    text-align: center;
+    padding-top: 7vh;
+    padding-bottom: 5vh;
+}
+.form_box h1 {
+    margin-bottom: 5vh;
+}
+.form_line {
+    display: grid;
+    grid-template-columns: 50px auto;
+    max-width: 85%;
+    margin: auto;
+}
+.form_box input {
+    height: 50px;
+    padding-left: 6px;
+    font-size: 18px;
+}
+.icon_box {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2b0170;
+}
+.form_box .submit_btn {
+    width: 42%;
+    height: auto;
+    padding-top: 14px;
+    padding-bottom: 8px;
+    font-size: 22px;
+    color: #2b0170;
+}
+
+
+
+
+
+
+
+/* 
+Footer---->
+*/
+footer {
+    background-color: #623aa1;
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    color: white;
+}

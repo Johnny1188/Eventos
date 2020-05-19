@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="reg_container">
+    <div class="form_box">
+        <h1>Sign up</h1>
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="far fa-envelope"></i>
+                </div>
+                <input type="text" name="email" placeholder="Email address">
+            </div>
+            <br>
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input type="password" name="password1" placeholder="Your password">
+            </div>
+            <br>
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input type="password" name="password2" placeholder="Password again">
+            </div>
+            <br>
+            {% if error %}
+            <div class="error_box">
+                {{ error }}
+            </div>
+            {% endif %}
+            <input class="submit_btn" type="submit" value="SIGN UP">
+        </form>
+    </div>
+</div>
+{% endblock %}
