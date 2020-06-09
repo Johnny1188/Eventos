@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container event_container">
+    <div class="row">
+        <div class="col-6 event_text_box">
+            <div class="title">
+                <h2>{{ event.name }}</h2>
+            </div>
+            <br>
+            <p>{{ event.description }}</p>
+        </div>
+        <div class="col-6 event_img_box">
+            <img src="{{ event.image.url }}" alt="event image">
+        </div>
+    </div>
+
+    <div class="button_box">
+    {% if recommendorHerselfComingToThisPage == True or recommendorHerselfComingToThisPage is None %}
+        <br>
+        <a href="{{ event.linkToRegister }}"><button class="event_button">GET A TICKET</button></a>
+    {% endif %}
+
+    {% if recommendorHerselfComingToThisPage == False %}
+        <h5>Your friend with email <span class="white_span">{{ recommendor.username }}</span><br>recommends this event !</h5>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="event_link" value="{{ event.linkToRegister }}">
+            <input type="hidden" name="recommendor" value="{{ recommendor.id }}">
+            <button type="submit" class="event_button">GET A TICKET</button>
+        </form>
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

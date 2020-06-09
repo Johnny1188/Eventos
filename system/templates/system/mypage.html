@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="reward_modal">
+    <div id="reward_modal_box">
+        <div id="reward_modal_box_close" onclick="close_modal()"><i class="fas fa-times"></i></div>
+        <div id="reward_modal_box_content">
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="credit_box">
+        <h3>YOUR CREDIT:</h3>
+        <div class="credit_points_box">
+            <div class="credit_points" style="width: calc(({{ profile.getPoints }}/{{ rewards.1.pointsNeeded }})*100%);max-width: 100%;">
+                <h4>
+                    {{ profile.getPoints }}
+                </h4>
+            </div>
+        </div>
+        <div class="credit_rewards">
+            <div></div>
+            {% for reward in rewards %}
+            <div class="reward_box" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}',{{ reward.id }})">
+                <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                <h6>{{ reward.name }}<br>
+                    <span>{{ reward.pointsNeeded }} CREDITS</span>
+                </h6>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="my_events_box">
+        <h3>YOUR EVENTS:</h3>
+        {% for eventAttending in events_attending %}
+            <div class="my_event_box">
+                <a href="{% url 'eventpage' eventAttending.event.id %}" class="recommend_link_box_event">
+                    <img src="{{ eventAttending.event.image.url }}" alt="{{ eventAttending.event.name }} logo">
+                    <h4>{{ eventAttending.event.name }}</h4>
+                </a>
+                <div class="recommend_link">
+                    <input type="text" value="{{ eventAttending.recommend_link }}" id="recommend_link">
+                    <button onclick="copy_link()" id="copy_box"><i class="fas fa-clone"></i></button>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="empty_box">
+            <a href="{% url 'eventlist' %}" class="discover_more_events">
+                <div class="recommend_link_box_empty">
+                    <h2>+ Explore more events</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if message is not None %}
+<script defer type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+
+{% endblock %}

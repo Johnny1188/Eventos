@@ -3,4 +3,4 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
-    return render(request,"base.html")
+    return render(request,"home.html")

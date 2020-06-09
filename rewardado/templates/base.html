@@ -11,16 +11,44 @@
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <!-- FONTAWESOME -->
     <script src="https://kit.fontawesome.com/771e920a06.js" crossorigin="anonymous"></script>
+    <!-- CUSTOM JS -->
+    <script src="{% static 'base.js' %}"></script>
 </head>
 <body class="d-flex flex-column h-100">
-    {% block content %}
-    {% endblock %}
+    <div class="content-container">
+        <header>
+            <a href="{% url 'home' %}"><img src="{% static 'logo.png' %}" class="logo_img" alt="Logo Rewardado"></a>
+            {% if user.is_authenticated %}
+                <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
+                <div id="toggle" onclick="toggle()"></div>
+            {% endif %}
+        </header>
 
-<footer class="footer py-3">
-    <div class="mx-auto">
-        <h6 class="text-center">Rewardado</h6>
+        {% block content %}
+        {% endblock %}
+
     </div>
-</footer>
+    {% if user.is_authenticated %}
+    <div class="navigation">
+        <ul>
+            <li><a href="{% url 'myrewards' user.id %}">MY REWARDS</a></li>
+            <li><a href="{% url 'mybuddies' user.id %}">MY EVENT BUDDIES</a></li>
+            <li><a href="{% url 'settingspage' user.id %}">SETTINGS</a></li>
+        </ul>
+        <h6 class="nav_username">{{ user.username }}</h6>
+        <form action="{% url 'logout' %}" class="logout_form" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    {% endif %}
+
+    <footer class="footer py-3">
+        <div class="mx-auto">
+            <h6 class="text-center">Rewardado</h6>
+        </div>
+    </footer>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

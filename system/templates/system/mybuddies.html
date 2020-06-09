@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Your buddies for upcoming events:</h1>
+    <div class="event_buddy_container">
+        {% for event in events_attending %}
+        <div class="my_event_box">
+            <div class="event_img_section">
+                <img src="{{ event.event.image.url }}" alt="event image">
+            </div>
+            <div class="event_text_section">
+                <h3>{{ event.event.name }}</h3>
+            </div>
+            <div class="buddy_section">
+                <h5>Your event buddy is: 
+                    <span class="white_span">
+                        {% if event.eventBuddy is None %}
+                            Nobody found yet :(
+                        {% else %}
+                            {{ event.eventBuddy.user.username }}
+                        {% endif %}
+                    </span>
+                </h5>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
