@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+import hashlib
 import random
 
 
@@ -19,9 +20,21 @@ class EventGoer(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     eventBuddy = models.OneToOneField('EventGoer', on_delete=models.SET_NULL, null=True, blank=True)
+    chatName = models.CharField(max_length=120,default='')
     numOfRecommended = models.IntegerField(default=0)
     def __str__(self):
         return self.event.name[:15] + "---" + self.user.username
+    def getChat(self):
+        if self.chatName == '':
+            roomChatName = hashlib.md5((self.user.username + self.eventBuddy.user.username).encode()).hexdigest()
+            self.eventBuddy.chatName = roomChatName
+            self.chatName = roomChatName
+            super().save()
+            self.eventBuddy.save()
+            print(self.chatName)
+            return self.chatName
+        else:
+            return self.chatName
 
 class Reward(models.Model):
     name = models.CharField(max_length=80)
@@ -39,5 +52,12 @@ class Rewarder(models.Model):
     reward = models.ForeignKey(Reward,on_delete=models.SET_NULL,null=True,blank=True)
     fulfilled = models.BooleanField(default=False)
     def __str__(self):
-        return str(self.withdrawer.id) + '---' + str(self.reward.id) + '---' + self.fulfilled
+        return str(self.withdrawer.id) + '---' + str(self.reward.id) + '---' + str(self.fulfilled)
+
+class Message(models.Model):
+    text = models.TextField()
+    chatName = models.CharField(max_length=255)
+    sender = models.ForeignKey(User,on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.id)
 

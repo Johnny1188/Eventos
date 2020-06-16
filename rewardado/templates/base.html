@@ -14,10 +14,10 @@
     <!-- CUSTOM JS -->
     <script src="{% static 'base.js' %}"></script>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="background-image: url({% static 'rewardado_bg.svg' %});">
     <div class="content-container">
         <header>
-            <a href="{% url 'home' %}"><img src="{% static 'logo.png' %}" class="logo_img" alt="Logo Rewardado"></a>
+            <a href="{% url 'home' %}"><h1>EventBay</h1></a>
             {% if user.is_authenticated %}
                 <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
                 <div id="toggle" onclick="toggle()"></div>
@@ -33,6 +33,7 @@
         <ul>
             <li><a href="{% url 'myrewards' user.id %}">MY REWARDS</a></li>
             <li><a href="{% url 'mybuddies' user.id %}">MY EVENT BUDDIES</a></li>
+            <li><a href="{% url 'eventlist' %}">EXPLORE EVENTS</a></li>
             <li><a href="{% url 'settingspage' user.id %}">SETTINGS</a></li>
         </ul>
         <h6 class="nav_username">{{ user.username }}</h6>
@@ -46,6 +47,7 @@
     <footer class="footer py-3">
         <div class="mx-auto">
             <h6 class="text-center">Rewardado</h6>
+            <a href='https://www.freepik.com/free-photos-vectors/website'>Website vector created by freepik - www.freepik.com</a>
         </div>
     </footer>
 

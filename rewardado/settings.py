@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rewardado.wsgi.application'
 
+ASGI_APPLICATION = 'rewardado.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -85,6 +96,9 @@ DATABASES = {
         'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '',
+        'TEST': {
+            'NAME': os.path.join(BASE_DIR, 'db_test.postgresql')
+        }
     }
 }
 

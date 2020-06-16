@@ -5,17 +5,25 @@ html {
 }
 body {
     min-height: 100vh;
-    font-family: 'League Spartan';
+    font-family: 'League Spartan'; 
+    background-color: #23005c;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /*
 Header ---->
 */
 header {
-    background-color: #623aa1;
-    height: 70px;
-    padding: 10px 7.5vw;
-    text-align: right;
+    height: 85px;
+    padding: 0px 7.5vw;
+    text-align: left;
+}
+header h1 {
+    color: #fff;
+    text-align: left;
+    padding-top: 30px;
+    display: inline-block;
 }
 .logo_img {
     max-height: 60px;
@@ -46,6 +54,7 @@ header #toggle {
     height: 35px;
     cursor: pointer;
     display: inline;
+    text-align: right;
 }
 header #toggle:before {
     content: "";
@@ -120,7 +129,7 @@ header #toggle:after {
 }
 .logout_form input {
     background-color: #623aa1;
-    padding: 5.5px 37.5px 3.5px 37.5px;
+    padding: 7px 37.5px 3.5px 37.5px;
     color: white;
     border: solid 2.5px #623aa1;
 }
@@ -140,6 +149,80 @@ header #toggle:after {
 }
 
 
+/* 
+Home page ---->
+*/
+.home_icon {
+    width: 45vw;
+    position: absolute;
+    left: -2vw;
+    top: 15vh;
+}
+.head_text_box {
+    color: #fff;
+    text-align: left;
+    margin-left: 25vw;
+    margin-top: 100px;
+}
+.head_text_box h1 {
+    font-size: 50px;
+}
+.head_text_box p {
+    margin-top: 65px;
+    margin-bottom: 65px;
+    padding-left: 8vw;
+}
+.head_text_box p span {
+    color:#2b0170;
+    border-left:6px #fff solid;
+    padding-left: 10px;
+    padding-top: 4px;
+}
+.head_text_box h6 {
+    text-align: center;
+    font-size: 20px;
+}
+.head_text_box h6 span {
+    color: #2b0170;
+}
+.log_reg_box {
+    position: absolute;
+    top: -3px;
+    right: 0px;
+    padding: 15px 20px 6px 40px;
+    color: #fff;
+    border-right: solid 8px #fff;
+}
+.log_reg_box button {
+    margin-right: 15px;
+    background-color: #fff;
+    border: solid 2px #fff;
+    border-radius:5px;
+    color: #623aa1;
+    width: 130px;
+    padding: 8px 0 3px 0;
+}
+.log_reg_box button:hover {
+    background-color: #2b0170;
+    border: solid 2px #fff;
+    color: #fff;
+}
+.log_reg_box h6 {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 12px 0 6px 0;
+}
+.log_reg_box a {
+    display: inline-block;
+}
+.vision_statement_box {
+    font-size: 31px;
+    margin-top: 600px;
+    text-align: center;
+    color: #fff;
+}
+
+
 
 /* 
 Registration and Login pages (forms)---->
@@ -149,7 +232,6 @@ Registration and Login pages (forms)---->
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #ac99ca;
     margin: 0;
     width: 100%
 }
@@ -273,10 +355,10 @@ MyPage----->
     color: #2b0170;
 }
 .credit_box, .my_events_box {
+    background-color: #fff;
     margin-top: 30px;
     padding: 40px;
     width: 100%;
-    box-shadow: 10px 10px 30px #704da8;
 }
 .credit_box {
     padding-bottom: 0;
@@ -404,7 +486,7 @@ MyPage----->
 Eventpage ----->
 */
 .event_container {
-    box-shadow: 10px 10px 30px #704da8;
+    background-color: #fff;
     margin-top: 40px;
     padding: 0px;
 }
@@ -462,28 +544,34 @@ Eventpage ----->
 EventList ----->
 */
 .events_box {
-    box-shadow: 10px 10px 30px #704da8;
     margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .event {
-    width: 50%;
+    width: 47%;
     max-height: 250px;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     overflow: hidden;
-    background-color: #bbaad6;
+}
+.event:nth-child(odd) {
+    border-right: solid #fff 0.5vw;
+    border-bottom: solid #fff 1vw;
+}
+.event:nth-child(even) {
+    border-left: solid #fff 0.5vw;
+    border-bottom: solid #fff 1vw;
 }
 .event:hover {
     opacity: 0.85;
+    cursor: pointer;
 }
 .event img {
     width: 100%;
-    max-height: 250px;
-    width: auto;
 }
 .events_box h5 {
     background-color: #2b0170;
@@ -522,6 +610,9 @@ My Buddies ----->
     width: 100%;
     align-self: flex-end;
     text-align: center;
+}
+.chat-log {
+    
 }
 
 

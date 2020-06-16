@@ -5,10 +5,12 @@
         <h3>UPCOMING EVENTS</h3>
         <div class="events_box">
             {% for event in events %}
-            <div class="event">
-                <h5>{{ event.name }}</h5>
-                <img src="{{ event.image.url }}" alt="event image">
-            </div>
+            <a href="e{{ event.id }}/" class="event">
+                <div>
+                    <h5>{{ event.name }}</h5>
+                    <img src="{{ event.image.url }}" alt="event image">
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>

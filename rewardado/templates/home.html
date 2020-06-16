@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="container">
-    <h1>Hello, new user!</h1>
-    <a href="{% url 'login' %}"><button>LOGIN</button></a>
-    <a href="{% url 'registration' %}"><button>REGISTER</button></a>
+<img src="{% static 'home_icon.svg' %}" alt="Meet Icon" class="home_icon">
+
+<div class="container home_container">
+    <div class="head_text_box">
+        <h1>Bringing new attendees to event organisors.</h1>
+        <p><span>WITHOUT</span> BIG MARKETING BUDGET<br><span style="color:#2b0170">WITHOUT</span> MARKETING KNOWLEDGE<br><span style="color:#2b0170">WITHOUT</span> UNCERTAINITY</p>
+        <h6>With <span>AUTOMATED</span> and <span>GAMIFIED</span> ambassador program.</h6>
+    </div>
+    <div class="vision_statement_box">
+        <h2>WE BELIEVE THAT LIKE-MINDED PEOPLE SHOULD MEET EACH OTHER.<br>Let's make it so, TOGETHER.</h2>
+    </div>
+    {% if user.is_authenticated is False %}
+    <div class="log_reg_box">
+        <h6>Wanna meet people on events?</h6>
+        <a href="{% url 'login' %}"><button>LOGIN</button></a>
+        <a href="{% url 'registration' %}"><button>REGISTER</button></a>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

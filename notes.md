@@ -2,6 +2,9 @@
 ------ WHAT NEXT ? --------
 
 1) Chatting function in MyBuddy section - Django Channels (Web sockets)
+    - Stylize the chat section on My Buddy page
+    - Save latest messages to database in order for users to be able to retrieve messages from their 
+    counterparts while they were offline
 
 2) Design of the app
     - vector background (purple/black)

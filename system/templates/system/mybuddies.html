@@ -23,6 +23,63 @@
                     </span>
                 </h5>
             </div>
+        
+        <!-- Chatting functionality -->
+        {% if event.eventBuddy is not None %}
+            <div id="chat-log-{{ event.eventBuddy.user.id }}" class="chat-log"></div><br>
+            <input id="chat-message-input" type="text"><br>
+            <input id="chat-message-submit" type="button" value="Send">
+            <script>
+                // Roomname with user eventBuddy's id because there can be more websockets opened on this page
+                //      -> variable "roomName" would collade without differentiation (hence the id)
+                let roomName{{ event.eventBuddy.user.id }} = '{{ event.getChat }}';
+
+                let chatSocket{{ event.eventBuddy.user.id }} = new WebSocket(
+                    'ws://'
+                    + window.location.host
+                    + '/ws/chat/'
+                    + roomName{{ event.eventBuddy.user.id }}
+                    + '/'
+                );
+
+                chatSocket{{ event.eventBuddy.user.id }}.onmessage = function(e) {
+                    const data = JSON.parse(e.data);
+                    // Receiving messages and getting the ones from database:
+                    if (data.sender != {{ user.id }}) {
+                        let newMsg = '<div style="background-color:#0000ff">'+data.message+'</div> </br>';
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                    }
+                    if (data.sender == {{ user.id }} && data.isPastMessage) {
+                        let newMsg = '<div style="background-color:#ff44ad">'+data.message+'</div> </br>';
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                    }
+                };
+
+                chatSocket{{ event.eventBuddy.user.id }}.onclose = function(e) {
+                    console.error('Chat socket closed unexpectedly');
+                };
+
+                document.querySelector('#chat-message-input').focus();
+                document.querySelector('#chat-message-input').onkeyup = function(e) {
+                    if (e.keyCode === 13) {  // enter, return
+                        document.querySelector('#chat-message-submit').click();
+                    }
+                };
+
+                // Sending messages:
+                document.querySelector('#chat-message-submit').onclick = function(e) {
+                    const messageInputDom = document.querySelector('#chat-message-input');
+                    const message = messageInputDom.value;
+                    chatSocket{{ event.eventBuddy.user.id }}.send(JSON.stringify({
+                        'message': message,
+                        'sender': {{ user.id }}
+                    }));
+                    messageInputDom.value = '';
+                    let newMsg = '<div style="background-color:#ff44ad">'+message+'</div> </br>';
+                    document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                };
+            </script>
+        {% endif %}
         </div>
     {% endfor %}
     </div>

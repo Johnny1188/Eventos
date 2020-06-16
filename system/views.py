@@ -20,6 +20,7 @@ def myPage(request,user_id):
         return redirect('/accounts/login')
     else:
         try:
+            print(request.META["REMOTE_ADDR"])
             user = User.objects.get(pk=user_id)
             rewards = Reward.objects.order_by('pointsNeeded')[:2]
             events_attending = EventGoer.objects.filter(user=user)
@@ -33,7 +34,7 @@ def myPage(request,user_id):
             context = {'user':user,'profile':profile,'events_attending':events_attending,'rewards':rewards,'message':message_to_display}
             return render(request,'system/mypage.html',context)
         except User.DoesNotExist:
-            return redirect('/')
+            return redirect('/accounts/registration')
         except Profile.DoesNotExist:
             profile = Profile()
             profile.user = user
@@ -53,12 +54,16 @@ def recommendedEventPage(request,event_id,user_id):
         #   --> We want to give a recommend-point to the recommender in our DB
         try:
             recommendor = User.objects.get(pk=recommendor_id)
-            eventGoer = EventGoer.objects.get(user=recommendor)
+            event = Event.objects.get(pk=event_id)
+            print(recommendor.username)
+            eventGoer = EventGoer.objects.get(user=recommendor,event=event)
+            print("success")
             eventGoer.numOfRecommended += 1
             eventGoer.save()
             #   --> Redirect the interested new guest to the event registration page (not on our rewardado page)
             return redirect(linkToRegister)
         except:
+            print("failure")
             return redirect(linkToRegister)
     else:
         if request.user.id == user_id:

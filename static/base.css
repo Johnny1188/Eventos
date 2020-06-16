@@ -1,6 +1,7 @@
 html {
     min-height: 100vh;
     overflow-x: hidden;
+    width: 100vw;
 }
 body {
     min-height: 100vh;
@@ -94,7 +95,7 @@ header #toggle:after {
     transition: 0.5s;
 }
 .navigation.active {
-    right: 0;
+    right: 0px;
 }
 .navigation ul {
     position: relative;
@@ -202,11 +203,83 @@ Registration and Login pages (forms)---->
 /*
 MyPage----->
 */
+#reward_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+}
+#reward_modal_box {
+    padding: 50px 30px 30px 30px;
+    background-color: #fff;
+    min-width: 250px;
+    min-height: 250px;
+    position: relative;
+}
+#reward_modal_box_close {
+    background-color: #2b0170;
+    color: #fff;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 46px;
+    height: 52px;
+    border: solid 2px #2b0170;
+    position: absolute;
+    top: -10px;
+    right: 15px;
+}
+#reward_modal_box_close:hover {
+    cursor: pointer;
+    background-color: #fff;
+    color: #2b0170;
+}
+#reward_name {
+    text-align: center;
+}
+#reward_modal_box_content img {
+    max-width: 40vw;
+    max-height: 40vh;
+}
+#reward_modal_box_middle_body {
+    display: flex;
+    flex-wrap: nowrap;
+}
+#reward_modal_box_middle_body p {
+    max-width: 35vw;
+    padding: 0 25px;
+}
+#reward_modal_box_button {
+    text-align: center;
+}
+#reward_modal_box_button button {
+    background-color: #2b0170;
+    border: solid #2b0170 2px;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 35px 6px 35px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+#reward_modal_box_button button:hover {
+    background-color: #fff;
+    color: #2b0170;
+}
 .credit_box, .my_events_box {
     margin-top: 30px;
     padding: 40px;
     width: 100%;
     box-shadow: 10px 10px 30px #704da8;
+}
+.credit_box {
+    padding-bottom: 0;
 }
 .credit_points_box {
     box-shadow: 10px 10px 30px #704da8;
@@ -219,11 +292,36 @@ MyPage----->
     height: 100%;
     position: relative;
 }
-.credit_points h5 {
+.credit_points h4 {
     position: absolute;
     top: 118%;
     right: -6px;
     color: #623aa1;
+}
+.credit_rewards {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 40px;
+}
+.credit_rewards .reward_box {
+    max-width: 100%;
+    text-align: center;
+    padding: 20px 0px;
+}
+.credit_rewards .reward_box:hover {
+    background-color: #2c017018;
+    cursor: pointer;
+}
+.credit_rewards .reward_box img {
+    max-height: 200px;
+    width: 60px;
+}
+.credit_rewards .reward_box h6 {
+    text-align: center;
+    font-size: 13px;
+    padding: 10px 10px;
+    margin: 0;
 }
 .my_event_box {
     color: #000;
@@ -424,6 +522,9 @@ My Buddies ----->
     width: 100%;
     align-self: flex-end;
     text-align: center;
+}
+.chat-log {
+    
 }
 
 
