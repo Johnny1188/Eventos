@@ -2,14 +2,15 @@
 
 {% block content %}
     <div class="container">
-        <h3>UPCOMING EVENTS</h3>
+        <h3 class="intro_headline">UPCOMING EVENTS</h3>
         <div class="events_box">
             {% for event in events %}
-            <a href="e{{ event.id }}/" class="event">
+            <a href="e{{ event.id }}/" class="event" style="background-image: url({{ event.image.url }});">
                 <div>
                     <h5>{{ event.name }}</h5>
-                    <img src="{{ event.image.url }}" alt="event image">
+                    <h6>{{ event.date }}</h6>
                 </div>
+                <h6>{{ event.date }}</h6>
             </a>
             {% endfor %}
         </div>

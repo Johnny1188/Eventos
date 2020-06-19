@@ -228,21 +228,31 @@ Home page ---->
 Registration and Login pages (forms)---->
 */
 .reg_container {
-    display: grid;
-    align-items: center;
+    display: flex;
     justify-content: center;
-    min-height: 100vh;
+    align-items: flex-start;
+    min-height: 80vh;
     margin: 0;
     width: 100%
 }
 .form_box {
     min-width: 40vw;
-    background-color: #623aa1;
-    border: 8px #2b0170 solid;
     color: white;
     text-align: center;
-    padding-top: 7vh;
+    margin-top: 18vh;
     padding-bottom: 5vh;
+}
+.reg_container h1, .reg_container h2 {
+    color: #fff;
+    width: 25vw;
+    text-align: right;
+}
+.for_event_registration_title {
+    margin-top: 22vh;
+}
+.normal_registration_title {
+    font-size: 70px;
+    margin-top: 24vh;
 }
 .form_box h1 {
     margin-bottom: 5vh;
@@ -266,12 +276,19 @@ Registration and Login pages (forms)---->
     background-color: #2b0170;
 }
 .form_box .submit_btn {
+    background-color: #fff;
     width: 42%;
     height: auto;
     padding-top: 14px;
     padding-bottom: 8px;
     font-size: 22px;
     color: #2b0170;
+    border: solid #fff 2.5px;
+    border-radius: 5px;
+}
+.form_box .submit_btn:hover {
+    background-color: #2b0170;
+    color: #fff;
 }
 .error_box {
     margin: 0 20% 10px 20%;
@@ -354,19 +371,22 @@ MyPage----->
     background-color: #fff;
     color: #2b0170;
 }
-.credit_box, .my_events_box {
-    background-color: #fff;
-    margin-top: 30px;
-    padding: 40px;
-    width: 100%;
-}
 .credit_box {
+    background-color: #fff;
+    margin-top: 50px;
+    margin-bottom: 80px;
     padding-bottom: 0;
+    width: 100%;
+    box-shadow: 10px 10px 30px #2b0170;
+}
+.credit_box h3 {
+    padding: 45px 30px 40px 30px;
+    color: #2b0170;
 }
 .credit_points_box {
-    box-shadow: 10px 10px 30px #704da8;
-    width: 75%;
-    height: 50px;
+    box-shadow: 10px 10px 30px #2b0170;
+    width: 65%;
+    height: 60px;
     margin: auto;
 }
 .credit_points {
@@ -389,10 +409,19 @@ MyPage----->
 .credit_rewards .reward_box {
     max-width: 100%;
     text-align: center;
-    padding: 20px 0px;
+    padding: 30px 0px 40px 0px;
+    border-radius: 5px 5px 0 0;
+}
+.reward_box span {
+    color: #fff;
+    background-color: #2b0170;
+    padding: 4px 12px 2px 12px;
+    line-height: 25px;
+    border-radius: 5px;
 }
 .credit_rewards .reward_box:hover {
-    background-color: #2c017018;
+    background-color: #2b0170;
+    color: #fff;
     cursor: pointer;
 }
 .credit_rewards .reward_box img {
@@ -405,63 +434,81 @@ MyPage----->
     padding: 10px 10px;
     margin: 0;
 }
-.my_event_box {
+.my_event_box_recommend {
+    background-color: #fff;
+    box-shadow: 10px 10px 30px #2b0170;
     color: #000;
     width: 45vw;
     margin: auto;
-    padding: 30px 50px;
+    padding: 0px;
     margin-top: 40px;
+}
+.your_events_intro {
+    color: #fff;
+    padding-left: 30px;
+}
+.recommend_link {
+    background-color: #2b0170;
+    width: 100%;
+    text-align: center;
+    padding: 35px 0 40px 0;
+}
+.recommend_link h5 {
+    color: #fff;
 }
 .recommend_link_box_event {
     display: grid;
-    grid-template-columns: 30% 70%;
-    margin-bottom: 20px;
+    grid-template-columns: 40% 60%;
     text-decoration: none;
 }
 .recommend_link_box_event:hover {
-    background-color: #bbaad6;
+    background-color: #EAF0F1;
     text-decoration: none;
 }
-.recommend_link_box_event h4 {
+.recommend_link_box_event_text {
     color: #000;
     display: inline;
     text-align: left;
-    padding: 12px 0 0 9px;
+    padding: 12px 0 0 25px;
 }
 .recommend_link_box_event img {
     max-width: 100%;
     display: inline;
 }
-.my_event_box #recommend_link {
-    border: 0px;
+.my_event_box_recommend .recommend_link_input {
     padding: 13px 0 9px 3%;
-    border: 2.5px #2b0170 solid;
+    border: 0px;
     width: 50%;
+    height: 50px;
 }
-.my_event_box #copy_box {
-    background-color: #2b0170;
-    color: white;
+.my_event_box_recommend #copy_box {
+    background-color: #fff;
+    color: #2b0170;
     position: relative;
-    border: 0;
-    padding: 9px 14px;
-    right: 7px;
-    top: 0;
+    border: 0px;
+    padding: 0px 14px;
+    right: 8px;
+    top: 0px;
     font-size: 22px;
     border-radius: 0px 6px 6px 0;
+    height: 50px;
 }
-.my_event_box #copy_box:hover {
+.my_event_box_recommend #copy_box:hover {
     background-color: #623aa1;
+    color: #fff;
 }
 .empty_box {
     padding: 0px 24%;
 }
 .recommend_link_box_empty {
-    background-color: #eae3f5;
+    background-color: #fff;
     width: 100%;
     margin-top: 50px;
     text-align: center;
-    border: dashed 2.5px #ac99ca;
+    outline: dashed 4px #ac99ca;
+    box-sizing: content-box;
     padding: 6vh 0 5vh 0;
+    opacity: 0.5;
 }
 .discover_more_events {
     width: 52%;
@@ -470,14 +517,11 @@ MyPage----->
 }
 .discover_more_events:hover {
     text-decoration: none;
-    color: #623aa1;
+    color: #2b0170;
 }
 .recommend_link_box_empty:hover {
-    border: dashed 2.5px #623aa1;
-}
-.recommend_link {
-    width: 100%;
-    text-align: center;
+    outline: dashed 5px #2b0170;
+    opacity: 0,8;
 }
 
 
@@ -544,34 +588,46 @@ Eventpage ----->
 EventList ----->
 */
 .events_box {
-    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
+.intro_headline {
+    background-color:#fff;
+    text-align: center;
+    color: #23005c;
+    width: 94%;
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: 40px;
+    padding: 25px 0 18px 0;
+}
 .event {
     width: 47%;
-    max-height: 250px;
+    height: 250px;
     position: relative;
     display: flex;
     justify-content: space-around;
     align-items: center;
     overflow: hidden;
+    background-color: #fff;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .event:nth-child(odd) {
     border-right: solid #fff 0.5vw;
     border-bottom: solid #fff 1vw;
+    border-left: solid #2b0170 0.5vw;
 }
 .event:nth-child(even) {
     border-left: solid #fff 0.5vw;
     border-bottom: solid #fff 1vw;
+    border-right: solid #2b0170 0.5vw;
 }
 .event:hover {
     opacity: 0.85;
     cursor: pointer;
-}
-.event img {
-    width: 100%;
 }
 .events_box h5 {
     background-color: #2b0170;
@@ -579,6 +635,15 @@ EventList ----->
     position: absolute;
     left: -12px;
     top: 15px;
+    padding: 8px 30px 3px 30px;
+    text-align: left;
+}
+.events_box h6 {
+    background-color: white;
+    color:#2b0170;
+    position: absolute;
+    left: 165px;
+    bottom: -18px;
     padding: 12px 30px 8px 30px;
     text-align: left;
 }
@@ -589,13 +654,20 @@ EventList ----->
 My Buddies ----->
 */
 .my_event_box {
-    box-shadow: 10px 10px 30px #704da8;
-    padding: 20px;
+    width: 55vw;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 10px 10px 30px #2b0170;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 45px;
+}
+.my_event_box_info {
+    display: grid;
+    grid-template-columns: 40% 60%;
 }
 .event_img_section {
-    max-width: 40%;
+    max-width: 100%;
 }
 .event_img_section img {
     max-width: 100%;
@@ -603,16 +675,83 @@ My Buddies ----->
     display: inline;
 }
 .event_text_section {
-    max-width: 60%;
+    padding: 20px 20px;
+}
+.buddies_intro {
+    color: #fff;
+    margin: 45px 0px 35px 0px;
 }
 .buddy_section {
+    background-color: #2b0170;
     padding-top: 35px;
     width: 100%;
     align-self: flex-end;
     text-align: center;
 }
+.buddy_section h5 {
+    color: #fff;
+}
+.buddy_section span {
+    color: #2b0170;
+}
+.chat_box {
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-rows: 300px 40px;
+}
 .chat-log {
-    
+    background-color: #fff;
+    border: 0px;
+    border-radius: 5px 5px 0 0;
+    height: 300px;
+    width: 40%;
+    margin-left: 60%;
+    overflow: scroll;
+    position: relative;
+    overflow-x: hidden;
+}
+.my_message {
+    background-color:#2b0170;
+    color: #fff;
+    text-align: right;
+    padding: 5px 12px 2px 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 8px;
+    position: absolute;
+    right: 3px;
+}
+.their_message {
+    background-color:#fff;
+    color: #2b0170;
+    text-align: left;
+    border: solid 1.5px #ccbae7;
+    border-radius: 5px;
+    padding: 5px 12px 1px 12px;
+    margin-left: 8px;
+    position: absolute;
+    left: 3px;
+}
+#chat-message-input {
+    height: 40px;
+    border: 0px;
+    border-top: 1.5px #ccbae7 solid;
+    outline: 0px;
+    width: 40%;
+    margin-left: 60%;
+    padding: 3px 12px 0 12px;
+}
+.submit_box {
+    position: relative;
+}
+#chat-message-submit {
+    position: absolute;
+    top: 6px;
+    right: 14px;
+    color: #2b0170;
+    font-size: 25px;
 }
 
 
@@ -633,4 +772,10 @@ footer {
     bottom: 0;
     width: 100vw;
     color: white;
+    text-align: center;
+}
+footer a {
+    color: #fff;
+    text-align: center;
+    font-size: 11px;
 }

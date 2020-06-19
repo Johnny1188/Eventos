@@ -2,15 +2,18 @@
 
 {% block content %}
 <div class="container">
-    <h1>Your buddies for upcoming events:</h1>
+    <h2 class="buddies_intro">Your buddies for upcoming events:</h2>
     <div class="event_buddy_container">
         {% for event in events_attending %}
         <div class="my_event_box">
-            <div class="event_img_section">
-                <img src="{{ event.event.image.url }}" alt="event image">
-            </div>
-            <div class="event_text_section">
-                <h3>{{ event.event.name }}</h3>
+            <div class="my_event_box_info">
+                <div class="event_img_section">
+                    <img src="{{ event.event.image.url }}" alt="event image">
+                </div>
+                <div class="event_text_section">
+                    <h3>{{ event.event.name }}</h3>
+                    <h6 style="color:#2b0170;font-size: 14px;"><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ event.event.date }}</h6>
+                </div>
             </div>
             <div class="buddy_section">
                 <h5>Your event buddy is: 
@@ -22,13 +25,16 @@
                         {% endif %}
                     </span>
                 </h5>
-            </div>
         
-        <!-- Chatting functionality -->
-        {% if event.eventBuddy is not None %}
-            <div id="chat-log-{{ event.eventBuddy.user.id }}" class="chat-log"></div><br>
-            <input id="chat-message-input" type="text"><br>
-            <input id="chat-message-submit" type="button" value="Send">
+            <!-- Chatting functionality -->
+            {% if event.eventBuddy is not None %}
+                <div class="chat_box">
+                    <div id="chat-log-{{ event.eventBuddy.user.id }}" class="chat-log"></div>
+                    <div class="submit_box">
+                        <input id="chat-message-input" type="text"><i class="fas fa-paper-plane" type="button" id="chat-message-submit"></i>
+                    </div>
+                </div>
+            </div>
             <script>
                 // Roomname with user eventBuddy's id because there can be more websockets opened on this page
                 //      -> variable "roomName" would collade without differentiation (hence the id)
@@ -46,12 +52,22 @@
                     const data = JSON.parse(e.data);
                     // Receiving messages and getting the ones from database:
                     if (data.sender != {{ user.id }}) {
-                        let newMsg = '<div style="background-color:#0000ff">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                        /*let newMsg = '<div class="their_message">'+data.message+'</div> </br>';
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');*/
+                        div = document.createElement("div");
+                        div.setAttribute("class", "their_message");
+                        div.innerHTML += (data.message);
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').prepend(div);
+                        div.insertAdjacentHTML("afterend","</br></br>");
                     }
                     if (data.sender == {{ user.id }} && data.isPastMessage) {
-                        let newMsg = '<div style="background-color:#ff44ad">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                        /*let newMsg = '<div class="my_message">'+data.message+'</div> </br>';
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');*/
+                        div = document.createElement("div");
+                        div.setAttribute("class", "my_message");
+                        div.innerHTML += (data.message);
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').prepend(div);
+                        div.insertAdjacentHTML("afterend","</br></br>");
                     }
                 };
 
@@ -75,10 +91,12 @@
                         'sender': {{ user.id }}
                     }));
                     messageInputDom.value = '';
-                    let newMsg = '<div style="background-color:#ff44ad">'+message+'</div> </br>';
+                    let newMsg = '<div class="my_message">'+message+'</div> </br>';
                     document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
                 };
             </script>
+        {% else %}
+            </div>
         {% endif %}
         </div>
     {% endfor %}

@@ -24,7 +24,7 @@
         <div class="credit_rewards">
             <div></div>
             {% for reward in rewards %}
-            <div class="reward_box" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}',{{ reward.id }})">
+            <div class="reward_box" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
                 <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
                 <h6>{{ reward.name }}<br>
                     <span>{{ reward.pointsNeeded }} CREDITS</span>
@@ -35,16 +35,20 @@
     </div>
 
     <div class="my_events_box">
-        <h3>YOUR EVENTS:</h3>
+        <h3 class="your_events_intro">YOUR EVENTS:</h3>
         {% for eventAttending in events_attending %}
-            <div class="my_event_box">
+            <div class="my_event_box_recommend">
                 <a href="{% url 'eventpage' eventAttending.event.id %}" class="recommend_link_box_event">
                     <img src="{{ eventAttending.event.image.url }}" alt="{{ eventAttending.event.name }} logo">
-                    <h4>{{ eventAttending.event.name }}</h4>
+                    <div class="recommend_link_box_event_text">
+                        <h3>{{ eventAttending.event.name }}</h3>
+                        <h6 style="color:#2b0170;font-size: 14px;"><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ eventAttending.event.date }}</h6>
+                    </div>
                 </a>
                 <div class="recommend_link">
-                    <input type="text" value="{{ eventAttending.recommend_link }}" id="recommend_link">
-                    <button onclick="copy_link()" id="copy_box"><i class="fas fa-clone"></i></button>
+                    <h5>Want to have more fun and collect some credits? <br>Invite your friends with this link:</h5>
+                    <input type="text" value="{{ eventAttending.recommend_link }}" id="recommend_link_{{ eventAttending.id }}" class="recommend_link_input">
+                    <button onclick="copy_link('{{ eventAttending.id }}')" id="copy_box"><i class="fas fa-clone"></i></button>
                 </div>
             </div>
         {% endfor %}

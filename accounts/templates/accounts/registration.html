@@ -2,8 +2,14 @@
 
 {% block content %}
 <div class="reg_container">
+    {% if eventHeadline is not None %}
+        <h2 class="for_event_registration_title">{{ eventHeadline }}</h2>
+    {% else %}
+    <div>
+        <h1 class="normal_registration_title">Sign up</h1>
+    </div>
+    {% endif %}
     <div class="form_box">
-        <h1>Sign up</h1>
         <form action="#" method="POST">
             {% csrf_token %}
             <div class="form_line">

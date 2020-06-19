@@ -7,8 +7,8 @@ function toggle() {
     toggle_menu.classList.toggle("invisible");
 }
 
-function copy_link() {
-    var link_to_copy = document.getElementById("recommend_link");
+function copy_link(event_id) {
+    var link_to_copy = document.getElementById("recommend_link_"+event_id);
     link_to_copy.select();
     link_to_copy.setSelectionRange(0,99999);
     document.execCommand("copy");

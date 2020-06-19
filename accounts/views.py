@@ -46,7 +46,13 @@ def registration(request):
         else:
             return render(request, 'accounts/registration.html', {'error':'All fields must be filled'})
     else:
-        return render(request, 'accounts/registration.html')
+        context = {}
+        try:
+            isItEventReg = request.GET["event"]
+            context = {'eventHeadline':'To collect your rewards, please sign up with your email address:'}
+        except:
+            pass
+        return render(request, 'accounts/registration.html', context)
 
 def login(request):
     if request.method == 'POST':

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import Event, EventGoer, Reward, Rewarder
+from .models import Event, EventGoer, Reward, Rewarder,RecommendedPerson
 from accounts.models import Profile
 from django.contrib.auth.models import User
 import random
@@ -55,14 +55,20 @@ def recommendedEventPage(request,event_id,user_id):
         try:
             recommendor = User.objects.get(pk=recommendor_id)
             event = Event.objects.get(pk=event_id)
-            print(recommendor.username)
             eventGoer = EventGoer.objects.get(user=recommendor,event=event)
-            print("success")
+            print(request.META["REMOTE_ADDR"])
+            # Create instance of this recommendor inviting this specific IP address = RecommendedPerson model
+            recommendedPerson = RecommendedPerson.objects.filter(pk=request.META["REMOTE_ADDR"])
+            if len(recommendedPerson) >= 1:
+                return redirect(linkToRegister)
+            else:
+                newRecommendedPerson = RecommendedPerson.objects.create(pk=request.META["REMOTE_ADDR"],recommendor=eventGoer)
+                newRecommendedPerson.save()
             eventGoer.numOfRecommended += 1
             eventGoer.save()
             #   --> Redirect the interested new guest to the event registration page (not on our rewardado page)
             return redirect(linkToRegister)
-        except:
+        except User.DoesNotExist:
             print("failure")
             return redirect(linkToRegister)
     else:

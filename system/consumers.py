@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         def getMessages(self):
-            messages = Message.objects.filter(chatName=self.room_group_name)[:20].values('text','sender')
+            messages = Message.objects.filter(chatName=self.room_group_name).order_by('-id')[:20].values('text','sender')
             messagesToReturn = []
             for message in messages:
                 messagesToReturn.append({'sender':message['sender'],'text':message['text']})

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 import hashlib
 import random
+import datetime
 
 
 class Event(models.Model):
@@ -58,6 +59,15 @@ class Message(models.Model):
     text = models.TextField()
     chatName = models.CharField(max_length=255)
     sender = models.ForeignKey(User,on_delete=models.CASCADE)
+    timeSent = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     def __str__(self):
         return str(self.id)
+
+class RecommendedPerson(models.Model):
+    ipAddress = models.CharField(max_length=60, primary_key=True)
+    recommendor = models.ForeignKey("Eventgoer",on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    def __str__(self):
+        return self.recommendor.user.username + '---' + self.ipAddress + '---' + str(self.timestamp)
+
 

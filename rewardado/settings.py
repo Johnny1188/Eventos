@@ -40,7 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'django_cron',
 ]
+
+CRON_CLASSES = [
+    'system.cron.MyCronJob',
+]
+USE_TZ = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
