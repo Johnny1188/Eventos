@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <h3 class="intro_headline">UPCOMING EVENTS</h3>
+        <h2 class="intro_headline">UPCOMING EVENTS</h2>
         <div class="events_box">
             {% for event in events %}
             <a href="e{{ event.id }}/" class="event" style="background-image: url({{ event.image.url }});">

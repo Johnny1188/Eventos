@@ -29,71 +29,83 @@
             <!-- Chatting functionality -->
             {% if event.eventBuddy is not None %}
                 <div class="chat_box">
-                    <div id="chat-log-{{ event.eventBuddy.user.id }}" class="chat-log"></div>
+                    <div class="recommend_chat">
+                        <p class="recommend_chat_title">LET THE CONVERSATION BEGIN:</p>
+                        <div onclick="recommendedMsg('input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}', 'Hi, nice to meet you :) What interests you the most about this event?')">
+                            <p>Hi, nice to meet you :) What interests you the most about this event?</p>
+                        </div>
+                        <div onclick="recommendedMsg('input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}', 'Hey there, how are you?')">
+                            <p>Hey there, how are you?</p>
+                        </div>
+                    </div>
+                    <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log"></div>
+                    <div class="empty"></div>
                     <div class="submit_box">
-                        <input id="chat-message-input" type="text"><i class="fas fa-paper-plane" type="button" id="chat-message-submit"></i>
+                        <input id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="text" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}"><i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
                     </div>
                 </div>
             </div>
             <script>
                 // Roomname with user eventBuddy's id because there can be more websockets opened on this page
                 //      -> variable "roomName" would collade without differentiation (hence the id)
-                let roomName{{ event.eventBuddy.user.id }} = '{{ event.getChat }}';
+                let roomName{{ event.eventBuddy.user.id }}_{{ event.event.id }} = '{{ event.getChat }}';
 
-                let chatSocket{{ event.eventBuddy.user.id }} = new WebSocket(
+                let chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }} = new WebSocket(
                     'ws://'
                     + window.location.host
                     + '/ws/chat/'
-                    + roomName{{ event.eventBuddy.user.id }}
+                    + roomName{{ event.eventBuddy.user.id }}_{{ event.event.id }}
                     + '/'
                 );
 
-                chatSocket{{ event.eventBuddy.user.id }}.onmessage = function(e) {
+                chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.onmessage = async function(e) {
                     const data = JSON.parse(e.data);
                     // Receiving messages and getting the ones from database:
                     if (data.sender != {{ user.id }}) {
                         /*let newMsg = '<div class="their_message">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');*/
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');*/
                         div = document.createElement("div");
                         div.setAttribute("class", "their_message");
                         div.innerHTML += (data.message);
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').prepend(div);
-                        div.insertAdjacentHTML("afterend","</br></br>");
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').prepend(div);
+                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
                     }
                     if (data.sender == {{ user.id }} && data.isPastMessage) {
                         /*let newMsg = '<div class="my_message">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');*/
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');*/
                         div = document.createElement("div");
                         div.setAttribute("class", "my_message");
                         div.innerHTML += (data.message);
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').prepend(div);
-                        div.insertAdjacentHTML("afterend","</br></br>");
+                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').prepend(div);
+                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
                     }
+                    var chatBox = await document.getElementById("chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}");
+                    await chatBox.scrollTo(0,chatBox.scrollHeight);
                 };
 
-                chatSocket{{ event.eventBuddy.user.id }}.onclose = function(e) {
+                chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.onclose = function(e) {
                     console.error('Chat socket closed unexpectedly');
                 };
 
-                document.querySelector('#chat-message-input').focus();
-                document.querySelector('#chat-message-input').onkeyup = function(e) {
+                document.querySelector('#chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').onkeyup = function(e) {
                     if (e.keyCode === 13) {  // enter, return
-                        document.querySelector('#chat-message-submit').click();
+                        document.querySelector('#chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').click();
                     }
                 };
 
                 // Sending messages:
-                document.querySelector('#chat-message-submit').onclick = function(e) {
-                    const messageInputDom = document.querySelector('#chat-message-input');
+                document.querySelector('#chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').onclick = function(e) {
+                    const messageInputDom = document.querySelector('#chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}');
                     const message = messageInputDom.value;
-                    chatSocket{{ event.eventBuddy.user.id }}.send(JSON.stringify({
+                    chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.send(JSON.stringify({
                         'message': message,
                         'sender': {{ user.id }}
                     }));
                     messageInputDom.value = '';
-                    let newMsg = '<div class="my_message">'+message+'</div> </br>';
-                    document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}').innerHTML += (newMsg + '\n');
+                    let newMsg = '<div class="my_message">'+message+'</div> <div class="chat_blank"></div>';
+                    document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');
                 };
+
             </script>
         {% else %}
             </div>

@@ -106,6 +106,12 @@ header #toggle:after {
 .navigation.active {
     right: 0px;
 }
+.nav_menu_box {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
 .navigation ul {
     position: relative;
     display: flex;
@@ -137,15 +143,21 @@ header #toggle:after {
     background-color: #2b0170;
     border: solid 2.5px #fff;
 }
+.nav_username_box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 20px;
+}
 .nav_username {
-    position: absolute;
-    top: 20px;
-    left: 22px;
     color: #2b0170;
     font-size: 14px;
     border: 2.5px solid #fff;
     padding: 10px 40px 7px 7px;
     background-color: white;
+    margin-bottom: 0px;
 }
 
 
@@ -236,7 +248,7 @@ Registration and Login pages (forms)---->
     width: 100%
 }
 .form_box {
-    min-width: 40vw;
+    min-width: 36vw;
     color: white;
     text-align: center;
     margin-top: 18vh;
@@ -246,6 +258,10 @@ Registration and Login pages (forms)---->
     color: #fff;
     width: 25vw;
     text-align: right;
+}
+.login_title {
+    font-size: 75px;
+    margin-top: 20vh;
 }
 .for_event_registration_title {
     margin-top: 22vh;
@@ -265,8 +281,9 @@ Registration and Login pages (forms)---->
 }
 .form_box input {
     height: 50px;
-    padding-left: 6px;
+    padding-left: 8px;
     font-size: 18px;
+    border: 0;
 }
 .icon_box {
     font-size: 28px;
@@ -296,6 +313,20 @@ Registration and Login pages (forms)---->
     border: solid #fff 2px;
     min-width: auto;
     padding: 14px 0 12px 0;
+}
+.already_registered_title {
+    flex-basis: flex-end;
+    color: #fff;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 14px;
+}
+.already_registered_title a {
+    color: #2b0170;
+}
+.already_registered_title a:hover {
+    text-decoration: none;
+    color:#1b0047;
 }
 
 
@@ -378,6 +409,7 @@ MyPage----->
     padding-bottom: 0;
     width: 100%;
     box-shadow: 10px 10px 30px #2b0170;
+    min-height: 400px;
 }
 .credit_box h3 {
     padding: 45px 30px 40px 30px;
@@ -401,16 +433,17 @@ MyPage----->
     color: #623aa1;
 }
 .credit_rewards {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-top: 40px;
+    width: 65%;
+    margin: auto;
+    position: relative;
 }
 .credit_rewards .reward_box {
-    max-width: 100%;
+    width: 200px;
     text-align: center;
-    padding: 30px 0px 40px 0px;
-    border-radius: 5px 5px 0 0;
+    padding: 50px 0px 40px 0px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
 }
 .reward_box span {
     color: #fff;
@@ -427,6 +460,7 @@ MyPage----->
 .credit_rewards .reward_box img {
     max-height: 200px;
     width: 60px;
+    border-top: solid 15px #2b0170;
 }
 .credit_rewards .reward_box h6 {
     text-align: center;
@@ -464,6 +498,12 @@ MyPage----->
 .recommend_link_box_event:hover {
     background-color: #EAF0F1;
     text-decoration: none;
+}
+.recommend_link_box_event:hover div {
+    transition: 0.3s;
+}
+.recommend_link_box_event:hover div {
+    border-left: 12px solid #2b0170;
 }
 .recommend_link_box_event_text {
     color: #000;
@@ -520,7 +560,6 @@ MyPage----->
     color: #2b0170;
 }
 .recommend_link_box_empty:hover {
-    outline: dashed 5px #2b0170;
     opacity: 0,8;
 }
 
@@ -590,44 +629,45 @@ EventList ----->
 .events_box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 .intro_headline {
-    background-color:#fff;
-    text-align: center;
-    color: #23005c;
-    width: 94%;
-    margin: auto;
+    text-align: left;
+    color: #fff;
     margin-bottom: 0;
-    margin-top: 40px;
-    padding: 25px 0 18px 0;
+    margin-top: 70px;
+    padding: 0px 0 25px 0;
 }
 .event {
     width: 47%;
     height: 250px;
+    margin-bottom: 20px;
     position: relative;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     overflow: hidden;
+    border-bottom: solid #fff 1vw;
+    border-top: solid #fff 1vw;
     background-color: #fff;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: center;
+    transition: 0.4s;
 }
 .event:nth-child(odd) {
     border-right: solid #fff 0.5vw;
-    border-bottom: solid #fff 1vw;
-    border-left: solid #2b0170 0.5vw;
+    border-left: solid #fff 0.5vw;
 }
 .event:nth-child(even) {
     border-left: solid #fff 0.5vw;
-    border-bottom: solid #fff 1vw;
-    border-right: solid #2b0170 0.5vw;
+    border-right: solid #fff 0.5vw;
 }
 .event:hover {
     opacity: 0.85;
     cursor: pointer;
+    border-bottom: solid #fff 0.5vw;
+    border-top: solid #fff 0.5vw;
 }
 .events_box h5 {
     background-color: #2b0170;
@@ -683,7 +723,7 @@ My Buddies ----->
 }
 .buddy_section {
     background-color: #2b0170;
-    padding-top: 35px;
+    padding-top: 50px;
     width: 100%;
     align-self: flex-end;
     text-align: center;
@@ -698,16 +738,51 @@ My Buddies ----->
     text-align: center;
     width: 80%;
     margin: auto;
+    margin: 55px auto;
     display: grid;
+    grid-template-columns: 50% 50%;
     grid-template-rows: 300px 40px;
+}
+.recommend_chat {
+    color: #fff;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: right;
+    align-content: flex-end;
+    flex-wrap: wrap;
+}
+.recommend_chat div {
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+    background-color: #662d91;
+    border: dashed 2px #fff;
+    border-radius: 6px;
+    padding: 9px 10px 6px 10px;
+}
+.recommend_chat_title {
+    text-align: left;
+    margin-bottom: 0;
+    color: #fff;
+    font-size: 12px;
+}
+.recommend_chat div p {
+    margin: 0;
+    font-size: 15px;
+}
+.recommend_chat div:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
 .chat-log {
     background-color: #fff;
     border: 0px;
     border-radius: 5px 5px 0 0;
     height: 300px;
-    width: 40%;
-    margin-left: 60%;
+    width: 90%;
+    margin-right: 10%;
     overflow: scroll;
     position: relative;
     overflow-x: hidden;
@@ -715,13 +790,13 @@ My Buddies ----->
 .my_message {
     background-color:#2b0170;
     color: #fff;
-    text-align: right;
+    text-align: left;
     padding: 5px 12px 2px 12px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 15px;
     margin-right: 8px;
-    position: absolute;
-    right: 3px;
+    margin-left: 20px;
+    float: right;
 }
 .their_message {
     background-color:#fff;
@@ -730,28 +805,42 @@ My Buddies ----->
     border: solid 1.5px #ccbae7;
     border-radius: 5px;
     padding: 5px 12px 1px 12px;
+    font-size: 15px;
     margin-left: 8px;
-    position: absolute;
-    left: 3px;
+    margin-right: 20px;
+    float: left;
 }
-#chat-message-input {
+.chat_blank {
+    float: right;
+    height: 12px;
+    width: 100%;
+}
+.submit_box input {
     height: 40px;
     border: 0px;
+    border-radius: 0 0 5px 5px;
     border-top: 1.5px #ccbae7 solid;
     outline: 0px;
-    width: 40%;
-    margin-left: 60%;
+    width: 90%;
+    margin-right: 10%;
     padding: 3px 12px 0 12px;
 }
 .submit_box {
     position: relative;
 }
-#chat-message-submit {
+.submit_box i {
     position: absolute;
-    top: 6px;
-    right: 14px;
+    top: 8px;
+    right: 13%;
     color: #2b0170;
     font-size: 25px;
+}
+.chat-log {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.chat-log::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 

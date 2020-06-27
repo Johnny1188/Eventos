@@ -9,7 +9,16 @@ import random
 def eventPage(request,event_id):
     try:
         event = Event.objects.get(pk=event_id)
-        context = {'event':event}
+        #    LOGIC TO SEND INFO ABOUT THE USER WHETHER HE HAS REGISTERED FOR THE SPECIFIC EVENT:
+        if request.user.is_authenticated == False:
+           is_registered = False
+        else:
+            eventGoer = EventGoer.objects.filter(event=event,user=request.user)
+            if len(eventGoer) == 0:
+                is_registered = False
+            else:
+                is_registered = True
+        context = {'event':event, 'is_registered':is_registered}
         return render(request,'system/eventpage.html',context)
     except Event.DoesNotExist:
         return redirect('/')
@@ -98,7 +107,7 @@ def myBuddies(request,user_id):
             for event in events_attending:
                 if event.eventBuddy == None:
                     try:
-                        sameEventGoers = EventGoer.objects.filter(event=event.event).exclude(user=user)
+                        sameEventGoers = EventGoer.objects.filter(event=event.event,eventBuddy=None).exclude(user=user)
                         if len(sameEventGoers) == 0: 
                             continue
                         pks = sameEventGoers.values_list('pk', flat=True)

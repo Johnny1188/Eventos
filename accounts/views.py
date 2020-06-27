@@ -12,7 +12,18 @@ def registration(request):
         if request.POST['email'] and request.POST['password1'] and request.POST['password2']:
             if request.POST['password1'] == request.POST['password2']:
                 try:
+                    # Check whether the user is already registered:
                     user = User.objects.get(username=request.POST['email'])
+                    try:
+                        event_id = int(request.GET['event'])
+                        event = Event.objects.get(pk=event_id)
+                        eventGoer = EventGoer.objects.filter(event=event,user=user)
+                        if len(eventGoer) == 0:
+                            return redirect('/accounts/login?event=' + str(event_id) + '&error=Use your already existing account')
+                        else:
+                            return render(request, 'accounts/login.html')
+                    except:
+                        pass
                     return render(request, 'accounts/registration.html', {'error':'This email is already connected to an account'})
                 except User.DoesNotExist:
                     user = User.objects.create_user(request.POST['email'], password=request.POST['password1'])
@@ -59,6 +70,17 @@ def login(request):
         if request.POST['email'] and request.POST['password1']:
             user = auth.authenticate(username=request.POST['email'], password=request.POST['password1'])
             if user is not None:
+                try:
+                    event_id = int(request.GET["event"])
+                    event = Event.objects.get(pk=event_id)
+                    eventGoer = EventGoer.objects.filter(event=event,user=user)
+                    if len(eventGoer) == 0:
+                        newEventGoer = EventGoer()
+                        newEventGoer.event = event
+                        newEventGoer.user = user
+                        newEventGoer.save()
+                except:
+                    pass
                 auth.login(request, user)
                 return redirect('/rew/mypage/'+str(user.id))
             else:
@@ -66,7 +88,13 @@ def login(request):
         else:
             return render(request, 'accounts/login.html', {'error':'You must fill all fields'})
     else:
-        return render(request, 'accounts/login.html')
+        try:
+            msg = request.GET["error"]
+            context = {"message":msg}
+        except:
+            context = {}
+            pass
+        return render(request, 'accounts/login.html', context)
 
 def logout(request):
     if request.method == 'POST':

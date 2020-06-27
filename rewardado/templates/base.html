@@ -30,17 +30,21 @@
     </div>
     {% if user.is_authenticated %}
     <div class="navigation">
-        <ul>
-            <li><a href="{% url 'myrewards' user.id %}">MY REWARDS</a></li>
-            <li><a href="{% url 'mybuddies' user.id %}">MY EVENT BUDDIES</a></li>
-            <li><a href="{% url 'eventlist' %}">EXPLORE EVENTS</a></li>
-            <li><a href="{% url 'settingspage' user.id %}">SETTINGS</a></li>
-        </ul>
-        <h6 class="nav_username">{{ user.username }}</h6>
-        <form action="{% url 'logout' %}" class="logout_form" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Logout">
-        </form>
+        <div class="nav_menu_box">
+            <ul>
+                <li><a href="{% url 'myrewards' user.id %}">MY REWARDS</a></li>
+                <li><a href="{% url 'mybuddies' user.id %}">MY EVENT BUDDIES</a></li>
+                <li><a href="{% url 'eventlist' %}">EXPLORE EVENTS</a></li>
+                <li><a href="{% url 'settingspage' user.id %}">SETTINGS</a></li>
+            </ul>
+            <form action="{% url 'logout' %}" class="logout_form" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Logout">
+            </form>
+        </div>
+        <div class="nav_username_box">
+            <h6 class="nav_username">{{ user.username }}</h6>
+        </div>
     </div>
     {% endif %}
 

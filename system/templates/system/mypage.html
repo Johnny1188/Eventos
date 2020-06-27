@@ -15,20 +15,21 @@
     <div class="credit_box">
         <h3>YOUR CREDIT:</h3>
         <div class="credit_points_box">
-            <div class="credit_points" style="width: calc(({{ profile.getPoints }}/{{ rewards.1.pointsNeeded }})*100%);max-width: 100%;">
+            <div class="credit_points" style="width: calc(({{ profile.getPoints }}/8)*100%);max-width: 100%;">
                 <h4>
                     {{ profile.getPoints }}
                 </h4>
             </div>
         </div>
         <div class="credit_rewards">
-            <div></div>
             {% for reward in rewards %}
-            <div class="reward_box" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
+            <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px);" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
                 <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                <!--
                 <h6>{{ reward.name }}<br>
                     <span>{{ reward.pointsNeeded }} CREDITS</span>
                 </h6>
+                -->
             </div>
             {% endfor %}
         </div>
