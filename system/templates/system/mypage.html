@@ -23,14 +23,16 @@
         </div>
         <div class="credit_rewards">
             {% for reward in rewards %}
-            <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px);" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
-                <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
-                <!--
-                <h6>{{ reward.name }}<br>
-                    <span>{{ reward.pointsNeeded }} CREDITS</span>
-                </h6>
-                -->
-            </div>
+                {% if reward.quantity >= 1 %}
+                    {% if reward.alreadyWithdrawn is True %}
+                    <div class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
+                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
+                    {% else %}
+                    <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
+                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                    {% endif %}
+                </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

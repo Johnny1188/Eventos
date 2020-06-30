@@ -5,10 +5,19 @@ function toggle() {
     content_container.classList.toggle("active");
     navigation.classList.toggle("active");
     toggle_menu.classList.toggle("invisible");
+    var header = document.getElementsByTagName("header");
+    if (header[0].style.position != "sticky") {
+        header[0].style.position = "sticky";
+        header[0].style.top = "0px";
+        header[0].style.right = "0px";
+        header[0].style.width = "100vw";
+    } else {
+        header[0].style.position = "static";
+    };
 }
 
-function copy_link() {
-    var link_to_copy = document.getElementById("recommend_link");
+function copy_link(event_id) {
+    var link_to_copy = document.getElementById("recommend_link_"+event_id);
     link_to_copy.select();
     link_to_copy.setSelectionRange(0,99999);
     document.execCommand("copy");
@@ -43,6 +52,13 @@ function close_modal() {
     close_btn = document.getElementById("reward_modal_box_close");
     body[0].style.overflowY = "auto";
     reward_modal.style.display = "none";
+}
+
+function recommendedMsg(inputClass,msg) {
+    var input = document.getElementsByClassName(inputClass);
+    console.log(inputClass);
+    input[0].value = msg;
+    input[0].focus();
 }
 
 // Add functionality to the "WITHDRAW THIS REWARD" button

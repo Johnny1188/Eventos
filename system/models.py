@@ -21,7 +21,7 @@ class EventGoer(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     eventBuddy = models.OneToOneField('EventGoer', on_delete=models.SET_NULL, null=True, blank=True)
-    chatName = models.CharField(max_length=120,default='')
+    chatName = models.CharField(max_length=120,default='',null=True, blank=True)
     numOfRecommended = models.IntegerField(default=0)
     def __str__(self):
         return self.event.name[:15] + "---" + self.user.username
@@ -48,7 +48,7 @@ class Reward(models.Model):
 
 # Model for admins to see which rewards wants to be withdrawn
 #   - admins will see all objects so that they know which and to whom to fulfill the reward withdraw
-class Rewarder(models.Model):
+class RewardWithdrawer(models.Model):
     withdrawer = models.ForeignKey('accounts.Profile',on_delete=models.CASCADE)
     reward = models.ForeignKey(Reward,on_delete=models.SET_NULL,null=True,blank=True)
     fulfilled = models.BooleanField(default=False)

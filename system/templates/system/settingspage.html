@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container settings_container">
         <h1>Settings</h1>
+        <form action="" method="post" class="remove_account_box">
+            {% csrf_token %}
+            <label for="">Receive updates on events happening around you via email?</label>           
+            <input type="checkbox" name="" id="">          
+        </form>
+        <form action="" method="post" class="remove_account_box">
+            {% csrf_token %}
+            <label for="">Remove your account?</label>
+            <button type="submit">Delete my account</button>
+        </form>
     </div>
 {% endblock %}

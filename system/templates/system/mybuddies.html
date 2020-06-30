@@ -16,15 +16,11 @@
                 </div>
             </div>
             <div class="buddy_section">
-                <h5>Your event buddy is: 
-                    <span class="white_span">
                         {% if event.eventBuddy is None %}
-                            Nobody found yet :(
+                            <h5>Nobody found yet &#128533;</h5>
                         {% else %}
-                            {{ event.eventBuddy.user.username }}
+                            <h5>Your event buddy is:<span class="white_span">{{ event.eventBuddy.user.username }}</span></h5>
                         {% endif %}
-                    </span>
-                </h5>
         
             <!-- Chatting functionality -->
             {% if event.eventBuddy is not None %}

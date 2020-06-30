@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Event,EventGoer,Reward,Rewarder,Message,RecommendedPerson
+from .models import Event,EventGoer,Reward,RewardWithdrawer,Message,RecommendedPerson
 
 admin.site.register(Event)
 admin.site.register(EventGoer)
 admin.site.register(Reward)
-admin.site.register(Rewarder)
+admin.site.register(RewardWithdrawer)
 admin.site.register(Message)
 admin.site.register(RecommendedPerson)

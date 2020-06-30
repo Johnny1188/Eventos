@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import Event, EventGoer, Reward, Rewarder,RecommendedPerson
+from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson
 from accounts.models import Profile
 from django.contrib.auth.models import User
 import random
@@ -29,11 +29,18 @@ def myPage(request,user_id):
         return redirect('/accounts/login')
     else:
         try:
-            print(request.META["REMOTE_ADDR"])
             user = User.objects.get(pk=user_id)
-            rewards = Reward.objects.order_by('pointsNeeded')[:2]
-            events_attending = EventGoer.objects.filter(user=user)
             profile = Profile.objects.get(user=user)
+            rewards = Reward.objects.order_by('pointsNeeded')
+            # Find out which rewards have already been withdrawn by this user:
+            withdrawnrewards = RewardWithdrawer.objects.filter(withdrawer=profile)
+            #for rewardWithdrawn in withdrawnrewards:
+            #    if rewardWithdrawn.reward in rewards:
+            #        rewardWithdrawn.reward.alreadyWithdrawn = True
+            for reward in rewards:
+                if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
+                    reward.alreadyWithdrawn = True
+            events_attending = EventGoer.objects.filter(user=user)
             for event in events_attending:
                 event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
             if request.GET.get('msg'):
@@ -154,13 +161,17 @@ def getReward(request,rewID):
     try:
         reward = Reward.objects.get(pk=rewID)
         withdrawer = Profile.objects.get(user=request.user)
-        print(withdrawer)
         if int(withdrawer.getPoints()) >= int(reward.pointsNeeded):
-            reward_withdrawing = Rewarder()
-            reward_withdrawing.withdrawer = withdrawer
-            reward_withdrawing.reward = reward
-            reward_withdrawing.save()
-            return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Your reward was successfully withdrawn! Expect an email from us with details :)")
+            if int(reward.quantity) < 1:
+                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Sorry, we've ran out of this reward. Please contact us at jsobotka@centrum.cz.")
+            else:
+                reward_withdrawing = RewardWithdrawer()
+                reward_withdrawing.withdrawer = withdrawer
+                reward_withdrawing.reward = reward
+                reward_withdrawing.save()
+                reward.quantity -= 1
+                reward.save()
+                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Your reward was successfully withdrawn! Expect an email from us with details :)")
         else:
             return redirect("/rew/mypage/"+str(request.user.id)+"?msg=You do not have enough credit")
     except Profile.DoesNotExist:
