@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson
 from accounts.models import Profile
 from django.contrib.auth.models import User
 import random
+from django.http import JsonResponse
 
 def eventPage(request,event_id):
     try:
@@ -55,6 +57,9 @@ def myPage(request,user_id):
             profile = Profile()
             profile.user = user
             profile.save()
+            events_attending = EventGoer.objects.filter(user=user)
+            for event in events_attending:
+                event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
             if request.GET.get('msg'):
                 message_to_display = request.GET.get('msg')
             else:
@@ -109,7 +114,8 @@ def myBuddies(request,user_id):
     else:
         try:
             user = User.objects.get(pk=user_id)
-            profile = Profile.objects.filter(user=user)
+            # profile = Profile.objects.filter(user=user)
+            # Not necessary for now...
             events_attending = EventGoer.objects.filter(user=user)
             for event in events_attending:
                 if event.eventBuddy == None:
@@ -129,7 +135,7 @@ def myBuddies(request,user_id):
                             event.eventBuddy.save()
                     except EventGoer.DoesNotExist:
                         continue
-            context = {'user':user,'profile':profile,'events_attending':events_attending}
+            context = {'user':user,'events_attending':events_attending}
             return render(request,'system/mybuddies.html',context)
         except User.DoesNotExist:
             return redirect('/')
@@ -138,8 +144,41 @@ def myBuddies(request,user_id):
 
 @login_required(login_url='/accounts/login')
 def settingsPage(request,user_id):
-    context = {}
-    return render(request,'system/settingspage.html',context)
+    if request.user.id != user_id:
+        return redirect('/accounts/login')
+    else:
+        user = request.user
+        try:
+            profile_with_preferences = Profile.objects.get(user=user)
+            context = {'profile':profile_with_preferences}
+        except Profile.DoesNotExist:
+            auth.logout(request)
+            return redirect('/accounts/login')
+        return render(request,'system/settingspage.html',context)
+
+@login_required(login_url='/accounts/login')
+def changePreference(request):
+    try:
+        profile = Profile.objects.get(user__id=request.POST['userid'])
+        preferenceToChange = request.POST['preference_to_change']
+        turnPreference = request.POST['turn']
+        if preferenceToChange == "sendCreditInfo":
+            if turnPreference == "on":
+                profile.sendCreditInfo = True
+            else:
+                profile.sendCreditInfo = False
+        if preferenceToChange == "sendEventUpdates":
+            if turnPreference == "on":
+                profile.sendEventUpdates = True
+            else:
+                profile.sendEventUpdates = False
+        profile.save()
+        data = {
+                'message': "Successfully changed the preference."
+            }
+        return JsonResponse(data)
+    except:
+        return redirect('/accounts/login')
 
 def eventlist(request):
     try:
@@ -163,24 +202,24 @@ def getReward(request,rewID):
         withdrawer = Profile.objects.get(user=request.user)
         if int(withdrawer.getPoints()) >= int(reward.pointsNeeded):
             if int(reward.quantity) < 1:
-                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Sorry, we've ran out of this reward. Please contact us at jsobotka@centrum.cz.")
+                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Error")
             else:
+                reward.quantity -= 1
+                reward.save()
                 reward_withdrawing = RewardWithdrawer()
                 reward_withdrawing.withdrawer = withdrawer
                 reward_withdrawing.reward = reward
                 reward_withdrawing.save()
-                reward.quantity -= 1
-                reward.save()
-                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Your reward was successfully withdrawn! Expect an email from us with details :)")
+                return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Success")
         else:
-            return redirect("/rew/mypage/"+str(request.user.id)+"?msg=You do not have enough credit")
+            return redirect("/rew/mypage/"+str(request.user.id)+"?msg=Fail")
     except Profile.DoesNotExist:
         print("No profile associated")
         return redirect('/')
     except Profile.MultipleObjectsReturned:
         print("More than one Profile object has been created")
         return redirect('/')
-    #except:
-        #print("Couldn't find the reward")
-        #return redirect('/')
+    except:
+        print("Couldn't find the reward")
+        return redirect('/')
     return redirect('/rew/mypage/'+str(request.user.id))

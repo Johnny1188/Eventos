@@ -17,7 +17,7 @@
         <div class="credit_points_box">
             <div class="credit_points" style="width: calc(({{ profile.getPoints }}/8)*100%);max-width: 100%;">
                 <h4>
-                    {{ profile.getPoints }}
+                    {{ profile.getPoints }}                  
                 </h4>
             </div>
         </div>
@@ -25,11 +25,13 @@
             {% for reward in rewards %}
                 {% if reward.quantity >= 1 %}
                     {% if reward.alreadyWithdrawn is True %}
-                    <div class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
+                    <div class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
                         <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
+                        <h6>WITHDRAWN</h6>
                     {% else %}
-                    <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 100px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
+                    <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
                         <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                        <h5>{{ reward.pointsNeeded }}</h5>
                     {% endif %}
                 </div>
                 {% endif %}
@@ -66,7 +68,7 @@
 </div>
 
 {% if message is not None %}
-<script defer type="text/javascript">alert('{{ message }}')</script>
+<script defer type="text/javascript">open_reward_modal('{{ message }}',"","{% static 'success.png' %}","",true)</script>
 {% endif %}
 
 {% endblock %}

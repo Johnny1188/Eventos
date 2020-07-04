@@ -4,6 +4,8 @@ from system.models import EventGoer
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    sendEventUpdates = models.BooleanField(default=False)
+    sendCreditInfo = models.BooleanField(default=True)
     def __str__(self):
         return self.user.username
     def getPoints(self):

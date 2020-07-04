@@ -1,17 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container settings_container">
-        <h1>Settings</h1>
-        <form action="" method="post" class="remove_account_box">
-            {% csrf_token %}
+<div class="settings_container">
+<h1>Settings</h1>
+    <div class="container settings_container_forms">
+        <div class="on_off_form" id="CreditUpdates">
+            <label for="">Receive emails when you get credits?</label>           
+            <input type="checkbox" id="credit_info" class="setting_switches" data-preference="sendCreditInfo" 
+            {% if profile.sendCreditInfo %}
+                checked>
+            {% else %}
+                >
+            {% endif %}          
+        </div>
+        <div class="on_off_form" id="EventsAroundUpdates">
             <label for="">Receive updates on events happening around you via email?</label>           
-            <input type="checkbox" name="" id="">          
-        </form>
+            <input type="checkbox" id="event_updates" class="setting_switches" data-preference="sendEventUpdates" 
+            {% if profile.sendEventUpdates %}
+                checked>
+            {% else %}
+                >
+            {% endif %}            
+        </div>
         <form action="" method="post" class="remove_account_box">
             {% csrf_token %}
             <label for="">Remove your account?</label>
             <button type="submit">Delete my account</button>
         </form>
     </div>
+</div>
+
+<script defer type="text/javascript">
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    var xhttp = new XMLHttpRequest();
+    function changePreferenceAjax(preference_to_change,turn,csrftoken) {
+        xhttp.open("POST", "/rew/changepreference", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send("userid="+{{ profile.user.id }}+"&preference_to_change="+preference_to_change+"&turn="+turn);
+    }
+
+    setting_switches = document.getElementsByClassName("setting_switches");
+    for (let i = 0; i < setting_switches.length; i++) {
+        let which_preference_to_change = setting_switches[i].id;
+        // Call AJAX to change this specific preference
+        setting_switches[i].addEventListener('change', (event) => {
+            
+            if (event.target.checked) {
+                // This specific preference wants to be turned ON
+                let preference_to_change = setting_switches[i].dataset.preference;
+                changePreferenceAjax(preference_to_change,"on",csrftoken);
+            } else {
+                // This specific preference wants to be turned OFF
+                let preference_to_change = setting_switches[i].dataset.preference;
+                changePreferenceAjax(preference_to_change,"off",csrftoken);
+            }
+        })
+    }
+</script>
 {% endblock %}

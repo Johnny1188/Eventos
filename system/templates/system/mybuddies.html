@@ -37,7 +37,10 @@
                     <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log"></div>
                     <div class="empty"></div>
                     <div class="submit_box">
-                        <input id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="text" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}"><i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
+                        <textarea name="" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" cols="10" rows="1"></textarea>
+                        <i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
+                        <!-- <input id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="text" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}"><i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
+                            -->
                     </div>
                 </div>
             </div>
