@@ -7,8 +7,7 @@
         {% for event in events_attending %}
         <div class="my_event_box">
             <div class="my_event_box_info">
-                <div class="event_img_section">
-                    <img src="{{ event.event.image.url }}" alt="event image">
+                <div class="event_img_section" style="background-image:url({{ event.event.image.url }})">
                 </div>
                 <div class="event_text_section">
                     <h3>{{ event.event.name }}</h3>
@@ -34,7 +33,9 @@
                             <p>Hey there, how are you?</p>
                         </div>
                     </div>
-                    <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log"></div>
+                    <div class="chat-log-container">  
+                        <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log"></div>
+                    </div>  
                     <div class="empty"></div>
                     <div class="submit_box">
                         <textarea name="" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" cols="10" rows="1"></textarea>
@@ -45,6 +46,7 @@
                 </div>
             </div>
             <script>
+
                 // Roomname with user eventBuddy's id because there can be more websockets opened on this page
                 //      -> variable "roomName" would collade without differentiation (hence the id)
                 let roomName{{ event.eventBuddy.user.id }}_{{ event.event.id }} = '{{ event.getChat }}';
@@ -61,8 +63,6 @@
                     const data = JSON.parse(e.data);
                     // Receiving messages and getting the ones from database:
                     if (data.sender != {{ user.id }}) {
-                        /*let newMsg = '<div class="their_message">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');*/
                         div = document.createElement("div");
                         div.setAttribute("class", "their_message");
                         div.innerHTML += (data.message);
@@ -70,8 +70,6 @@
                         div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
                     }
                     if (data.sender == {{ user.id }} && data.isPastMessage) {
-                        /*let newMsg = '<div class="my_message">'+data.message+'</div> </br>';
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');*/
                         div = document.createElement("div");
                         div.setAttribute("class", "my_message");
                         div.innerHTML += (data.message);
@@ -104,7 +102,26 @@
                     let newMsg = '<div class="my_message">'+message+'</div> <div class="chat_blank"></div>';
                     document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').innerHTML += (newMsg + '\n');
                 };
+            </script>
 
+            <script>
+                setTimeout(() => {
+                    // Add initial message to start the discussion into the chat-log (only under 770px browser window and if the chat-log is clear):
+                    if(window.innerWidth <= 770) {   
+                        var div = document.createElement("div");
+                        div.setAttribute("class", "system_message_to_start");
+                        div.innerHTML += "Hey there, how are you?";
+                        div.innerHTML += "<h4 class='tip_text'>TIP:</h4>";
+                        var all_chat_logs = document.getElementsByClassName("chat-log");
+                        for (let i = 0; i < all_chat_logs.length; i++) {
+                            if(all_chat_logs[i].innerHTML == "") {
+                                var class_of_input = all_chat_logs[i].parentElement.lastElementChild.firstElementChild.classList;
+                                div.setAttribute("onclick", "recommendedMsg('"+class_of_input[0]+"','Hey there, how are you')");
+                                all_chat_logs[i].prepend(div);
+                            }
+                        }
+                    }
+                }, 1000);
             </script>
         {% else %}
             </div>

@@ -15,9 +15,13 @@ def registration(request):
                     # Check whether the user is already registered:
                     user = User.objects.get(username=request.POST['email'])
                     try:
-                        event_id = int(request.GET['event'])
+                        try:
+                            event_id = int(request.GET['event'])
+                        except:
+                            event_id = int(request.POST['event_id_from_newcollector'])
                         event = Event.objects.get(pk=event_id)
                         eventGoer = EventGoer.objects.filter(event=event,user=user)
+                        # User exists but the EventGoer instance does not -> let him login and create the instance
                         if len(eventGoer) == 0:
                             return redirect('/accounts/login?event=' + str(event_id) + '&error=Use your already existing account')
                         else:
@@ -30,7 +34,10 @@ def registration(request):
                     # If this link to registration came through email ticket
                     #    ---> needs to have url parameters (?event=event_id)
                     try:
-                        event_id = int(request.GET['event'])
+                        try:
+                            event_id = int(request.GET['event'])
+                        except:
+                            event_id = int(request.POST['event_id_from_newcollector'])
                         try:
                             event = Event.objects.get(pk=event_id)
                         except:
@@ -53,9 +60,17 @@ def registration(request):
                     auth.login(request,user)
                     return redirect('/rew/mypage/'+str(user.id))
             else:
-                return render(request, 'accounts/registration.html', {'error':'Passwords must match'})
+                try:
+                    error = request.POST['event_id_from_newcollector']
+                    return redirect('/rew/newrewardcollector/1?error=Passwords must match')
+                except:
+                    return render(request, 'accounts/registration.html', {'error':'Passwords must match'})
         else:
-            return render(request, 'accounts/registration.html', {'error':'All fields must be filled'})
+            try:
+                error = request.POST['event_id_from_newcollector']
+                return redirect('/rew/newrewardcollector/1?error=All fields must be filled')
+            except:
+                return render(request, 'accounts/registration.html', {'error':'All fields must be filled'})
     else:
         context = {}
         try:
@@ -102,3 +117,15 @@ def logout(request):
         return redirect('/')
     else:
         return render(request, 'accounts/login.html', {'error': 'Some technical flaw, sorry for that'})
+
+@login_required(login_url='/accounts/login')
+def deleteAccount(request,userid):
+    try:
+        user = User.objects.get(pk=userid)
+        if request.user == user:
+            user.delete()
+            return redirect('/')
+        else:
+            return redirect('/accounts/login')
+    except:
+        return redirect('/accounts/registration')

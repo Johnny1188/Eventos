@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<script type="text/javascript">
+
+    function scrollToTheEvent() {
+        setTimeout(() => {
+            let event_section = document.getElementById("scroll_here_after_load");
+            event_section.scrollIntoView();
+        }, 600);
+    }
+
+    function open_registration_modal() {
+        var reward_modal = document.getElementById("reward_modal");
+        var reward_modal_box = document.getElementById("reward_modal_box");
+        var reward_modal_box_close = document.getElementById("reward_modal_box_close");
+        var body = document.getElementsByTagName("html");
+        reward_modal_box_close.style.backgroundColor = "#fff";
+        reward_modal_box_close.style.color = "#2b0170";
+        reward_modal_box.style.backgroundColor = "#2b0170";
+        reward_modal.style.display = "flex";
+        body[0].style.overflowY = "hidden";
+        body[0].style.overflowX = "hidden";
+        reward_modal_box_content.innerHTML = `
+        <div class="form_box form_box_newcollector">
+            <h2>To collect rewards, please sign up:</h2>
+            <form action="{% url 'registration' %}" method="POST">
+                {% csrf_token %}
+                <div class="form_line">
+                    <div class="icon_box" style="background-color:#fff">
+                        <i class="far fa-envelope" style="color:#2b0170"></i>
+                    </div>
+                    <input type="text" name="email" placeholder="Email address">
+                </div>
+                <br>
+                <div class="form_line">
+                    <div class="icon_box" style="background-color:#fff">
+                        <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                    </div>
+                    <input type="password" name="password1" placeholder="Your password">
+                </div>
+                <br>
+                <div class="form_line">
+                    <div class="icon_box" style="background-color:#fff">
+                        <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                    </div>
+                    <input type="password" name="password2" placeholder="Password again">
+                </div>
+                <br>
+                {% if error %}
+                <div class="error_box">
+                    {{ error }}
+                </div>
+                {% endif %}
+                <input type="hidden" name="event_id_from_newcollector" value="{{ event.id }}">
+                <input class="submit_btn" type="submit" value="SIGN UP">
+            </form>
+            <h6 class="already_registered_title">Already have an account? <a href="{% url 'login' %}" style="color:#ac99ca">Login</a></h6>
+        </div>
+        `;
+    }
+    </script>
+
+<div id="reward_modal">
+    <div id="reward_modal_box">
+        <div id="reward_modal_box_close" onclick="close_modal()"><i class="fas fa-times"></i></div>
+        <div id="reward_modal_box_content">
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="credit_box">
+        <h3>YOUR CREDIT:</h3>
+        <div class="credit_points_box">
+            <div class="credit_points" style="width: calc((3/8)*100%);max-width: 100%;">
+                <h4>3</h4>
+            </div>
+        </div>
+        <div class="credit_rewards">
+            {% for reward in rewards %}
+                {% if reward.quantity >= 1 %}
+                    {% if reward.alreadyWithdrawn is True %}
+                    <div class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
+                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
+                        <h6>WITHDRAWN</h6>
+                    {% else %}
+                    <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}',true)">
+                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                        <h5>{{ reward.pointsNeeded }}</h5>
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="my_events_box" id="scroll_here_after_load">
+        <h3 class="your_events_intro">YOUR EVENTS:</h3>
+            <div class="my_event_box_recommend">
+                <a href="{% url 'eventpage' event.id %}" class="recommend_link_box_event">
+                    <div style="background-image: url({{ event.image.url }});background-size:cover;background-position: center;" class="recommend_link_box_event_title_img" onload="scrollToTheEvent();">   
+                        <!--<img src="{{ event.image.url }}" alt="{{ event.name }} logo" onload="scrollToTheEvent();">-->
+                    </div> 
+                    <div class="recommend_link_box_event_text">
+                        <h3>{{ event.name }}</h3>
+                        <h6 style="color:#2b0170;font-size: 14px;"><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ event.date }}</h6>
+                    </div>
+                </a>
+                <div class="recommend_link">
+                    <h5>Want to have more fun and collect some credits? <br>Invite your friends with this link:</h5>
+                    <input type="text" value="{{ event.linkToRegister }}/4461475" id="recommend_link_{{ eventAttending.id }}" class="recommend_link_input">
+                    <button onclick="open_registration_modal()" id="copy_box"><i class="fas fa-clone"></i></button>
+                </div>
+            </div>
+        <div class="empty_box">
+            <a href="{% url 'eventlist' %}" class="discover_more_events">
+                <div class="recommend_link_box_empty">
+                    <h2>+ Explore more events</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script defer>
+    let error = '{{ error }}';
+    if (error != "") {
+        open_registration_modal();
+    }
+</script>
+{% endblock %}
+

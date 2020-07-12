@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="reward_modal">
+    <div id="reward_modal_box">
+        <div id="reward_modal_box_close" onclick="close_modal()"><i class="fas fa-times"></i></div>
+        <div id="reward_modal_box_content">
+
+        </div>
+    </div>
+</div>
+
 <div class="settings_container">
 <h1>Settings</h1>
     <div class="container settings_container_forms">
@@ -22,10 +31,10 @@
                 >
             {% endif %}            
         </div>
-        <form action="" method="post" class="remove_account_box">
+        <form action="{% url 'deleteaccount' profile.user.id %}" method="post" class="remove_account_box">
             {% csrf_token %}
             <label for="">Remove your account?</label>
-            <button type="submit">Delete my account</button>
+            <button type="submit" id="delete_btn">Delete my account</button>
         </form>
     </div>
 </div>
@@ -74,5 +83,11 @@
             }
         })
     }
+
+    let delete_btn = document.getElementById("delete_btn");
+    delete_btn.addEventListener("click",(e) => {
+        e.preventDefault();
+        open_reward_modal('Are you sure you want to remove your entire account and all your credits?',"{% url 'deleteaccount' profile.user.id %}",'{% csrf_token %}',"deleteAccount",true);
+    })
 </script>
 {% endblock %}

@@ -6,7 +6,7 @@ html {
 body {
     min-height: 100vh;
     font-family: 'League Spartan'; 
-    background-color: #23005c;
+    background-color: #662d91;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -159,6 +159,62 @@ header #toggle:after {
     background-color: white;
     margin-bottom: 0px;
 }
+@media only screen and (max-width: 700px) {
+    #menu_toggle {
+        right: 15vw!important;
+        top: 30px!important;
+    }
+    #toggle {
+        right: 14vw!important;
+        top: 20px!important;
+    }
+}
+@media only screen and (max-width: 600px) {
+    #menu_toggle {
+        display: none!important;
+    }
+    #toggle {
+        right: 16vw!important;
+        top: 28px!important;
+        width: 10px!important;
+    }
+    #toggle::before {
+        width: 35px!important;
+    }
+    #toggle::after {
+        width: 35px!important;
+    }
+    .logout_form {
+        top: 20px;
+        right: 30px;
+    }
+    .navigation {
+        width: 200px;
+    }
+    .content-container.active {
+        transform: translateX(-200px);
+    }
+    .navigation {
+        right: -200px;
+        place-items: start;
+    }
+    .navigation ul li {
+        margin-bottom: 12px;
+    }
+    .navigation ul li a {
+        font-size: 19px!important;
+        max-width: 80%;
+        line-height: 0px;
+        margin-bottom: 6vh;
+    }
+    .nav_menu_box {
+        width: 80%!important;
+        padding-left: 10px;
+    }
+    .nav_username_box {
+        padding-bottom: 0px;
+    }
+}
 
 
 /* 
@@ -185,7 +241,7 @@ Home page ---->
     padding-left: 15vw;
 }
 .head_text_box p span {
-    color:#2b0170;
+    color:#662d91;
     border-left:6px #fff solid;
     padding-left: 10px;
     padding-top: 4px;
@@ -197,7 +253,7 @@ Home page ---->
     margin-left: 20%;
 }
 .head_text_box h6 span {
-    color: #2b0170;
+    color: #662d91;
 }
 .log_reg_box {
     position: absolute;
@@ -212,7 +268,7 @@ Home page ---->
     background-color: #fff;
     border: solid 2px #fff;
     border-radius:5px;
-    color: #623aa1;
+    color: #2b0170;
     width: 130px;
     padding: 8px 0 3px 0;
 }
@@ -258,6 +314,15 @@ Registration and Login pages (forms)---->
     margin-top: 18vh;
     padding-bottom: 5vh;
 }
+.form_box_newcollector {
+    margin-top: 0px;
+    padding: 3vh 0;
+}
+.form_box_newcollector h2 {
+    margin-top: 24px;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
 .reg_container h1, .reg_container h2 {
     color: #fff;
     width: 25vw;
@@ -285,9 +350,12 @@ Registration and Login pages (forms)---->
 }
 .form_box input {
     height: 50px;
-    padding-left: 8px;
+    padding: 6px 8px 0px 8px;
     font-size: 18px;
     border: 0;
+}
+.form_box_newcollector .form_line {
+    max-width: 72%;
 }
 .icon_box {
     font-size: 28px;
@@ -355,6 +423,7 @@ MyPage----->
     min-width: 250px;
     max-width: 60vw;
     min-height: 250px;
+    max-height: 90vh;
     position: relative;
 }
 #reward_modal_box_close {
@@ -381,7 +450,7 @@ MyPage----->
     margin-bottom: 25px;
 }
 .reward_modal_box_content_info {
-    width: 600px;
+    width: 40vw;
     display: grid;
     grid-template-rows: 50% 50%;
     text-align: center;
@@ -392,22 +461,30 @@ MyPage----->
     height: auto;
     margin: auto;
 }
+.reward_modal_box_middle_body_img_container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #reward_modal_box_content img {
-    max-width: 40%;
+    max-width: 100%;
     max-height: 40vh;
 }
 #reward_modal_box_middle_body {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    min-height: 120px;
 }
 #reward_modal_box_middle_body p {
-    max-width: 35vw;
+    max-width: 100%;
     padding: 0 25px;
 }
 #reward_modal_box_button {
     text-align: center;
 }
-#reward_modal_box_button button {
+#reward_modal_box_button button, #reassured_delete_btn {
     background-color: #2b0170;
     border: solid #2b0170 2px;
     color: #fff;
@@ -416,7 +493,7 @@ MyPage----->
     margin-top: 30px;
     margin-bottom: 20px;
 }
-#reward_modal_box_button button:hover {
+#reward_modal_box_button button:hover, #reassured_delete_btn:hover {
     background-color: #fff;
     color: #2b0170;
 }
@@ -433,6 +510,9 @@ MyPage----->
     padding: 45px 30px 40px 30px;
     color: #2b0170;
 }
+.credit_box_containered {
+    width: 100%;
+}
 .credit_points_box {
     box-shadow: 10px 10px 30px #2b0170;
     width: 65%;
@@ -443,6 +523,7 @@ MyPage----->
     background-color: #2b0170;
     height: 100%;
     position: relative;
+    transition: max-width 0.5s ease-out;
 }
 .credit_points h4 {
     position: absolute;
@@ -454,6 +535,7 @@ MyPage----->
     width: 65%;
     margin: auto;
     position: relative;
+    top: 60px;
 }
 .credit_rewards .reward_box {
     width: auto;
@@ -514,6 +596,11 @@ MyPage----->
     display: grid;
     grid-template-columns: 40% 60%;
     text-decoration: none;
+    min-height: 160px;
+}
+.recommend_link_box_event_title_img {
+    background-size: cover;
+    background-position: center;
 }
 .recommend_link_box_event:hover {
     background-color: #EAF0F1;
@@ -522,7 +609,7 @@ MyPage----->
 .recommend_link_box_event:hover div {
     transition: 0.3s;
 }
-.recommend_link_box_event:hover div {
+.recommend_link_box_event:hover div:last-of-type {
     border-left: 12px solid #2b0170;
 }
 .recommend_link_box_event_text {
@@ -536,7 +623,7 @@ MyPage----->
     max-width: 100%;
     display: inline;
 }
-.my_event_box_recommend .recommend_link_input {
+.recommend_link_input {
     padding: 13px 0 9px 3%;
     border: 0px;
     width: 50%;
@@ -583,7 +670,169 @@ MyPage----->
 .recommend_link_box_empty:hover {
     opacity: 0,8;
 }
-
+@media only screen and (max-width: 1200px) {
+    .credit_rewards .reward_box {
+        background-size: 40px;
+        padding-top: 44px;
+        
+    }
+    .credit_rewards .reward_box img {
+        width: 42px;
+        padding-top: 0px;
+    }
+    .withdrawn_text {
+        display: none;
+    }
+    .my_event_box_recommend {
+        width: 65vw;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .container {
+        max-width: unset;
+        width: 100vw!important;
+        margin-bottom: 180px;
+        padding: 0;
+    }
+    .credit_rewards {
+        width: 88%;
+    }
+    .credit_box {
+        width: 85vw;
+        margin-left: 7.5vw;
+        min-height: 350px;
+    }
+    .credit_points_box {
+        width: 88%;
+    }
+    .credit_rewards .reward_box img {
+        width: 32px;
+    }
+    .my_events_box {
+        width: 100vw;
+    }
+    .my_event_box_recommend {
+        width: 80%;
+    }
+    #reward_modal_box {
+        max-width: 90vw;
+    }
+    .reward_modal_box_content_info {
+        width: 70vw;
+    }
+    #reward_name {
+        font-size: 22px;
+    }
+    #reward_modal_box_middle_body p {
+        font-size: 14px;
+        padding-left: 8px;
+        padding-right: 14px;
+        
+    }
+    #reward_modal_box_content img {
+        max-width: 90%;
+    }
+}
+@media only screen and (max-width: 700px) {
+    
+}
+@media only screen and (max-width: 600px) {
+    .credit_box {
+        padding-bottom: 70px;
+    }
+    .credit_box h3 {
+        padding: 25px 30px 15px 30px;
+    }
+    .credit_box_containered {
+        width: 65px;
+        margin: auto;
+    }
+    .credit_points_box {
+        width: 60px;
+        height: 480px;
+        display: inline-block;
+    }
+    .credit_rewards {
+        top: 0px;
+        display: inline-block;
+        width: 0px!important;
+        height: 480px;
+    }
+    .reward_box {
+        position: relative;
+        background-image: none!important;
+    }
+    .credit_rewards .reward_box h5 {
+        font-size: 15px;
+    }
+    .reward_box:nth-of-type(even) {
+        margin-left: 130px;
+    }
+    .reward_box:nth-of-type(even) h5 {
+        left: auto;
+        right: -24px;
+    }
+    .credit_rewards .reward_box img {
+        width: 45px;
+    }
+    .recommend_link h5 {
+        font-size: 14px;
+    }
+    .recommend_link_input {
+        width: 65%;
+        height: 42px;
+    }
+    .my_event_box_recommend #copy_box {
+        background-color: #fff;
+        color: #2b0170;
+        position: relative;
+        border: 0px;
+        padding: 0px 14px;
+        right: 8px;
+        top: -1px;
+        font-size: 22px;
+        border-radius: 0px 6px 6px 0;
+        height: 42px;
+    }
+    .recommend_link_box_event {
+        grid-template-columns: 100%;
+        grid-template-rows: 70% 30%;
+        min-height: 280px;
+    }
+    .recommend_link_box_event_text h3 {
+        margin-bottom: 0px;
+        font-size: 22px;
+    }
+    .empty_box {
+        padding: 0 18%;
+    }
+    .recommend_link_box_empty h2 {
+        font-size: 22px;
+        padding: 0px 15px;
+        margin-bottom: 0;
+    }
+    #reward_name {
+        font-size: 17px;
+    }
+    #reward_modal_box_middle_body p {
+        font-size: 12px;
+    }
+}
+@media only screen and (max-width: 400px) {
+    #reward_modal_box_middle_body {
+        grid-template-columns: 100%;
+        min-height: unset;
+    }
+    .reward_modal_box_middle_body_img_container img {
+        max-height: none;
+    }
+    #reward_modal_box {
+        overflow: scroll;
+    } 
+    #reward_modal_box_close {
+        top: -5px;
+    }
+}
 
 
 /*
@@ -642,6 +891,7 @@ Eventpage ----->
     background-color: #fff;
     padding: 7px 8px 0px 8px;
     border-radius: 6px;
+    margin-left: 3px;
 }
 
 
@@ -662,35 +912,25 @@ EventList ----->
     padding: 0px 0 25px 0;
 }
 .event {
-    width: 47%;
-    height: 250px;
-    margin-bottom: 20px;
+    width: 49%;
+    height: 270px;
     position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    border-bottom: solid #fff 1vw;
-    border-top: solid #fff 1vw;
-    background-color: #fff;
-    background-size: 100% auto;
+    border-left: solid #2b0170 0;   
+    margin-bottom: 12px;
+    background-color: #2b0170;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     transition: 0.4s;
 }
-.event:nth-child(odd) {
-    border-right: solid #fff 0.5vw;
-    border-left: solid #fff 0.5vw;
-}
-.event:nth-child(even) {
-    border-left: solid #fff 0.5vw;
-    border-right: solid #fff 0.5vw;
-}
 .event:hover {
     opacity: 0.85;
     cursor: pointer;
-    border-bottom: solid #fff 0.5vw;
-    border-top: solid #fff 0.5vw;
+    border-left: solid #2b0170 15px;
 }
 .events_box h5 {
     background-color: #2b0170;
@@ -699,16 +939,33 @@ EventList ----->
     left: -12px;
     top: 15px;
     padding: 8px 30px 3px 30px;
+    margin-right: 28px;
     text-align: left;
 }
 .events_box h6 {
     background-color: white;
     color:#2b0170;
     position: absolute;
-    left: 165px;
-    bottom: -18px;
+    left: calc(50% - 98px);
+    bottom: -10px;
     padding: 12px 30px 8px 30px;
     text-align: left;
+    border-radius: 5px 5px 0 0;
+}
+@media only screen and (max-width: 1000px) {
+    .event {
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .event {
+        width: 95%;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .event {
+        height: 200px;
+    }
 }
 
 
@@ -727,10 +984,16 @@ My Buddies ----->
 }
 .my_event_box_info {
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: 35% 65%;
+    width: 100%;
+    min-height: 200px;
 }
 .event_img_section {
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .event_img_section img {
     max-width: 100%;
@@ -762,10 +1025,10 @@ My Buddies ----->
     text-align: center;
     width: 80%;
     margin: auto;
-    margin: 55px auto 0 auto;
+    margin: 40px auto 0 auto;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 300px 40px;
+    grid-template-rows: auto 40px;
 }
 .recommend_chat {
     color: #fff;
@@ -800,11 +1063,16 @@ My Buddies ----->
     opacity: 0.7;
     cursor: pointer;
 }
+.chat-log-container {
+    display: flex;
+    align-items: flex-end;
+}
 .chat-log {
     background-color: #fff;
     border: 0px;
     border-radius: 5px 5px 0 0;
-    height: 300px;
+    min-height: 100px;
+    max-height: 300px;
     width: 90%;
     margin-right: 10%;
     overflow: scroll;
@@ -819,8 +1087,9 @@ My Buddies ----->
     border-radius: 5px;
     font-size: 15px;
     margin-right: 8px;
-    margin-left: 50px;
-    float: right;
+    max-width: 80%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 .their_message {
     background-color:#fff;
@@ -831,8 +1100,34 @@ My Buddies ----->
     padding: 5px 12px 1px 12px;
     font-size: 15px;
     margin-left: 8px;
-    margin-right: 50px;
-    float: left;
+    margin-right: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 80%;
+}
+.system_message_to_start {
+    background-color:#ccbee0;
+    color: #fff;
+    text-align: left;
+    padding: 5px 12px 2px 12px;
+    border: dashed 3px #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-right: 8px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    float: right;
+    position: relative;
+}
+.tip_text {
+    font-size: 16px;
+    color: #ccbee0;
+    position: absolute;
+    left: -40px;
+    top: 8px;
+    margin-right: auto;
+    float:right;
+    justify-self: flex-end;
 }
 .chat_blank {
     float: right;
@@ -876,9 +1171,77 @@ My Buddies ----->
 .chat-log {
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 .chat-log::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
+}
+@media only screen and (max-width: 1200px) {
+    .my_event_box {
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .my_event_box {
+        width: 100%;
+    }
+    .chat_box {
+        width: 92%;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .buddies_intro {
+        padding-left: 8vw;
+        padding-right: 8vw;
+    }
+    .event_buddy_container {
+        width: 100vw;
+    }
+    .my_event_box {
+        width: 90%;
+    }
+    .my_event_box_info {
+        grid-template-columns: 45% 55%;
+    }
+    .chat-log {
+        width: 100%;
+        margin: 0;
+    }
+    .buddy_section h5 {
+        line-height: 34px;
+    }
+    .submit_box textarea {
+        width: 100%;
+    }
+    .submit_box i {
+        right: 1%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .buddies_intro {
+        font-size: 20px;
+    }
+    .my_event_box_info {
+        grid-template-columns: 100%;
+        grid-template-rows: 70% 30%;
+        min-height: 400px;
+    }
+    .buddy_section {
+        padding-top: 25px;
+    }
+    .buddy_section h5 {
+        font-size: 15px;
+        padding: 0 8px;
+    }
+    .recommend_chat {
+        display: none;
+    }
+    .chat_box {
+        display: block;
+    }
 }
 
 
@@ -928,7 +1291,7 @@ Settings----->
     transition: 0.5s;
 }
 .settings_container input:checked[type="checkbox"] {
-        background-color: #23005c;
+        background-color: #662d91;
 }
 .settings_container input[type="checkbox"]:before {
     content: " ";
@@ -960,6 +1323,7 @@ Footer---->
 html {
     position: relative;
     min-height: 100%;
+    scroll-behavior: smooth;
 }
 .container {
     margin-bottom: 180px;
@@ -975,5 +1339,5 @@ footer {
 footer a {
     color: #fff;
     text-align: center;
-    font-size: 11px;
+    font-size: 8px;
 }

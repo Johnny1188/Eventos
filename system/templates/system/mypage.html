@@ -14,28 +14,69 @@
 <div class="container">
     <div class="credit_box">
         <h3>YOUR CREDIT:</h3>
-        <div class="credit_points_box">
-            <div class="credit_points" style="width: calc(({{ profile.getPoints }}/8)*100%);max-width: 100%;">
-                <h4>
-                    {{ profile.getPoints }}                  
-                </h4>
-            </div>
-        </div>
-        <div class="credit_rewards">
-            {% for reward in rewards %}
-                {% if reward.quantity >= 1 %}
-                    {% if reward.alreadyWithdrawn is True %}
-                    <div class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
-                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
-                        <h6>WITHDRAWN</h6>
-                    {% else %}
-                    <div class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
-                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
-                        <h5>{{ reward.pointsNeeded }}</h5>
+
+        <div class="credit_box_containered">
+
+            <div class="credit_rewards">
+                {% for reward in rewards %}
+                <style>
+                    @media only screen and (max-width: 1200px) {
+                        #reward_box_{{ reward.id }} {
+                            left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 22px)!important;
+                        }
+                    };
+                </style>
+                <style>
+                    @media only screen and (max-width: 770px) {
+                        #reward_box_{{ reward.id }} {
+                            left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 17px)!important;
+                        }
+                    }
+                </style>
+                <style>
+                    @media only screen and (max-width: 600px) {
+                        #reward_box_{{ reward.id }} {
+                            top: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 24px)!important;
+                            padding: 0!important;
+                            left: -50px!important;
+                        }
+                    }
+                </style>
+                    {% if reward.quantity >= 1 %}
+                        {% if reward.alreadyWithdrawn is True %}
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
+                            <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
+                            <h6 class="withdrawn_text">WITHDRAWN</h6>
+                        {% else %}
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
+                            <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                            <h5>{{ reward.pointsNeeded }}</h5>
+                        {% endif %}
+                    </div>
                     {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="credit_points_box">
+                <style>
+                    @media only screen and (max-width: 600px) {
+                        .credit_points {
+                            height: calc(({{ profile.getPoints }}/8)*100%);
+                            width: 100%!important;
+                        }
+                        .credit_points h4 {
+                            bottom: -8px;
+                            left: 21px;
+                        }
+                    }
+                </style>
+                <div class="credit_points" style="width: calc(({{ profile.getPoints }}/8)*100%);max-width:100%">
+                    <h4>
+                        {{ profile.getPoints }}                  
+                    </h4>
                 </div>
-                {% endif %}
-            {% endfor %}
+            </div>
+
         </div>
     </div>
 
@@ -44,7 +85,8 @@
         {% for eventAttending in events_attending %}
             <div class="my_event_box_recommend">
                 <a href="{% url 'eventpage' eventAttending.event.id %}" class="recommend_link_box_event">
-                    <img src="{{ eventAttending.event.image.url }}" alt="{{ eventAttending.event.name }} logo">
+                    <div style="background-image: url({{ eventAttending.event.image.url }});" class="recommend_link_box_event_title_img">
+                    </div> 
                     <div class="recommend_link_box_event_text">
                         <h3>{{ eventAttending.event.name }}</h3>
                         <h6 style="color:#2b0170;font-size: 14px;"><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ eventAttending.event.date }}</h6>

@@ -27,7 +27,7 @@ class EventGoer(models.Model):
         return self.event.name[:15] + "---" + self.user.username
     def getChat(self):
         if self.chatName == '':
-            roomChatName = hashlib.md5((self.user.username + self.eventBuddy.user.username).encode()).hexdigest()
+            roomChatName = hashlib.md5((self.event.name + self.eventBuddy.user.username).encode()).hexdigest()
             self.eventBuddy.chatName = roomChatName
             self.chatName = roomChatName
             super().save()

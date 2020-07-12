@@ -14,10 +14,10 @@
     <!-- CUSTOM JS -->
     <script src="{% static 'base.js' %}"></script>
 </head>
-<body class="d-flex flex-column h-100" style="background-image: url({% static 'rewardado_bg.svg' %});">
+<body class="d-flex flex-column h-100" style="background-image: url({% static 'rewardado_bg_2.svg' %});">
     <div class="content-container">
         <header>
-            <a href="{% url 'home' %}"><h1>Evenado</h1></a>
+            <a href="{% url 'home' %}"><h1>Eventos</h1></a>
             {% if user.is_authenticated %}
                 <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
                 <div id="toggle" onclick="toggle()"></div>
@@ -50,7 +50,7 @@
 
     <footer class="footer py-3">
         <div class="mx-auto">
-            <h6 class="text-center">Evenado</h6>
+            <h6 class="text-center">Eventos</h6>
             <a href='https://www.freepik.com/free-photos-vectors/website'>Website vector created by freepik - www.freepik.com</a>
         </div>
     </footer>

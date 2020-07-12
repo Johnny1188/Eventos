@@ -25,6 +25,20 @@ def eventPage(request,event_id):
     except Event.DoesNotExist:
         return redirect('/')
 
+def newRewardCollector(request,event_id):
+    try:
+        event = Event.objects.get(pk=event_id)
+        rewards = Reward.objects.order_by('pointsNeeded')
+        try:
+            error_msg = request.GET['error']
+            context = {'event':event,'rewards':rewards,'error':error_msg}
+            return render(request,'system/newcollector.html',context)
+        except:
+            context = {'event':event,'rewards':rewards}
+            return render(request,'system/newcollector.html',context)
+    except:
+        return redirect('/')
+
 @login_required(login_url='/accounts/login')
 def myPage(request,user_id):
     if request.user.id != user_id:
@@ -114,8 +128,6 @@ def myBuddies(request,user_id):
     else:
         try:
             user = User.objects.get(pk=user_id)
-            # profile = Profile.objects.filter(user=user)
-            # Not necessary for now...
             events_attending = EventGoer.objects.filter(user=user)
             for event in events_attending:
                 if event.eventBuddy == None:
