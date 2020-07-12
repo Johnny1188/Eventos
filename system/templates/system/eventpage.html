@@ -11,7 +11,7 @@
                 {% endif %}
             </div>
             <br>
-            <p>{{ event.description }}</p>
+            <p>{{ event.description|linebreaks }}</p>
         </div>
         <div class="col-6 event_img_box">
             <img src="{{ event.image.url }}" alt="event image">

@@ -302,16 +302,16 @@ Registration and Login pages (forms)---->
 .reg_container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 80vh;
     margin: 0;
-    width: 100%
+    width: 100%;
+    margin-bottom: 90px;
 }
 .form_box {
     min-width: 36vw;
     color: white;
     text-align: center;
-    margin-top: 18vh;
     padding-bottom: 5vh;
 }
 .form_box_newcollector {
@@ -325,27 +325,33 @@ Registration and Login pages (forms)---->
 }
 .reg_container h1, .reg_container h2 {
     color: #fff;
-    width: 25vw;
     text-align: right;
 }
 .login_title {
     font-size: 75px;
-    margin-top: 20vh;
+    position: relative;
+    top: -80px;
+    left: 4vw;
 }
 .for_event_registration_title {
-    margin-top: 22vh;
+    position: relative;
+    top: -80px;
+    left: 4vw;
+    max-width: 40%;
 }
 .normal_registration_title {
     font-size: 70px;
-    margin-top: 24vh;
+    position: relative;
+    top: -80px;
+    left: 4vw;
 }
 .form_box h1 {
     margin-bottom: 5vh;
 }
 .form_line {
     display: grid;
-    grid-template-columns: 50px auto;
-    max-width: 85%;
+    grid-template-columns: 50px calc(100% - 50px);
+    max-width: 70%;
     margin: auto;
 }
 .form_box input {
@@ -366,7 +372,7 @@ Registration and Login pages (forms)---->
 }
 .form_box .submit_btn {
     background-color: #fff;
-    width: 42%;
+    width: 200px;
     height: auto;
     padding-top: 14px;
     padding-bottom: 8px;
@@ -394,11 +400,71 @@ Registration and Login pages (forms)---->
     margin-top: 14px;
 }
 .already_registered_title a {
-    color: #2b0170;
+    color: #ac99ca;
 }
 .already_registered_title a:hover {
     text-decoration: none;
-    color:#1b0047;
+    color:#d6c5f0;
+}
+@media only screen and (max-width: 800px) {
+    .form_box {
+        margin-top: 10px;
+    }
+    .login_title {
+        font-size: 50px;
+        top: -65px;
+    }
+    .form_box .submit_btn {
+        font-size: 18px;
+        width: auto; 
+        padding: 9px 35px 3px 35px; 
+    }
+}
+@media only screen and (max-width: 600px) {
+    .reg_container {
+        align-content: center;
+        flex-wrap: wrap;
+    }
+    .normal_registration_title, .login_title {
+        margin-right: 0;
+        align-self: flex-start;
+        position: static;
+        text-align: center!important;
+    }
+    .for_event_registration_title {
+        font-size: 25px;
+        position: static;
+        max-width: 90%;
+        text-align: left!important;
+    }
+    .form_box {
+        width:80%;
+    }
+    .form_line {
+        max-width: 85%;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .login_title {
+        font-size: 30px;
+        width:90%;
+    }
+    .normal_registration_title {
+        font-size: 30px;
+        width: 90vw;
+    }
+    .for_event_registration_title {
+        font-size: 18px;
+    }
+    .form_line {
+        max-width: 100%;
+    }
+    .form_line input {
+        max-width: 100%;
+    }
+    .already_registered_title {
+        font-size: 12px;
+    }
 }
 
 
@@ -733,9 +799,6 @@ MyPage----->
         max-width: 90%;
     }
 }
-@media only screen and (max-width: 700px) {
-    
-}
 @media only screen and (max-width: 600px) {
     .credit_box {
         padding-bottom: 70px;
@@ -831,6 +894,16 @@ MyPage----->
     } 
     #reward_modal_box_close {
         top: -5px;
+    }
+    .recommend_link_box_event_text h3 {
+        font-size: 18px;
+    }
+    .recommend_link_box_event_text h6 {
+        font-size: 14px;
+    }
+    .recommend_link h5 {
+        font-size: 12.5px;
+        padding: 0 8px;
     }
 }
 
@@ -932,6 +1005,21 @@ EventList ----->
     cursor: pointer;
     border-left: solid #2b0170 15px;
 }
+.event_attending_tick_container {
+    background-color: #ac99ca;
+    color: #623aa1;
+    border-radius: 1000px;
+    height: 50px;
+    width: 50px;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    position: absolute;
+    top: 8px;
+    right: 18px;
+}
 .events_box h5 {
     background-color: #2b0170;
     color: white;
@@ -955,6 +1043,11 @@ EventList ----->
 @media only screen and (max-width: 1000px) {
     .event {
         width: 80%;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .intro_headline {
+        padding: 0 20px 25px 20px;
     }
 }
 @media only screen and (max-width: 600px) {
@@ -1255,16 +1348,21 @@ Settings----->
     margin: auto;
     margin-top: 50px;
 }
+.settings_container .on_off_form, .settings_container_forms form {
+    margin-bottom: 30px;
+}
 .settings_container_forms {
-    width: 60%;
+    width: 100%;
     margin: auto;
 }
 .settings_container .on_off_form {
-    margin-bottom: 13px;
+    display: grid;
+    grid-template-columns: 90% 10%;
+    width: fit-content;
 }
 .settings_container h1 {
     text-align: left;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 .settings_container button {
     padding: 10px 20px 6px 20px;
@@ -1311,8 +1409,28 @@ Settings----->
 }
 .on_off_form label {
     margin-right: 20px;
-    position: relative;
-    bottom: 14px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+@media only screen and (max-width: 700px) {
+    .settings_container .on_off_form, .settings_container_forms form {
+        margin-bottom: 45px;
+        padding-right: 15px;
+    }
+    .settings_container .on_off_form {
+        max-width: 90%;
+    }
+    .settings_container .on_off_form label {
+        margin-bottom: 0px;
+    }
+    .settings_container label {
+        font-size: 14px;
+    }
+    .remove_account_box {
+        text-align: center;
+    }
 }
 
 

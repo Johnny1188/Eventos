@@ -5,6 +5,7 @@ from django.conf import settings
 from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson
 from accounts.models import Profile
 from django.contrib.auth.models import User
+import datetime
 import random
 from django.http import JsonResponse
 
@@ -194,8 +195,9 @@ def changePreference(request):
 
 def eventlist(request):
     try:
+        print(datetime.datetime.now())
         user = User.objects.get(pk=request.user.id)
-        events = Event.objects.all()
+        events = Event.objects.filter(date__gt=datetime.datetime.now()).order_by('date')
         for event in events:
             eventAttending = EventGoer.objects.filter(user=user,event=event)
             if len(eventAttending) == 0:
