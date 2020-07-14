@@ -17,8 +17,8 @@
     {% if user.is_authenticated is False %}
     <div class="log_reg_box">
         <h6>Are you an event attendee?</h6>
-        <a href="{% url 'login' %}"><button>LOGIN</button></a>
-        <a href="{% url 'registration' %}"><button>REGISTER</button></a>
+        <a href="/accounts/login"><button>LOGIN</button></a>
+        <a href="/accounts/signup"><button>SIGNUP</button></a>
     </div>
     {% endif %}
 </div>

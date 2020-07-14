@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 import datetime
 import random
 from django.http import JsonResponse
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 def eventPage(request,event_id):
     try:
@@ -33,54 +35,54 @@ def newRewardCollector(request,event_id):
         try:
             error_msg = request.GET['error']
             context = {'event':event,'rewards':rewards,'error':error_msg}
-            return render(request,'system/newcollector.html',context)
+            to_render = render(request,'system/newcollector.html',context)
+            to_render.set_cookie("eventid",event_id)
+            return to_render
         except:
             context = {'event':event,'rewards':rewards}
-            return render(request,'system/newcollector.html',context)
+            to_render = render(request,'system/newcollector.html',context)
+            to_render.set_cookie("eventid",event_id)
+            return to_render
     except:
         return redirect('/')
 
 @login_required(login_url='/accounts/login')
 def myPage(request,user_id):
+    # OAuth -> 'cross-site':
+    if request.META['HTTP_SEC_FETCH_SITE'] == 'cross-site':
+        oauth_user = DefaultSocialAccountAdapter()
+        oauth_user.new_user(oauth_user, request)
+        request.user.username = request.user.email
+        request.user.save()
     if request.user.id != user_id:
         return redirect('/accounts/login')
     else:
         try:
             user = User.objects.get(pk=user_id)
-            profile = Profile.objects.get(user=user)
             rewards = Reward.objects.order_by('pointsNeeded')
-            # Find out which rewards have already been withdrawn by this user:
-            withdrawnrewards = RewardWithdrawer.objects.filter(withdrawer=profile)
-            #for rewardWithdrawn in withdrawnrewards:
-            #    if rewardWithdrawn.reward in rewards:
-            #        rewardWithdrawn.reward.alreadyWithdrawn = True
-            for reward in rewards:
-                if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
-                    reward.alreadyWithdrawn = True
-            events_attending = EventGoer.objects.filter(user=user)
-            for event in events_attending:
-                event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
-            if request.GET.get('msg'):
-                message_to_display = request.GET.get('msg')
-            else:
-                message_to_display = None
-            context = {'user':user,'profile':profile,'events_attending':events_attending,'rewards':rewards,'message':message_to_display}
-            return render(request,'system/mypage.html',context)
+            profile = Profile.objects.get(user=user)
         except User.DoesNotExist:
-            return redirect('/accounts/registration')
+            return redirect('/accounts/signup')
         except Profile.DoesNotExist:
             profile = Profile()
             profile.user = user
             profile.save()
-            events_attending = EventGoer.objects.filter(user=user)
-            for event in events_attending:
-                event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
-            if request.GET.get('msg'):
-                message_to_display = request.GET.get('msg')
-            else:
-                message_to_display = None
-            context = {'user':user,'profile':profile,'events_attending':events_attending,'message':message_to_display}
-            return render(request,'system/mypage.html',context)
+        except Reward.DoesNotExist:
+            rewards = None
+        # Find out which rewards have already been withdrawn by this user:
+        withdrawnrewards = RewardWithdrawer.objects.filter(withdrawer=profile)
+        for reward in rewards:
+            if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
+                reward.alreadyWithdrawn = True
+        events_attending = EventGoer.objects.filter(user=user)
+        for event in events_attending:
+            event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
+        if request.GET.get('msg'):
+            message_to_display = request.GET.get('msg')
+        else:
+            message_to_display = None
+        context = {'user':user,'profile':profile,'events_attending':events_attending,'rewards':rewards,'message':message_to_display}
+        return render(request,'system/mypage.html',context)
 
 def recommendedEventPage(request,event_id,user_id):
     # When someone clicks the 'Register' button, he sends us form (POST)

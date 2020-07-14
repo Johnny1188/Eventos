@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="reg_container">
+    <h1 class="login_title">Login</h1>
+    <div class="form_box">
+        {% if message %}
+        <h6>{{ message }}</h6>
+        {% endif %}
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="far fa-envelope"></i>
+                </div>
+                <input type="text" name="email" placeholder="Email address">
+            </div>
+            <br>
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input type="password" name="password1" placeholder="Your password">
+            </div>
+            <br>
+            {% if error %}
+            <div class="error_box">
+                {{ error }}
+            </div>
+            {% endif %}
+            <input class="submit_btn" type="submit" value="LOGIN">
+        </form>
+
+        <!-- OAuth block -->
+        {% load i18n %}
+        {% load account socialaccount %}
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div class="socialaccount_ballot">
+            <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
+            <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+        </div>
+        {% endif %}
+        <!-- end of OAuth -->
+
+        <h6 class="already_registered_title">Don't have an account yet? <a href="/accounts/signup">Sign up</a></h6>
+    </div>
+</div>
+
+<script>
+    let oauth_box = document.getElementsByClassName("socialaccount_ballot");
+    oauth_box[0].addEventListener("click",() => {
+        let oauth_link = document.getElementsByClassName("google");
+        oauth_link[0].click();
+    })
+</script>
+{% endblock %}

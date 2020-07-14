@@ -29,15 +29,15 @@ def registration(request):
                                 return redirect('/accounts/login')
                         except:
                             pass
-                        return render(request, 'accounts/registration.html', {'error':'This email is already connected to an account'})
+                        return render(request, 'account/signup.html', {'error':'This email is already connected to an account'})
                     except User.DoesNotExist:
                         user = User.objects.create_user(request.POST['email'], password=request.POST['password1'])
-                        # If this link to registration came through email ticket
+                        # If this link to signup came through email ticket
                         #    ---> needs to have url parameters (?event=event_id)
                         try:
                             # The platform has implemented two possible ways of onboarding people on specific events (the reason: test UX design):
                             #   n.1 - through "www.domain/rew/newrewardcollector/ID OF THE EVENT" - here, the person first sees the rewards -> then registers
-                            #   n.2 - through "www.domain/accounts/registration?event=ID OF THE EVENT" - here, the person needs to register first
+                            #   n.2 - through "www.domain/account/signup?event=ID OF THE EVENT" - here, the person needs to register first
                             try:
                                 event_id = int(request.GET['event'])
                             except:
@@ -45,7 +45,7 @@ def registration(request):
                             try:
                                 event = Event.objects.get(pk=event_id)
                             except:
-                                return redirect('/accounts/registration')
+                                return redirect('/accounts/signup')
                             if event:
                                 eventGoer = EventGoer.objects.filter(event=event,user=user)
                                 if len(eventGoer) == 0:
@@ -53,7 +53,7 @@ def registration(request):
                                     newEventGoer.event = event
                                     newEventGoer.user = user
                                     newEventGoer.save()
-                        # If it is basic /accounts/registration url --> then we don't care about eventGoer model:
+                        # If it is basic /account/signup url --> then we don't care about eventGoer model:
                         except:
                             pass
                         # Finish setting up user's profile:
@@ -68,15 +68,15 @@ def registration(request):
                         event_id_from_newcollector = request.POST['event_id_from_newcollector']
                         return redirect('/rew/newrewardcollector/'+event_id_from_newcollector+'?error=Passwords must match')
                     except:
-                        return render(request, 'accounts/registration.html', {'error':'Passwords must match'})
+                        return render(request, 'account/signup.html', {'error':'Passwords must match'})
             else:
                 try:
                     event_id_from_newcollector = request.POST['event_id_from_newcollector']
                     return redirect('/rew/newrewardcollector/'+event_id_from_newcollector+'?error=All fields must be filled')
                 except:
-                    return render(request, 'accounts/registration.html', {'error':'All fields must be filled'})
+                    return render(request, 'account/signup.html', {'error':'All fields must be filled'})
         except:
-            return redirect('/accounts/registration')
+            return redirect('/accounts/signup')
     else:
         context = {}
         try:
@@ -84,7 +84,7 @@ def registration(request):
             context = {'eventHeadline':'To collect your rewards, please sign up with your email address:'}
         except:
             pass
-        return render(request, 'accounts/registration.html', context)
+        return render(request, 'account/signup.html', context)
 
 def login(request):
     if request.method == 'POST':
@@ -105,9 +105,9 @@ def login(request):
                 auth.login(request, user)
                 return redirect('/rew/mypage/'+str(user.id))
             else:
-                return render(request, 'accounts/login.html', {'error': 'Password or email is incorrect'})
+                return render(request, 'account/login.html', {'error': 'Password or email is incorrect'})
         else:
-            return render(request, 'accounts/login.html', {'error':'You must fill all fields'})
+            return render(request, 'account/login.html', {'error':'You must fill all fields'})
     else:
         try:
             msg = request.GET["error"]
@@ -115,14 +115,14 @@ def login(request):
         except:
             context = {}
             pass
-        return render(request, 'accounts/login.html', context)
+        return render(request, 'account/login.html', context)
 
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         return redirect('/')
     else:
-        return render(request, 'accounts/login.html', {'error': 'Some technical flaw, sorry for that'})
+        return render(request, 'account/login.html', {'error': 'Some technical flaw, sorry for that'})
 
 @login_required(login_url='/accounts/login')
 def deleteAccount(request,userid):
@@ -134,4 +134,34 @@ def deleteAccount(request,userid):
         else:
             return redirect('/accounts/login')
     except:
-        return redirect('/accounts/registration')
+        return redirect('/accounts/signup')
+
+@login_required(login_url='/accounts/login')
+def oauthRedirect(request):
+    try:
+        new_user_id = request.user.id
+        try:
+            # If the OAuth was for specific event:
+            event_id = int(request.COOKIES['eventid'])
+            try:
+                event = Event.objects.get(pk=event_id)
+            except:
+                return redirect('/accounts/signup')
+            if event:
+                eventGoer = EventGoer.objects.filter(event=event,user=request.user)
+                if len(eventGoer) == 0:
+                    newEventGoer = EventGoer()
+                    newEventGoer.event = event
+                    newEventGoer.user = request.user
+                    newEventGoer.save()
+                    print("Before response")
+                    response = HttpResponse('/rew/mypage/'+new_user_id)
+                    print(response)
+                    response.delete_cookie("eventid")
+                    print("hey")
+        # If it is basic signup without eventGoer instance:
+        except:
+            pass
+        return response
+    except:
+        return redirect('/')

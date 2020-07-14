@@ -340,6 +340,7 @@ Registration and Login pages (forms)---->
     max-width: 40%;
 }
 .normal_registration_title {
+    margin-bottom: 0;
     font-size: 70px;
     position: relative;
     top: -80px;
@@ -372,11 +373,11 @@ Registration and Login pages (forms)---->
 }
 .form_box .submit_btn {
     background-color: #fff;
-    width: 200px;
+    width: 170px;
     height: auto;
-    padding-top: 14px;
-    padding-bottom: 8px;
-    font-size: 22px;
+    padding-top: 11px;
+    padding-bottom: 5px;
+    font-size: 19px;
     color: #2b0170;
     border: solid #fff 2.5px;
     border-radius: 5px;
@@ -405,6 +406,41 @@ Registration and Login pages (forms)---->
 .already_registered_title a:hover {
     text-decoration: none;
     color:#d6c5f0;
+}
+/* OAuth */
+.socialaccount_ballot {
+    background-color: #fafafa;
+    border-radius: 3px;
+    width: 220px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+    padding: 0 24px;
+    cursor: pointer;
+    flex-basis: 100vw;
+}
+.socialaccount_ballot img {
+    max-width: 28px;
+    max-height: 28px;
+    margin-right: 10px;
+}
+.socialaccount_ballot ul {
+    padding: 0;
+    margin: 0;
+}
+.socialaccount_ballot ul li {
+    list-style: none;
+}
+.socialaccount_ballot ul li a {
+    text-decoration: none;
+    color: rgb(131, 131, 131);
+    font-size: 13px;
+}
+.socialaccount_ballot ul li a::before {
+    content: "Login with ";
 }
 @media only screen and (max-width: 800px) {
     .form_box {
@@ -448,6 +484,7 @@ Registration and Login pages (forms)---->
     .login_title {
         font-size: 30px;
         width:90%;
+        margin-bottom: 0;
     }
     .normal_registration_title {
         font-size: 30px;

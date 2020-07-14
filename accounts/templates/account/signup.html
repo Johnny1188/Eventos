@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="reg_container">
+    {% if eventHeadline is not None %}
+        <h2 class="for_event_registration_title">{{ eventHeadline }}</h2>
+    {% else %}
+    <div>
+        <h1 class="normal_registration_title">Sign up</h1>
+    </div>
+    {% endif %}
+    <div class="form_box">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="far fa-envelope"></i>
+                </div>
+                <input type="text" name="email" placeholder="Email address">
+            </div>
+            <br>
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input type="password" name="password1" placeholder="Your password">
+            </div>
+            <br>
+            <div class="form_line">
+                <div class="icon_box">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <input type="password" name="password2" placeholder="Password again">
+            </div>
+            <br>
+            {% if error %}
+            <div class="error_box">
+                {{ error }}
+            </div>
+            {% endif %}
+            <input class="submit_btn" type="submit" value="SIGN UP">
+        </form>
+
+        <!-- OAuth block -->
+        {% load i18n %}
+        {% load account socialaccount %}
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div class="socialaccount_ballot">
+            <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
+            <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+        </div>
+        {% endif %}
+        <!-- end of OAuth -->
+
+        <h6 class="already_registered_title">Already have an account? <a href="/accounts/login">Login</a></h6>
+    </div>
+</div>
+{% endblock %}
