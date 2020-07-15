@@ -61,7 +61,7 @@ def registration(request):
                         user_profile.user = user
                         user_profile.email = request.POST['email']
                         user_profile.save()
-                        auth.login(request,user)
+                        auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect('/rew/mypage/'+str(user.id))
                 else:
                     try:
@@ -102,7 +102,7 @@ def login(request):
                         newEventGoer.save()
                 except:
                     pass
-                auth.login(request, user)
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect('/rew/mypage/'+str(user.id))
             else:
                 return render(request, 'account/login.html', {'error': 'Password or email is incorrect'})

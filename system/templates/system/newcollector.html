@@ -25,7 +25,7 @@
         reward_modal_box_content.innerHTML = `
         <div class="form_box form_box_newcollector">
             <h2>To collect rewards, please sign up:</h2>
-            <form action="{% url 'registration' %}" method="POST">
+            <form action="/accounts/signup/" method="POST">
                 {% csrf_token %}
                 <div class="form_line">
                     <div class="icon_box" style="background-color:#fff">
@@ -55,6 +55,19 @@
                 {% endif %}
                 <input type="hidden" name="event_id_from_newcollector" value="{{ event.id }}">
                 <input class="submit_btn" type="submit" value="SIGN UP">
+                <!-- OAuth block -->
+                {% load i18n %}
+                {% load account socialaccount %}
+                {% get_providers as socialaccount_providers %}
+                {% if socialaccount_providers %}
+                <div class="socialaccount_ballot">
+                <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
+                <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </ul>
+                </div>
+                {% endif %}
+                <!-- end of OAuth -->
             </form>
             <h6 class="already_registered_title">Already have an account? <a href="{% url 'login' %}" style="color:#ac99ca">Login</a></h6>
         </div>

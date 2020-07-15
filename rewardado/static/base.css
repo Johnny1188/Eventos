@@ -233,27 +233,35 @@ Home page ---->
     margin-top: 100px;
 }
 .head_text_box h1 {
-    font-size: 50px;
+    font-size: 42px;
 }
-.head_text_box p {
+.head_text_box p:first-of-type {
     margin-top: 65px;
-    margin-bottom: 80px;
-    padding-left: 15vw;
+    margin-bottom: 0;
+    margin-left: 15vw;
+    border-left:6px #fff solid;
+}
+.head_text_box p:nth-of-type(2) {
+    padding-left: 18vw;
 }
 .head_text_box p span {
     color:#662d91;
-    border-left:6px #fff solid;
     padding-left: 10px;
     padding-top: 4px;
 }
 .head_text_box h6 {
     text-align: right;
-    font-size: 20px;
-    max-width: 80%;
-    margin-left: 20%;
+    font-size: 18px;
+    max-width: 72%;
+    margin-left: 28%;
+    margin-top: 40px;
 }
 .head_text_box h6 span {
     color: #662d91;
+}
+.main_headline_span {
+    font-size: 30px;
+    color: #fff;
 }
 .log_reg_box {
     position: absolute;
@@ -315,6 +323,7 @@ Registration and Login pages (forms)---->
     padding-bottom: 5vh;
 }
 .form_box_newcollector {
+    width: 100%!important;
     margin-top: 0px;
     padding: 3vh 0;
 }
@@ -423,8 +432,8 @@ Registration and Login pages (forms)---->
     flex-basis: 100vw;
 }
 .socialaccount_ballot img {
-    max-width: 28px;
-    max-height: 28px;
+    max-width: 28px!important;
+    max-height: 28px!important;
     margin-right: 10px;
 }
 .socialaccount_ballot ul {
@@ -479,6 +488,9 @@ Registration and Login pages (forms)---->
     .form_line {
         max-width: 85%;
     }
+    .form_box_newcollector .form_line {
+        max-width: 100%;
+    }
 }
 @media only screen and (max-width: 400px) {
     .login_title {
@@ -489,6 +501,10 @@ Registration and Login pages (forms)---->
     .normal_registration_title {
         font-size: 30px;
         width: 90vw;
+    }
+    .form_box_newcollector h2 {
+        font-size: 18px;
+        margin-top: 0;
     }
     .for_event_registration_title {
         font-size: 18px;
@@ -949,8 +965,9 @@ MyPage----->
 Eventpage ----->
 */
 .event_container {
+    width: 75vw;
     background-color: #fff;
-    margin-top: 40px;
+    margin: 40px auto 200px auto;
     padding: 0px;
 }
 .row {
@@ -962,19 +979,24 @@ Eventpage ----->
     max-width: 100%;
 }
 .event_img_box {
-    padding: 0;
+    width: fit-content;
+    max-width: 50%;
+    padding: 0 0 30px 30px;
+    float: right;
 }
 .event_text_box {
+    width: 100%;
     padding: 0 0 10px 0;
     background-color: #fff;
 }
 .event_text_box .title {
+    width: 100%;
     background-color: #2b0170;
     color: #fff;
     padding: 25px 15px 15px 15px;
 }
 .event_text_box p {
-    padding: 10px;
+    padding-left: 20px;
 }
 .event_button {
     background-color: #2b0170;
@@ -1002,6 +1024,27 @@ Eventpage ----->
     padding: 7px 8px 0px 8px;
     border-radius: 6px;
     margin-left: 3px;
+}
+@media only screen and (max-width: 900px) {
+    .event_container {
+        width: 90vw;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .event_img_box {
+        float: none;
+        width: 100%;
+        padding: 0;
+        padding-bottom: 20px;
+        height: fit-content;
+        max-width: unset;
+    }
+    .event_img_box img {
+        width: 100%;
+    }
+    .event_text_box {
+        font-size: 14px;
+    }
 }
 
 
@@ -1484,6 +1527,7 @@ html {
     margin-bottom: 180px;
 }
 footer {
+    margin-top: 200px;
     background-color: #662d91;
     position: absolute;
     bottom: 0;
