@@ -21,6 +21,11 @@
             {% if user.is_authenticated %}
                 <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
                 <div id="toggle" onclick="toggle()"></div>
+            {% else %}
+                <div class="log_reg_side_nav">
+                    <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
+                    <div id="toggle" onclick="toggle()"></div>
+                </div>
             {% endif %}
         </header>
 
@@ -51,7 +56,7 @@
     <footer class="footer py-3">
         <div class="mx-auto">
             <h6 class="text-center">Eventos</h6>
-            <a href='https://www.freepik.com/free-photos-vectors/website'>Website vector created by freepik - www.freepik.com</a>
+            <h6>By continuing to use our site you agree with our <a href="">terms and conditions.</a></h6>
         </div>
     </footer>
 

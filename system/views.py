@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson
+from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson,Message
 from accounts.models import Profile
 from django.contrib.auth.models import User
 import datetime
 import random
-from django.http import JsonResponse
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+
+from .tasks import sendEmail
 
 def eventPage(request,event_id):
     try:
@@ -91,6 +93,7 @@ def recommendedEventPage(request,event_id,user_id):
         recommendor_id = request.POST['recommendor']
         #   --> We want to give a recommend-point to the recommender in our DB
         try:
+            print("Celeryy gooo!")
             recommendor = User.objects.get(pk=recommendor_id)
             event = Event.objects.get(pk=event_id)
             eventGoer = EventGoer.objects.get(user=recommendor,event=event)
@@ -104,6 +107,9 @@ def recommendedEventPage(request,event_id,user_id):
                 newRecommendedPerson.save()
             eventGoer.numOfRecommended += 1
             eventGoer.save()
+            print("Celeryy gooo!")
+            # Send email saying that the person invited someone successfuly and received 1 credit (Celery Job):
+            send_email = sendEmail.delay(user_id)
             #   --> Redirect the interested new guest to the event registration page (not on our rewardado page)
             return redirect(linkToRegister)
         except User.DoesNotExist:
@@ -239,3 +245,17 @@ def getReward(request,rewID):
         print("Couldn't find the reward")
         return redirect('/')
     return redirect('/rew/mypage/'+str(request.user.id))
+
+@login_required(login_url='/accounts/login')
+def ajaxGetOlderMessages(request):
+    messagesToReturn = {'messages':[]}
+    try:
+        chat_name = request.GET["name"]
+        message_batch_number = request.GET["batch"]
+        interval_of_messages_to_load = [(20*(int(message_batch_number)-1)),(20*(int(message_batch_number)))]
+        messages = Message.objects.filter(chatName='chat_'+chat_name).order_by('-id')[interval_of_messages_to_load[0]:interval_of_messages_to_load[1]].values('id','text','sender')
+        for message in messages:
+            messagesToReturn['messages'].append({'sender':message['sender'],'text':message['text']})
+    except:
+        messagesToReturn['messages'].append({'sender':'system','text':'Failed to load messages'})
+    return JsonResponse(messagesToReturn)

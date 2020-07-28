@@ -13,4 +13,5 @@ urlpatterns = [
     path('events', views.eventlist, name="eventlist"),
     path('rewarder/<int:rewID>/', views.getReward, name="rewarder"),
     path('changepreference', views.changePreference),
+    path('chat', views.ajaxGetOlderMessages),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -236,6 +236,7 @@ Home page ---->
     font-size: 42px;
 }
 .head_text_box p:first-of-type {
+    padding-left: 10px;
     margin-top: 65px;
     margin-bottom: 0;
     margin-left: 15vw;
@@ -246,7 +247,6 @@ Home page ---->
 }
 .head_text_box p span {
     color:#662d91;
-    padding-left: 10px;
     padding-top: 4px;
 }
 .head_text_box h6 {
@@ -259,17 +259,13 @@ Home page ---->
 .head_text_box h6 span {
     color: #662d91;
 }
-.main_headline_span {
-    font-size: 30px;
-    color: #fff;
-}
 .log_reg_box {
     position: absolute;
     top: -3px;
     right: 0px;
     padding: 15px 20px 6px 40px;
     color: #fff;
-    border-right: solid 8px #fff;
+    max-width: 65%;
 }
 .log_reg_box button {
     margin-right: 15px;
@@ -293,6 +289,9 @@ Home page ---->
 .log_reg_box a {
     display: inline-block;
 }
+.log_reg_side_nav {
+    display: none;
+}
 .vision_statement_box {
     font-size: 28px;
     margin: auto;
@@ -300,6 +299,124 @@ Home page ---->
     text-align: center;
     color: #fff;
     width: 55vw;
+}
+@media only screen and (max-width: 1200px) {
+    .log_reg_box {
+        top: 5px;
+    }
+    .log_reg_box button {
+        width: 95px;
+        padding: 8px 0 3px 0;
+        font-size: 11px;
+    }
+}
+@media only screen and (max-width: 850px) {
+    .log_reg_box {
+        top: 18px;
+    }
+    .log_reg_box h6 {
+        display: none;
+    }
+    .log_reg_box button {
+        margin-right: 5px;
+    }
+    .head_text_box {
+        margin-left: 0;
+        margin-top: 40px;
+        padding-left: 5%;
+    }
+    .head_text_box h6 span {
+        color: #fff;
+    }
+    .head_text_box h1 {
+        display: inline-block;
+        font-size: 32px;
+        width: 63%;
+    }
+    .head_text_box h6 {
+        margin-right: 50px;
+        font-size: 16px;
+    }
+    .home_icon {
+        position: static;
+        display: inline-block;
+        width: 30%;
+    }
+    .head_text_box p {
+        font-size: 16px;
+    }
+    .head_text_box p:first-of-type {
+        margin: 65px auto 0 auto;
+        width: 60%;
+        color: #fff;
+    }
+    .head_text_box p:nth-of-type(2) {
+        margin: 10px auto 16px auto;
+        width: 56%;
+        padding: 0 3% 0 0;
+        border-right: 6px #fff solid;
+    }
+    .head_text_box p span {
+        color:#fff;
+    }
+}
+@media only screen and (max-width: 550px) {
+    .log_reg_side_nav {
+        display: grid;
+        padding-top: 40px;
+    }
+    .log_reg_side_nav.active {
+        right: -200px;
+    }
+    .log_reg_side_nav .nav_menu_box {
+        align-items: flex-start;
+    }
+    .log_reg_box {
+        display: none;
+    }
+    /*.log_reg_box {
+        width: 95px;
+        top: 10px;
+        right: 40px;
+    }
+    .log_reg_box button {
+        border: 0;
+        margin-bottom: 8px;
+        position: relative;
+        right: 30px;
+        background-color: #23005c;
+        color: #fff;
+    }*/
+    .home_container {
+        box-sizing: content-box;
+    }
+    .head_text_box {
+        padding-left: 0;
+    }
+    .head_text_box h1 {
+        font-size: 22px;
+        padding-left: 15px;
+    }
+    .head_text_box h6 {
+        font-size: 13px;
+        margin: 0 auto;
+        padding: 0;
+        text-align: right;
+    }
+    .head_text_box p {
+        font-size: 13px;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .head_text_box img {
+        width: 35%;
+    }
+    .head_text_box h1 {
+        font-size: 16px;
+    }
+    .head_text_box h6 {
+        font-size: 11px;
+    }
 }
 
 
@@ -395,6 +512,19 @@ Registration and Login pages (forms)---->
     background-color: #2b0170;
     color: #fff;
 }
+.password {
+    margin-bottom: 20px;
+}
+.password_invisible {
+    position: absolute;
+    top: -5000px;
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+}
+.password_visible {
+    position: static;
+    opacity: 1;
+}
 .error_box {
     margin: 0 20% 10px 20%;
     background-color: #2b0170;
@@ -426,7 +556,7 @@ Registration and Login pages (forms)---->
     justify-content: center;
     align-items: center;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 0 24px;
     cursor: pointer;
     flex-basis: 100vw;
@@ -1307,6 +1437,27 @@ My Buddies ----->
     height: 12px;
     width: 100%;
 }
+.loading_chat_box {
+    background-color: #ccbee044;
+    width: 100%;
+    padding: 8px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #623aa1;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 .submit_box textarea {
     min-height: 50px;
     max-height: 120px;
@@ -1538,5 +1689,4 @@ footer {
 footer a {
     color: #fff;
     text-align: center;
-    font-size: 8px;
 }

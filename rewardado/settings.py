@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'django_cron',
     # AllAuth -->
     'django.contrib.sites',
     'allauth',
@@ -69,9 +68,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 #ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-CRON_CLASSES = [
-    'system.cron.MyCronJob',
-]
 USE_TZ = True
 
 MIDDLEWARE = [

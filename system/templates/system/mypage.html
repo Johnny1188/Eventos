@@ -44,12 +44,12 @@
                 </style>
                     {% if reward.quantity >= 1 %}
                         {% if reward.alreadyWithdrawn is True %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
-                            <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %})" title="Already Withdrawn">
+                            <img src="{{ reward.image.url }}" alt="{{ reward.name | escapejs }}" >
                             <h6 class="withdrawn_text">WITHDRAWN</h6>
                         {% else %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}')">
-                            <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name | escapejs }}','{{ reward.description | escapejs }}','{{ reward.image.url }}','{{ reward.id }}')">
+                            <img src="{{ reward.image.url }}" alt="{{ reward.name | escapejs }}">
                             <h5>{{ reward.pointsNeeded }}</h5>
                         {% endif %}
                     </div>

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="event_text_box">
             <div class="title">
-                <h2>{{ event.name }}</h2>
+                <h2>{{ event.name | escapejs }}</h2>
                 {% if is_registered is True %}
                 <h6><i class="far fa-calendar-check" style="padding-right: 8px;color:#EAF0F1;font-size: 22px;font-weight: bold;"></i>Already going</h6>
                 {% endif %}

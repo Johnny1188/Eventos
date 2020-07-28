@@ -22,56 +22,77 @@
         reward_modal.style.display = "flex";
         body[0].style.overflowY = "hidden";
         body[0].style.overflowX = "hidden";
-        reward_modal_box_content.innerHTML = `
-        <div class="form_box form_box_newcollector">
-            <h2>To collect rewards, please sign up:</h2>
-            <form action="/accounts/signup/" method="POST">
-                {% csrf_token %}
-                <div class="form_line">
-                    <div class="icon_box" style="background-color:#fff">
-                        <i class="far fa-envelope" style="color:#2b0170"></i>
+        async function insertForm() {
+            reward_modal_box_content.innerHTML = `
+            <div class="form_box form_box_newcollector">
+                <h2 id="signup_title">Where should we send info about rewards?</h2>
+                <form action="/accounts/signup/" method="POST">
+                    {% csrf_token %}
+                    <div class="form_line">
+                        <div class="icon_box" style="background-color:#fff">
+                            <i class="far fa-envelope" style="color:#2b0170"></i>
+                        </div>
+                        <input type="text" name="email" placeholder="Email address">
                     </div>
-                    <input type="text" name="email" placeholder="Email address">
-                </div>
-                <br>
-                <div class="form_line">
-                    <div class="icon_box" style="background-color:#fff">
-                        <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                    <br>
+                    <div class="form_line password password_invisible">
+                        <div class="icon_box" style="background-color:#fff">
+                            <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                        </div>
+                        <input type="password" name="password1" placeholder="Your password">
                     </div>
-                    <input type="password" name="password1" placeholder="Your password">
-                </div>
-                <br>
-                <div class="form_line">
-                    <div class="icon_box" style="background-color:#fff">
-                        <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                    <div class="form_line password password_invisible">
+                        <div class="icon_box" style="background-color:#fff">
+                            <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                        </div>
+                        <input type="password" name="password2" placeholder="Password again">
                     </div>
-                    <input type="password" name="password2" placeholder="Password again">
-                </div>
-                <br>
-                {% if error %}
-                <div class="error_box">
-                    {{ error }}
-                </div>
-                {% endif %}
-                <input type="hidden" name="event_id_from_newcollector" value="{{ event.id }}">
-                <input class="submit_btn" type="submit" value="SIGN UP">
-                <!-- OAuth block -->
-                {% load i18n %}
-                {% load account socialaccount %}
-                {% get_providers as socialaccount_providers %}
-                {% if socialaccount_providers %}
-                <div class="socialaccount_ballot">
-                <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
-                <ul class="socialaccount_providers">
-                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                </ul>
-                </div>
-                {% endif %}
-                <!-- end of OAuth -->
-            </form>
-            <h6 class="already_registered_title">Already have an account? <a href="{% url 'login' %}" style="color:#ac99ca">Login</a></h6>
-        </div>
+                    {% if error %}
+                    <div class="error_box">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    <input type="hidden" name="event_id_from_newcollector" value="{{ event.id }}">
+                    <input class="submit_btn" id="modal_submit_btn" type="submit" value="SIGN UP">
+                    <!-- OAuth block -->
+                    {% load i18n %}
+                    {% load account socialaccount %}
+                    {% get_providers as socialaccount_providers %}
+                    {% if socialaccount_providers %}
+                    <div class="socialaccount_ballot">
+                    <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
+                    <ul class="socialaccount_providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </ul>
+                    </div>
+                    {% endif %}
+                    <!-- end of OAuth -->
+                </form>
+                <h6 class="already_registered_title">Already have an account? <a href="{% url 'login' %}" style="color:#ac99ca">Login</a></h6>
+            </div>
         `;
+        }
+        insertForm().then(() => {
+            let modal_submit_btn = document.getElementById("modal_submit_btn");
+            modal_submit_btn.addEventListener("click",preventFormSubmission)
+        });
+        function preventFormSubmission(e) {
+            e.preventDefault();
+            let signup_title = document.getElementById("signup_title");
+            var signup_title_password = document.createElement("h6");
+            signup_title_password.innerHTML = "Let's protect your rewards :)"
+            signup_title.append(signup_title_password);
+            let password_inputs = document.getElementsByClassName("password");
+            for (let i = 0; i < (password_inputs.length); i++) {
+                password_inputs[i].classList.add("password_visible");
+            }
+            modal_submit_btn.removeEventListener("click",preventFormSubmission);
+        }
+    }
+
+    // Show password inputs after filling in email:
+    function showPasswordInputsAfterEmail() {
+        document.getElementById("modal_submit_btn").preventDefault();
     }
     </script>
 
@@ -79,7 +100,6 @@
     <div id="reward_modal_box">
         <div id="reward_modal_box_close" onclick="close_modal()"><i class="fas fa-times"></i></div>
         <div id="reward_modal_box_content">
-
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             messages = Message.objects.filter(chatName=self.room_group_name).order_by('-id')[:20].values('text','sender')
             messagesToReturn = []
             for message in messages:
-                messagesToReturn.append({'sender':message['sender'],'text':message['text']})
+                messagesToReturn.insert(0,{'sender':message['sender'],'text':message['text']})
             return messagesToReturn
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
@@ -27,7 +27,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         for message in self.last_messages:
             await self.send(text_data=json.dumps({
-            'message': message['text'],
+            'text': message['text'],
             'sender': message['sender'],
             'isPastMessage': True
         }))
@@ -42,7 +42,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        message = text_data_json['text']
         sender = text_data_json['sender']
         def saveMessage(self):
             user = User.objects.get(pk=sender)
@@ -53,7 +53,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message,
+                'text': message,
                 'sender': sender
             }
         )
@@ -62,10 +62,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event['message']
+        message = event['text']
         sender = event['sender']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message,
+            'text': message,
             'sender': sender
         }))

@@ -34,17 +34,17 @@
                         </div>
                     </div>
                     <div class="chat-log-container">  
-                        <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log"></div>
+                        <div id="chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" class="chat-log" onscroll="ScrollUpForOlderMessages('chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}','{{ event.eventBuddy.chatName }}')"></div>
                     </div>  
                     <div class="empty"></div>
                     <div class="submit_box">
                         <textarea name="" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" cols="10" rows="1"></textarea>
                         <i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
-                        <!-- <input id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="text" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}"><i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
-                            -->
                     </div>
                 </div>
             </div>
+
+
             <script>
 
                 // Roomname with user eventBuddy's id because there can be more websockets opened on this page
@@ -62,28 +62,43 @@
                 chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.onmessage = async function(e) {
                     const data = JSON.parse(e.data);
                     // Receiving messages and getting the ones from database:
-                    if (data.sender != {{ user.id }}) {
-                        div = document.createElement("div");
-                        div.setAttribute("class", "their_message");
-                        div.innerHTML += (data.message);
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').prepend(div);
-                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
-                    }
-                    if (data.sender == {{ user.id }} && data.isPastMessage) {
-                        div = document.createElement("div");
-                        div.setAttribute("class", "my_message");
-                        div.innerHTML += (data.message);
-                        document.querySelector('#chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').prepend(div);
-                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
-                    }
-                    var chatBox = await document.getElementById("chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}");
-                    await chatBox.scrollTo(0,chatBox.scrollHeight);
+                    addMessageToChatLog(data,'chat-log-{{ event.eventBuddy.user.id }}-{{ event.event.id }}','append');
                 };
+
+                function appendOrPrependTheMessageToChatLog(data,message_from,action_to_take,chat_log_id) {
+                    div = document.createElement("div");
+                    div.setAttribute("class", message_from);
+                    div.innerHTML += data.text;
+                    // action_to_take == 'append' when real-time chatting, 'prepend' when scrolling up to load older messages
+                    if (action_to_take == 'append') {
+                        document.querySelector('#'+chat_log_id).append(div);
+                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
+                    } else {
+                        document.querySelector('#'+chat_log_id).prepend(div);
+                        div.insertAdjacentHTML("afterend","<div class='chat_blank'></div>");
+                    }
+                }
+
+                function addMessageToChatLog(data,chat_log_id,action_to_take) {
+                    // Their message:
+                    if (data.sender != {{ user.id }}) {
+                        appendOrPrependTheMessageToChatLog(data,"their_message",action_to_take,chat_log_id);
+                    }
+                    // Message of this user:
+                    if (data.sender == {{ user.id }} && data.isPastMessage) {
+                        appendOrPrependTheMessageToChatLog(data,"my_message",action_to_take,chat_log_id);
+                    }
+                    if (action_to_take == "append") {
+                        var chatBox = document.getElementById(chat_log_id);
+                        var scroll_to_the_bottom = chatBox.scrollTo(0,chatBox.scrollHeight);
+                    }
+                }
 
                 chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.onclose = function(e) {
                     console.error('Chat socket closed unexpectedly');
                 };
 
+                // Sending messages when pressing enter/return
                 document.querySelector('#chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').onkeyup = function(e) {
                     if (e.keyCode === 13) {  // enter, return
                         document.querySelector('#chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}').click();
@@ -95,7 +110,7 @@
                     const messageInputDom = document.querySelector('#chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}');
                     const message = messageInputDom.value;
                     chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }}.send(JSON.stringify({
-                        'message': message,
+                        'text': message,
                         'sender': {{ user.id }}
                     }));
                     messageInputDom.value = '';
@@ -105,8 +120,8 @@
             </script>
 
             <script>
+                // Add initial message to start the discussion into the chat-log (only under 770px browser window and if the chat-log is clear):
                 setTimeout(() => {
-                    // Add initial message to start the discussion into the chat-log (only under 770px browser window and if the chat-log is clear):
                     if(window.innerWidth <= 770) {   
                         var div = document.createElement("div");
                         div.setAttribute("class", "system_message_to_start");
@@ -122,7 +137,37 @@
                         }
                     }
                 }, 1000);
+
+                // AJAX call when user scroll to the top of the chat-box:
+                let messages_batch_{{ event.eventBuddy.chatName }} = 1;
+                async function ScrollUpForOlderMessages(chat_box_id,chat_name) {
+                    var scrolledBox = document.getElementById(chat_box_id);
+                    if (scrolledBox.scrollTop == 0) {
+                        var loading_div = document.createElement("div");
+                        loading_div.setAttribute("class", "loading_chat_box");
+                        loading_div.innerHTML = "<div class='loader'></div>"
+                        document.getElementById(chat_box_id).prepend(loading_div);
+                        setTimeout(() => {
+                            messages_batch_{{ event.eventBuddy.chatName }} += 1;
+                            var newAjaxForOlderMessages = new XMLHttpRequest();
+                            newAjaxForOlderMessages.onreadystatechange = async function() {
+                                var holder_for_scrolling_function = await scrolledBox.firstChild;
+                                if (this.readyState == 4 && this.status == 200) {
+                                    var returned_messages = JSON.parse(this.responseText);
+                                    returned_messages['messages'].forEach((message) => {
+                                        addMessageToChatLog(message,chat_box_id,'prepend');
+                                    })     
+                                }
+                                scrolledBox.scrollTop = (loading_div.offsetTop+320);
+                            };
+                            newAjaxForOlderMessages.open("GET", '/rew/chat?name='+chat_name+'&batch='+messages_batch_{{ event.eventBuddy.chatName }}, true);
+                            newAjaxForOlderMessages.send();
+                            loading_div.style.display = "none";
+                        }, 500);
+                    }
+                }
             </script>
+
         {% else %}
             </div>
         {% endif %}
