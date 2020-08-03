@@ -10,6 +10,24 @@
         <h1 class="normal_registration_title">Sign up</h1>
     </div>
     {% endif %}
+
+    {% if user.is_authenticated is False %}
+    <div class="log_reg_box">
+        <h6>Are you an event attendee?</h6>
+        <a href="/accounts/login"><button>LOGIN</button></a>
+        <a href="/accounts/signup"><button>SIGNUP</button></a>
+    </div>
+
+    <div class="navigation log_reg_side_nav">
+        <div class="nav_menu_box">
+            <ul>
+                <li><a href="/accounts/login">LOGIN</a></li>
+                <li><a href="/accounts/signup">SIGNUP</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="form_box">
         <form action="#" method="POST">
             {% csrf_token %}

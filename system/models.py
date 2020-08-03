@@ -64,10 +64,8 @@ class Message(models.Model):
         return str(self.id)
 
 class RecommendedPerson(models.Model):
-    ipAddress = models.CharField(max_length=60, primary_key=True)
+    ipAddress = models.CharField(max_length=40)
     recommendor = models.ForeignKey("Eventgoer",on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     def __str__(self):
         return self.recommendor.user.username + '---' + self.ipAddress + '---' + str(self.timestamp)
-
-

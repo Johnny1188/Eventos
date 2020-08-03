@@ -261,7 +261,7 @@ Home page ---->
 }
 .log_reg_box {
     position: absolute;
-    top: -3px;
+    top: -34px;
     right: 0px;
     padding: 15px 20px 6px 40px;
     color: #fff;
@@ -274,12 +274,15 @@ Home page ---->
     border-radius:5px;
     color: #2b0170;
     width: 130px;
-    padding: 8px 0 3px 0;
+    padding: 28px 0 3px 0;
+    transition: 0.25s;
 }
 .log_reg_box button:hover {
-    background-color: #2b0170;
     border: solid 2px #fff;
-    color: #fff;
+    opacity: 0.8;
+    position: relative;
+    top: 8px;
+    transform: translateY(8px);
 }
 .log_reg_box h6 {
     display: inline-block;
@@ -302,23 +305,23 @@ Home page ---->
 }
 @media only screen and (max-width: 1200px) {
     .log_reg_box {
-        top: 5px;
+        top: -35px;
     }
     .log_reg_box button {
         width: 95px;
-        padding: 8px 0 3px 0;
+        padding: 28px 0 3px 0;
         font-size: 11px;
     }
 }
 @media only screen and (max-width: 850px) {
     .log_reg_box {
-        top: 18px;
+        top: -35px;
     }
     .log_reg_box h6 {
         display: none;
     }
     .log_reg_box button {
-        margin-right: 5px;
+        margin-right: 8px;
     }
     .head_text_box {
         margin-left: 0;

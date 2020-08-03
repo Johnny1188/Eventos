@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson,Message
 from accounts.models import Profile
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.models import User
 import datetime
 import random
@@ -93,27 +95,28 @@ def recommendedEventPage(request,event_id,user_id):
         recommendor_id = request.POST['recommendor']
         #   --> We want to give a recommend-point to the recommender in our DB
         try:
-            print("Celeryy gooo!")
             recommendor = User.objects.get(pk=recommendor_id)
             event = Event.objects.get(pk=event_id)
             eventGoer = EventGoer.objects.get(user=recommendor,event=event)
-            print(request.META["REMOTE_ADDR"])
             # Create instance of this recommendor inviting this specific IP address = RecommendedPerson model
-            recommendedPerson = RecommendedPerson.objects.filter(pk=request.META["REMOTE_ADDR"])
+            recommendedPerson = RecommendedPerson.objects.filter(ipAddress=request.META["REMOTE_ADDR"],recommendor=eventGoer)
             if len(recommendedPerson) >= 1:
                 return redirect(linkToRegister)
             else:
-                newRecommendedPerson = RecommendedPerson.objects.create(pk=request.META["REMOTE_ADDR"],recommendor=eventGoer)
+                newRecommendedPerson = RecommendedPerson.objects.create(ipAddress=request.META["REMOTE_ADDR"],recommendor=eventGoer)
                 newRecommendedPerson.save()
             eventGoer.numOfRecommended += 1
             eventGoer.save()
-            print("Celeryy gooo!")
-            # Send email saying that the person invited someone successfuly and received 1 credit (Celery Job):
-            send_email = sendEmail.delay(user_id)
+            send_mail('New credit received, withdraw your rewards',
+                    'Hi, we just wanted to let you know that someone accepted your invitation to the Startup Disrupt event and you got +1 credit. Take a look, whether you can withdraw some reward here: www.startupdisrupt.com',
+                    settings.EMAIL_HOST_USER,
+                    [recommendor.username],
+                    fail_silently=False)
+                # Send email saying that the person invited someone successfuly and received 1 credit (Celery Job):
+                #send_email = sendEmail.delay("new credit",recommendor.username)
             #   --> Redirect the interested new guest to the event registration page (not on our rewardado page)
             return redirect(linkToRegister)
         except User.DoesNotExist:
-            print("failure")
             return redirect(linkToRegister)
     else:
         if request.user.id == user_id:

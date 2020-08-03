@@ -9,4 +9,8 @@
 2) Design of the app
     - vector background (purple/black)
     - home page copy
-    - favicon
+    - favicon¨
+
+Starting Celery worker with:
+celery -A rewardado worker -l info -P eventlet (for Windows = localhost development purpose only)
+celery -A rewardado worker -l info (normal)

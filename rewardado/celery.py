@@ -18,6 +18,9 @@ CELERY_IGNORE_RESULT = False
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+app.conf.update(
+    CELERY_TASK_RESULT_EXPIRES=3600,
+)
 
 
 @app.task(bind=True)
