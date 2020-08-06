@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading environ file
+environ.Env.read_env(env.str('../', '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +28,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v3c+$f+d!%wdbvr73-yly3dm5$j&=9&##)t(i1@%n_nt4s-l(8'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -56,8 +64,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '677068932863-2djb3bouj55ri0uucago07lm2onl001o.apps.googleusercontent.com',
-            'secret': 'FoGFwGJBdrJ_9UlmweDn2xt3',
+            'client_id': env('CLIENT_ID'),
+            'secret': env('SECRET'),
             'key': '',
         }
     }
@@ -79,8 +87,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-SESSION_COOKIE_AGE = 1800
 
 ROOT_URLCONF = 'rewardado.urls'
 
@@ -104,6 +110,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rewardado.wsgi.application'
 
 ASGI_APPLICATION = 'rewardado.routing.application'
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -120,9 +127,9 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rewardado',
-        'USER': 'rewardadoadmin',
-        'PASSWORD': 'admin',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '',
         'TEST': {
@@ -171,6 +178,25 @@ USE_L10N = True
 
 USE_TZ = True
 
+SESSION_COOKIE_AGE = 1800
+
+CSRF_COOKIE_SECURE = True
+
+#SESSION_COOKIE_SECURE = True
+
+#SECURE_SSL_REDIRECT = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_HSTS_SECONDS = 86400  # 1 day
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -188,6 +214,6 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jsobotka1188@gmail.com'
-EMAIL_HOST_PASSWORD = 'xvuuscincdgpohxf'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
