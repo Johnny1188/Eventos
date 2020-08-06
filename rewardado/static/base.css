@@ -6,7 +6,7 @@ html {
 body {
     min-height: 100vh;
     font-family: 'League Spartan'; 
-    background-color: #662d91;
+    background-color: #dae0ec;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -19,17 +19,11 @@ header {
     padding: 0px 7.5vw;
     text-align: left;
 }
-header h1 {
-    color: #fff;
-    text-align: left;
-    padding-top: 30px;
-    display: inline-block;
-}
 .logo_img {
-    max-height: 60px;
+    max-height: 75px;
     display: inline;
     position: absolute;
-    top: 10px;
+    top: 8px;
     left: 7.5vw;
 }
 header #menu_toggle {
@@ -97,8 +91,8 @@ header #toggle:after {
     right: -400px;
     width: 400px;
     height: 100vh;
-    background: #2b0170;
-    z-index: 1;
+    background: #000;
+    z-index: 50;
     display: grid;
     place-items: center;
     transition: 0.5s;
@@ -134,14 +128,13 @@ header #toggle:after {
     right: 20px;
 }
 .logout_form input {
-    background-color: #623aa1;
-    padding: 7px 37.5px 3.5px 37.5px;
+    background-color: #000099;
+    padding: 10px 39px 5px 39px;
     color: white;
-    border: solid 2.5px #623aa1;
+    border: solid 0px #000099;
 }
 .logout_form input:hover {
-    background-color: #2b0170;
-    border: solid 2.5px #fff;
+    background-color: #00006b;
 }
 .nav_username_box {
     width: 100%;
@@ -152,11 +145,8 @@ header #toggle:after {
     padding-bottom: 20px;
 }
 .nav_username {
-    color: #2b0170;
+    color: #fff;
     font-size: 14px;
-    border: 2.5px solid #fff;
-    padding: 10px 40px 7px 7px;
-    background-color: white;
     margin-bottom: 0px;
 }
 @media only screen and (max-width: 700px) {
@@ -224,7 +214,7 @@ Home page ---->
     width: 38vw;
     position: absolute;
     left: -2vw;
-    top: 32vh;
+    top: 27vh;
 }
 .head_text_box {
     color: #fff;
@@ -246,7 +236,7 @@ Home page ---->
     padding-left: 18vw;
 }
 .head_text_box p span {
-    color:#662d91;
+    color: #0093AF;
     padding-top: 4px;
 }
 .head_text_box h6 {
@@ -257,7 +247,7 @@ Home page ---->
     margin-top: 40px;
 }
 .head_text_box h6 span {
-    color: #662d91;
+    color: #0093AF;
 }
 .log_reg_box {
     position: absolute;
@@ -272,7 +262,7 @@ Home page ---->
     background-color: #fff;
     border: solid 2px #fff;
     border-radius:5px;
-    color: #2b0170;
+    color: #042d50;
     width: 130px;
     padding: 28px 0 3px 0;
     transition: 0.25s;
@@ -314,6 +304,13 @@ Home page ---->
     }
 }
 @media only screen and (max-width: 850px) {
+    body {
+        background-position: -40px;
+    }
+    .logo_img {
+        max-height: 50px;
+        top: 16px;
+    }
     .log_reg_box {
         top: -35px;
     }
@@ -324,12 +321,8 @@ Home page ---->
         margin-right: 8px;
     }
     .head_text_box {
-        margin-left: 0;
         margin-top: 40px;
-        padding-left: 5%;
-    }
-    .head_text_box h6 span {
-        color: #fff;
+        padding-left: 0;
     }
     .head_text_box h1 {
         display: inline-block;
@@ -349,8 +342,7 @@ Home page ---->
         font-size: 16px;
     }
     .head_text_box p:first-of-type {
-        margin: 65px auto 0 auto;
-        width: 60%;
+        margin: 150px 0 0 0;
         color: #fff;
     }
     .head_text_box p:nth-of-type(2) {
@@ -359,8 +351,10 @@ Home page ---->
         padding: 0 3% 0 0;
         border-right: 6px #fff solid;
     }
-    .head_text_box p span {
-        color:#fff;
+}
+@media only screen and (max-width: 780px) {
+    body {
+        background-position: -100px;
     }
 }
 @media only screen and (max-width: 550px) {
@@ -377,19 +371,6 @@ Home page ---->
     .log_reg_box {
         display: none;
     }
-    /*.log_reg_box {
-        width: 95px;
-        top: 10px;
-        right: 40px;
-    }
-    .log_reg_box button {
-        border: 0;
-        margin-bottom: 8px;
-        position: relative;
-        right: 30px;
-        background-color: #23005c;
-        color: #fff;
-    }*/
     .home_container {
         box-sizing: content-box;
     }
@@ -407,7 +388,9 @@ Home page ---->
         text-align: right;
     }
     .head_text_box p {
-        font-size: 13px;
+        font-size: 11px;
+        position: relative;
+        top: 30px;
     }
 }
 @media only screen and (max-width: 480px) {
@@ -498,7 +481,11 @@ Registration and Login pages (forms)---->
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2b0170;
+    background-color: #fff;
+}
+.icon_box i {
+    color: #000099;
+    font-weight: bold;
 }
 .form_box .submit_btn {
     background-color: #fff;
@@ -507,12 +494,12 @@ Registration and Login pages (forms)---->
     padding-top: 11px;
     padding-bottom: 5px;
     font-size: 19px;
-    color: #2b0170;
+    color: #000099;
     border: solid #fff 2.5px;
     border-radius: 5px;
 }
 .form_box .submit_btn:hover {
-    background-color: #2b0170;
+    background-color: #000099;
     color: #fff;
 }
 .password {
@@ -530,7 +517,7 @@ Registration and Login pages (forms)---->
 }
 .error_box {
     margin: 0 20% 10px 20%;
-    background-color: #2b0170;
+    background-color: #042d50;
     border: solid #fff 2px;
     min-width: auto;
     padding: 14px 0 12px 0;
@@ -543,11 +530,11 @@ Registration and Login pages (forms)---->
     margin-top: 14px;
 }
 .already_registered_title a {
-    color: #ac99ca;
+    color: #4949fc;
 }
 .already_registered_title a:hover {
     text-decoration: none;
-    color:#d6c5f0;
+    color:#4949fc;
 }
 /* OAuth */
 .socialaccount_ballot {
@@ -679,7 +666,7 @@ MyPage----->
     position: relative;
 }
 #reward_modal_box_close {
-    background-color: #2b0170;
+    background-color: #000099;
     color: #fff;
     font-size: 30px;
     display: flex;
@@ -687,7 +674,7 @@ MyPage----->
     align-items: center;
     width: 46px;
     height: 52px;
-    border: solid 2px #2b0170;
+    border: solid 2px #000099;
     position: absolute;
     top: -10px;
     right: 15px;
@@ -695,7 +682,7 @@ MyPage----->
 #reward_modal_box_close:hover {
     cursor: pointer;
     background-color: #fff;
-    color: #2b0170;
+    color: #000099;
 }
 #reward_name {
     text-align: center;
@@ -737,8 +724,8 @@ MyPage----->
     text-align: center;
 }
 #reward_modal_box_button button, #reassured_delete_btn {
-    background-color: #2b0170;
-    border: solid #2b0170 2px;
+    background-color: #0000ff;
+    border: solid #0000ff 2px;
     color: #fff;
     border-radius: 4px;
     padding: 18px 50px 12px 50px;
@@ -747,33 +734,34 @@ MyPage----->
 }
 #reward_modal_box_button button:hover, #reassured_delete_btn:hover {
     background-color: #fff;
-    color: #2b0170;
+    color: #0000ff;
 }
 .credit_box {
     background-color: #fff;
     margin-top: 50px;
     margin-bottom: 80px;
-    padding-bottom: 0;
+    padding-bottom: 0;  
     width: 100%;
-    box-shadow: 10px 10px 30px #2b0170;
+    box-shadow: 10px 10px 30px #042d50;
     min-height: 400px;
 }
 .credit_box h3 {
     padding: 45px 30px 40px 30px;
-    color: #2b0170;
+    color: #a9bdd8;
 }
 .credit_box_containered {
     width: 100%;
 }
 .credit_points_box {
-    box-shadow: 10px 10px 30px #2b0170;
+    box-shadow: 10px 10px 30px #042d50;
     width: 65%;
     height: 60px;
     margin: auto;
 }
 .credit_points {
-    background-color: #2b0170;
+    background-color: #000099;
     height: 100%;
+    max-height: 100%;
     position: relative;
     transition: max-width 0.5s ease-out;
 }
@@ -781,7 +769,7 @@ MyPage----->
     position: absolute;
     bottom: 6%;
     right: -20px;
-    color: #623aa1;
+    color: #4949fc;
 }
 .credit_rewards {
     width: 65%;
@@ -808,23 +796,23 @@ MyPage----->
 .credit_rewards .reward_box img {
     border-radius: 5px;
     padding-top: 12px;
-    max-height: 200px;
+    max-height: 150px;
     width: 75px;
 }
 .credit_rewards .reward_box h5 {
-    color: #623aa1;
+    color: #4949fc;
     font-size: 17px;
     padding: 5px 10px;
     margin: 0;
 }
 .credit_rewards .reward_box h6 {
-    color: #623aa1;
+    color: #4949fc;
     font-size: 11px;
     padding: 8px 0px;
 }
 .my_event_box_recommend {
     background-color: #fff;
-    box-shadow: 10px 10px 30px #2b0170;
+    box-shadow: 10px 10px 30px #042d50;
     color: #000;
     width: 45vw;
     margin: auto;
@@ -832,11 +820,11 @@ MyPage----->
     margin-top: 40px;
 }
 .your_events_intro {
-    color: #fff;
+    color: #95a7be;
     padding-left: 30px;
 }
 .recommend_link {
-    background-color: #2b0170;
+    background-color: #000099;
     width: 100%;
     text-align: center;
     padding: 35px 0 40px 0;
@@ -862,7 +850,7 @@ MyPage----->
     transition: 0.3s;
 }
 .recommend_link_box_event:hover div:last-of-type {
-    border-left: 12px solid #2b0170;
+    border-left: 12px solid #000099;
 }
 .recommend_link_box_event_text {
     color: #000;
@@ -883,7 +871,7 @@ MyPage----->
 }
 .my_event_box_recommend #copy_box {
     background-color: #fff;
-    color: #2b0170;
+    color: #000099;
     position: relative;
     border: 0px;
     padding: 0px 14px;
@@ -894,7 +882,7 @@ MyPage----->
     height: 50px;
 }
 .my_event_box_recommend #copy_box:hover {
-    background-color: #623aa1;
+    background-color: #00006b;
     color: #fff;
 }
 .empty_box {
@@ -905,22 +893,24 @@ MyPage----->
     width: 100%;
     margin-top: 50px;
     text-align: center;
-    outline: dashed 4px #ac99ca;
     box-sizing: content-box;
     padding: 6vh 0 5vh 0;
     opacity: 0.5;
+    border-left: solid #000099 0;
+    transition: 0.3s;
 }
 .discover_more_events {
     width: 52%;
     margin: auto;
-    color: #ac99ca;
+    color: #4949fc;
 }
 .discover_more_events:hover {
     text-decoration: none;
-    color: #2b0170;
+    color: #000099;
 }
 .recommend_link_box_empty:hover {
-    opacity: 0,8;
+    opacity: 0.8;
+    border-left: solid #000099 15px;
 }
 @media only screen and (max-width: 1200px) {
     .credit_rewards .reward_box {
@@ -1033,7 +1023,7 @@ MyPage----->
     }
     .my_event_box_recommend #copy_box {
         background-color: #fff;
-        color: #2b0170;
+        color: #042d50;
         position: relative;
         border: 0px;
         padding: 0px 14px;
@@ -1124,7 +1114,7 @@ Eventpage ----->
 }
 .event_text_box .title {
     width: 100%;
-    background-color: #2b0170;
+    background-color: #000099;
     color: #fff;
     padding: 25px 15px 15px 15px;
 }
@@ -1132,8 +1122,8 @@ Eventpage ----->
     padding-left: 20px;
 }
 .event_button {
-    background-color: #2b0170;
-    border: solid #2b0170 2px;
+    background-color: #000099;
+    border: solid #000099 2px;
     color: #fff;
     border-radius: 4px;
     padding: 10px 35px 6px 35px;
@@ -1142,7 +1132,7 @@ Eventpage ----->
 }
 .event_button:hover {
     background-color: #fff;
-    color: #2b0170;
+    color: #000099;
 }
 .button_box {
     text-align: center;
@@ -1192,7 +1182,7 @@ EventList ----->
 }
 .intro_headline {
     text-align: left;
-    color: #fff;
+    color: #95a7be;
     margin-bottom: 0;
     margin-top: 70px;
     padding: 0px 0 25px 0;
@@ -1205,22 +1195,21 @@ EventList ----->
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    border-left: solid #2b0170 0;   
+    border-left: solid #00006b 0;   
     margin-bottom: 12px;
-    background-color: #2b0170;
+    background-color: #00006b;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     transition: 0.4s;
 }
 .event:hover {
-    opacity: 0.85;
     cursor: pointer;
-    border-left: solid #2b0170 15px;
+    border-left: solid #00006b 15px;
 }
 .event_attending_tick_container {
-    background-color: #ac99ca;
-    color: #623aa1;
+    background-color: hsl(240, 100%, 87%);
+    color: #4949fc;
     border-radius: 1000px;
     height: 50px;
     width: 50px;
@@ -1234,7 +1223,7 @@ EventList ----->
     right: 18px;
 }
 .events_box h5 {
-    background-color: #2b0170;
+    background-color: #00006b;
     color: white;
     position: absolute;
     left: -12px;
@@ -1245,7 +1234,7 @@ EventList ----->
 }
 .events_box h6 {
     background-color: white;
-    color:#2b0170;
+    color:#042d50;
     position: absolute;
     left: calc(50% - 98px);
     bottom: -10px;
@@ -1283,7 +1272,7 @@ My Buddies ----->
     width: 55vw;
     margin: auto;
     background-color: #fff;
-    box-shadow: 10px 10px 30px #2b0170;
+    box-shadow: 10px 10px 30px #042d50;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 45px;
@@ -1310,11 +1299,11 @@ My Buddies ----->
     padding: 20px 20px;
 }
 .buddies_intro {
-    color: #fff;
+    color: #95a7be;
     margin: 45px 0px 35px 0px;
 }
 .buddy_section {
-    background-color: #2b0170;
+    background-color: #000099;
     padding-top: 50px;
     padding-bottom: 38px;
     width: 100%;
@@ -1325,7 +1314,7 @@ My Buddies ----->
     color: #fff;
 }
 .buddy_section span {
-    color: #2b0170;
+    color: #042d50;
 }
 .chat_box {
     text-align: center;
@@ -1350,7 +1339,7 @@ My Buddies ----->
     margin-top: 20px;
     width: 100%;
     text-align: left;
-    background-color: #662d91;
+    background-color: #95a7be;
     border: dashed 2px #fff;
     border-radius: 6px;
     padding: 9px 10px 6px 10px;
@@ -1386,7 +1375,7 @@ My Buddies ----->
     overflow-x: hidden;
 }
 .my_message {
-    background-color:#2b0170;
+    background-color:#042d50;
     color: #fff;
     text-align: left;
     padding: 5px 12px 2px 12px;
@@ -1399,9 +1388,9 @@ My Buddies ----->
 }
 .their_message {
     background-color:#fff;
-    color: #2b0170;
+    color: #042d50;
     text-align: left;
-    border: solid 1.5px #ccbae7;
+    border: solid 1.5px #b5cee4;
     border-radius: 5px;
     padding: 5px 12px 1px 12px;
     font-size: 15px;
@@ -1450,7 +1439,7 @@ My Buddies ----->
 }
 .loader {
     border: 10px solid #f3f3f3;
-    border-top: 10px solid #623aa1;
+    border-top: 10px solid #4949fc;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -1486,7 +1475,7 @@ My Buddies ----->
     position: absolute;
     top: 4px;
     right: 11.5%;
-    color: #2b0170;
+    color: #042d50;
     font-size: 25px;
     padding: 10px 10px 9px 10px;
     border-radius: 15px;
@@ -1576,7 +1565,7 @@ My Buddies ----->
 Settings----->
 */
 .settings_container {
-    width: 80%;
+    width: 40%;
     text-align: left;
     color: #fff;
     margin: auto;
@@ -1603,12 +1592,12 @@ Settings----->
     border: 0px;
     outline: 0px;
     background-color: #fff;
-    color: #23005c;
+    color: #042d50;
     border-radius: 5px;
     margin-left: 12px;
 }
 .settings_container button:hover {
-    background-color: #23005c;
+    background-color: #000099;
     color: #fff;
 }
 .settings_container input[type="checkbox"] {
@@ -1616,14 +1605,14 @@ Settings----->
     width: 80px;
     height: 40px;
     -webkit-appearance: none;
-    background: #c5b4e0;
+    background: #b5cee4;
     outline: none;
     border-radius: 20px;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
     transition: 0.5s;
 }
 .settings_container input:checked[type="checkbox"] {
-        background-color: #662d91;
+        background-color: #0000fc;
 }
 .settings_container input[type="checkbox"]:before {
     content: " ";
@@ -1647,6 +1636,11 @@ Settings----->
     display: flex;
     align-items: center;
     margin-bottom: 0;
+}
+@media only screen and (max-width: 850px) {
+    .settings_container {
+        width: 80%;
+    }
 }
 @media only screen and (max-width: 700px) {
     .settings_container .on_off_form, .settings_container_forms form {
@@ -1682,14 +1676,19 @@ html {
 }
 footer {
     margin-top: 200px;
-    background-color: #662d91;
+    background-color: #000080;
     position: absolute;
     bottom: 0;
     width: 100vw;
     color: white;
     text-align: center;
+    z-index: 8;
+}
+footer p {
+    font-size: 11px;
 }
 footer a {
     color: #fff;
     text-align: center;
+    z-index: 10;
 }

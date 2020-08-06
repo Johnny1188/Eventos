@@ -6,12 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson,Message
 from accounts.models import Profile
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth.models import User
 import datetime
 import random
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from .synctasks import send_custom_email
 
 from .tasks import sendEmail
 
@@ -107,11 +106,8 @@ def recommendedEventPage(request,event_id,user_id):
                 newRecommendedPerson.save()
             eventGoer.numOfRecommended += 1
             eventGoer.save()
-            send_mail('New credit received, withdraw your rewards',
-                    'Hi, we just wanted to let you know that someone accepted your invitation to the Startup Disrupt event and you got +1 credit. Take a look, whether you can withdraw some reward here: www.startupdisrupt.com',
-                    settings.EMAIL_HOST_USER,
-                    [recommendor.username],
-                    fail_silently=False)
+            # Send email - custom func because we check her profile preferences (i.e. send emails on/off):
+            send_custom_email("New credit received, withdraw your rewards",recommendor)
                 # Send email saying that the person invited someone successfuly and received 1 credit (Celery Job):
                 #send_email = sendEmail.delay("new credit",recommendor.username)
             #   --> Redirect the interested new guest to the event registration page (not on our rewardado page)

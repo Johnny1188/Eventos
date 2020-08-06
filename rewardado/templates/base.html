@@ -14,10 +14,10 @@
     <!-- CUSTOM JS -->
     <script src="{% static 'base.js' %}"></script>
 </head>
-<body class="d-flex flex-column h-100" style="background-image: url({% static 'rewardado_bg_2.svg' %});">
+<body class="d-flex flex-column h-100" style="background-image: url({% static 'home_background_2.svg' %});">
     <div class="content-container">
         <header>
-            <a href="{% url 'home' %}"><h1>Eventos</h1></a>
+            <a href="{% url 'home' %}"><img src="{% static 'sd_transparent.png' %}" class="logo_img" alt="Logo"></a>
             {% if user.is_authenticated %}
                 <h4 id="menu_toggle" onclick="toggle()">MENU</h4>
                 <div id="toggle" onclick="toggle()"></div>
@@ -55,8 +55,8 @@
 
     <footer class="footer py-3">
         <div class="mx-auto">
-            <h6 class="text-center">Eventos</h6>
-            <h6>By continuing to use our site you agree with our <a href="">terms and conditions.</a></h6>
+            <h6 class="text-center">Startup Disrupt</h6>
+            <p>By continuing to use our site you agree with our <a href="https://www.startupdisrupt.com/privacy-policy/">terms and conditions.</a></p>
         </div>
     </footer>
 

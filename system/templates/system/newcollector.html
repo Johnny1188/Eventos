@@ -17,8 +17,8 @@
         var reward_modal_box_close = document.getElementById("reward_modal_box_close");
         var body = document.getElementsByTagName("html");
         reward_modal_box_close.style.backgroundColor = "#fff";
-        reward_modal_box_close.style.color = "#2b0170";
-        reward_modal_box.style.backgroundColor = "#2b0170";
+        reward_modal_box_close.style.color = "#000099";
+        reward_modal_box.style.backgroundColor = "#00006b";
         reward_modal.style.display = "flex";
         body[0].style.overflowY = "hidden";
         body[0].style.overflowX = "hidden";
@@ -30,20 +30,20 @@
                     {% csrf_token %}
                     <div class="form_line">
                         <div class="icon_box" style="background-color:#fff">
-                            <i class="far fa-envelope" style="color:#2b0170"></i>
+                            <i class="far fa-envelope" style="color:#000099"></i>
                         </div>
                         <input type="text" name="email" placeholder="Email address">
                     </div>
                     <br>
                     <div class="form_line password password_invisible">
                         <div class="icon_box" style="background-color:#fff">
-                            <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                            <i class="fas fa-unlock-alt" style="color:#000099"></i>
                         </div>
                         <input type="password" name="password1" placeholder="Your password">
                     </div>
                     <div class="form_line password password_invisible">
                         <div class="icon_box" style="background-color:#fff">
-                            <i class="fas fa-unlock-alt" style="color:#2b0170"></i>
+                            <i class="fas fa-unlock-alt" style="color:#000099"></i>
                         </div>
                         <input type="password" name="password2" placeholder="Password again">
                     </div>
@@ -137,11 +137,11 @@
                 </style>
                     {% if reward.quantity >= 1 %}
                         {% if reward.alreadyWithdrawn is True %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" title="Already Withdrawn">
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_blue.png' %});" title="Already Withdrawn">
                             <img src="{{ reward.image.url }}" alt="{{ reward.name }}" >
                             <h6 class="withdrawn_text">WITHDRAWN</h6>
                         {% else %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name }}','{{ reward.description }}','{{ reward.image.url }}','{{ reward.id }}',true)">
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_blue.png' %});" onclick="open_reward_modal('{{ reward.name | escapejs }}','{{ reward.description | escapejs }}','{{ reward.image.url }}','{{ reward.id }}',true)">
                             <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
                             <h5>{{ reward.pointsNeeded }}</h5>
                         {% endif %}

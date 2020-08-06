@@ -13,7 +13,7 @@
 
 <div class="container">
     <div class="credit_box">
-        <h3>YOUR CREDIT:</h3>
+        <h3>YOUR CREDIT</h3>
 
         <div class="credit_box_containered">
 
@@ -44,11 +44,11 @@
                 </style>
                     {% if reward.quantity >= 1 %}
                         {% if reward.alreadyWithdrawn is True %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %})" title="Already Withdrawn">
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="cursor:initial;opacity:0.4;left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_blue.png' %})" title="Already Withdrawn">
                             <img src="{{ reward.image.url }}" alt="{{ reward.name | escapejs }}" >
                             <h6 class="withdrawn_text">WITHDRAWN</h6>
                         {% else %}
-                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_3.png' %});" onclick="open_reward_modal('{{ reward.name | escapejs }}','{{ reward.description | escapejs }}','{{ reward.image.url }}','{{ reward.id }}')">
+                        <div id="reward_box_{{ reward.id }}" class="reward_box" style="left: calc((((100*{{ reward.pointsNeeded }})/8)*1%) - 37.5px); background-image: url({% static 'reward_bg_blue.png' %});" onclick="open_reward_modal('{{ reward.name | escapejs }}','{{ reward.description | escapejs }}','{{ reward.image.url }}','{{ reward.id }}')">
                             <img src="{{ reward.image.url }}" alt="{{ reward.name | escapejs }}">
                             <h5>{{ reward.pointsNeeded }}</h5>
                         {% endif %}
@@ -71,9 +71,21 @@
                     }
                 </style>
                 <div class="credit_points" style="width: calc(({{ profile.getPoints }}/8)*100%);max-width:100%">
-                    <h4>
-                        {{ profile.getPoints }}                  
-                    </h4>
+                        {% if profile.getPoints >= 8 %}
+                            <h4 id="full_points_msg" style="right:6px;font-size: 15px;bottom:18%;">WOW, GOOD JOB</h4>
+                            <style>@media only screen and (max-width: 600px) {
+                                    #full_points_msg {
+                                        width: 96%;
+                                        left: 2%;
+                                        font-size: 12px;
+                                        text-align: center;
+                                        bottom: 4px!important;
+                                    }
+                                }
+                            </style>  
+                        {% else %}
+                            <h4>{{ profile.getPoints }}</h4> 
+                        {% endif %}                  
                 </div>
             </div>
 
@@ -81,7 +93,7 @@
     </div>
 
     <div class="my_events_box">
-        <h3 class="your_events_intro">YOUR EVENTS:</h3>
+        <h3 class="your_events_intro">YOUR EVENTS</h3>
         {% for eventAttending in events_attending %}
             <div class="my_event_box_recommend">
                 <a href="{% url 'eventpage' eventAttending.event.id %}" class="recommend_link_box_event">
@@ -89,11 +101,11 @@
                     </div> 
                     <div class="recommend_link_box_event_text">
                         <h3>{{ eventAttending.event.name }}</h3>
-                        <h6 style="color:#2b0170;font-size: 14px;"><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ eventAttending.event.date }}</h6>
+                        <h6><i class="fas fa-calendar-alt" style="padding-right:10px;"></i>{{ eventAttending.event.date }}</h6>
                     </div>
                 </a>
                 <div class="recommend_link">
-                    <h5>Want to have more fun and collect some credits? <br>Invite your friends with this link:</h5>
+                    <h5>Want to have more fun and collect credits? <br>Invite your friends with this link:</h5>
                     <input type="text" value="{{ eventAttending.recommend_link }}" id="recommend_link_{{ eventAttending.id }}" class="recommend_link_input">
                     <button onclick="copy_link('{{ eventAttending.id }}')" id="copy_box"><i class="fas fa-clone"></i></button>
                 </div>

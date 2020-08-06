@@ -65,7 +65,7 @@
         {% load account socialaccount %}
         {% get_providers as socialaccount_providers %}
         {% if socialaccount_providers %}
-        <div class="socialaccount_ballot">
+        <div class="socialaccount_ballot" id="google_auth_box">
             <img src="{% static 'google_oauth.png' %}" alt="Google OAuth Logo">
             <ul class="socialaccount_providers">
                 {% include "socialaccount/snippets/provider_list.html" with process="login" %}
@@ -77,4 +77,13 @@
         <h6 class="already_registered_title">Already have an account? <a href="/accounts/login">Login</a></h6>
     </div>
 </div>
+
+<script>
+    let google_auth_box = document.getElementById("google_auth_box");
+    // This variable is anchor tag which is included in the .socialaccount_providers <ul>
+    let anchor_tag = document.getElementsByClassName("socialaccount_provider");
+    google_auth_box.addEventListener("click",() => {
+        anchor_tag[0].click();
+    })
+</script>
 {% endblock %}
