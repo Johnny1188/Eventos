@@ -17,8 +17,8 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
-# reading environ file
-environ.Env.read_env(env.str('../', '.env'))
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,12 +28,39 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY','default')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG', 'default')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+# LOGGING CONFIGURATION (LOGGERS, HANDLERS, FILTERS, FORMATTERS)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '{levelname}  {asctime}  {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/hanz/logs/debug.log',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 
 # Application definition
@@ -64,8 +91,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': env('CLIENT_ID'),
-            'secret': env('SECRET'),
+            'client_id': os.environ.get('CLIENT_ID','default'),
+            'secret': os.environ.get('SECRET','default'),
             'key': '',
         }
     }
@@ -127,9 +154,9 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
+        'NAME': os.environ.get('DB_NAME','default'),
+        'USER': os.environ.get('DB_USER','default'),
+        'PASSWORD': os.environ.get('DB_PASSWORD','default'),
         'HOST': 'localhost',
         'PORT': '',
         'TEST': {
@@ -180,21 +207,21 @@ USE_TZ = True
 
 SESSION_COOKIE_AGE = 1800
 
-CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 #SESSION_COOKIE_SECURE = True
 
 #SECURE_SSL_REDIRECT = True
 
-SECURE_BROWSER_XSS_FILTER = True
+#SECURE_BROWSER_XSS_FILTER = True
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
+#SECURE_CONTENT_TYPE_NOSNIFF = True
 
-SECURE_HSTS_SECONDS = 86400  # 1 day
+#SECURE_HSTS_SECONDS = 86400  # 1 day
 
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-SECURE_HSTS_PRELOAD = True
+#SECURE_HSTS_PRELOAD = True
 
 
 
@@ -202,10 +229,11 @@ SECURE_HSTS_PRELOAD = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'rewardado/static/')
+        os.path.join(BASE_DIR, 'rewardado/static/'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = '/home/hanz/eventos/rewardado/static'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -214,6 +242,6 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER','default')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','default')
 EMAIL_USE_TLS = True

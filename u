@@ -1,0 +1,14 @@
+[0;1;31m●[0m serverinterface.service - Serverinterface Daphne Start
+   Loaded: loaded (/lib/systemd/system/serverinterface.service; enabled; vendor preset: enabled)
+   Active: [0;1;31mfailed[0m (Result: exit-code) since Sun 2020-08-09 14:30:01 UTC; 7s ago
+  Process: 7066 ExecStart=/bin/bash /home/hanz/bin/daphne_start [0;1;31m(code=exited, status=1/FAILURE)[0m
+ Main PID: 7066 (code=exited, status=1/FAILURE)
+
+Aug 09 14:30:00 ip-172-31-29-118 systemd[1]: [0;1;39m[0;1;31m[0;1;39mserverinterface.service: Main process exited, code=exited, status=1/FAILURE[0m
+Aug 09 14:30:00 ip-172-31-29-118 systemd[1]: [0;1;39m[0;1;31m[0;1;39mserverinterface.service: Failed with result 'exit-code'.[0m
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: serverinterface.service: Service hold-off time over, scheduling restart.
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: serverinterface.service: Scheduled restart job, restart counter is at 5.
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: Stopped Serverinterface Daphne Start.
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: [0;1;39m[0;1;31m[0;1;39mserverinterface.service: Start request repeated too quickly.[0m
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: [0;1;39m[0;1;31m[0;1;39mserverinterface.service: Failed with result 'exit-code'.[0m
+Aug 09 14:30:01 ip-172-31-29-118 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Serverinterface Daphne Start.[0m

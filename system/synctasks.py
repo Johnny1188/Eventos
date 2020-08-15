@@ -13,7 +13,7 @@ def send_custom_email(what_happened, recipient):
         else:
             raise NameError("Wanted to send some nasty email but my big brain stopped it!")
         send_mail(what_happened,
-                'Hi, we just wanted to let you know that someone accepted your invitation to the Startup Disrupt event and you got +1 credit. Take a look, whether you can withdraw some reward here: www.startupdisrupt.com',
+                'Hi, we just wanted to let you know that someone accepted your invitation to the Startup Disrupt event and you got +1 credit. Sign in and take a look, whether you can withdraw some reward: reward.startupdisrupt.com/accounts/login',
                 settings.EMAIL_HOST_USER,
                 [recipient.username],)
     except Profile.DoesNotExist:

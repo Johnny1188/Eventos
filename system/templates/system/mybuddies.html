@@ -39,7 +39,7 @@
                     <div class="empty"></div>
                     <div class="submit_box">
                         <textarea name="" class="input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" id="chat-message-input-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" cols="10" rows="1"></textarea>
-                        <i class="fas fa-paper-plane" id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}" type="button"></i>
+                        <i id="chat-message-submit-{{ event.eventBuddy.user.id }}-{{ event.event.id }}">></i>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 let roomName{{ event.eventBuddy.user.id }}_{{ event.event.id }} = '{{ event.getChat }}';
 
                 let chatSocket{{ event.eventBuddy.user.id }}_{{ event.event.id }} = new WebSocket(
-                    'ws://'
+                    'wss://'
                     + window.location.host
                     + '/ws/chat/'
                     + roomName{{ event.eventBuddy.user.id }}_{{ event.event.id }}

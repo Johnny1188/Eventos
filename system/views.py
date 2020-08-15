@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.contrib import auth
+from ipware import get_client_ip
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Event, EventGoer, Reward, RewardWithdrawer,RecommendedPerson,Message
@@ -11,8 +12,11 @@ import datetime
 import random
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from .synctasks import send_custom_email
+import logging
 
 from .tasks import sendEmail
+
+logger = logging.getLogger('django')
 
 def eventPage(request,event_id):
     try:
@@ -51,41 +55,44 @@ def newRewardCollector(request,event_id):
 
 @login_required(login_url='/accounts/login')
 def myPage(request,user_id):
-    # OAuth -> 'cross-site':
-    if request.META['HTTP_SEC_FETCH_SITE'] == 'cross-site':
-        oauth_user = DefaultSocialAccountAdapter()
-        oauth_user.new_user(oauth_user, request)
-        request.user.username = request.user.email
-        request.user.save()
+    # OAuth -> COOKIES['oauth'] is set to true:
+    client_ip, is_routable = get_client_ip(request)
+    try:
+        if request.COOKIES['oauth']:
+            oauth_user = DefaultSocialAccountAdapter()
+            oauth_user.new_user(oauth_user, request)
+            request.user.username = request.user.email
+            request.user.save()
+    except:
+        pass
     if request.user.id != user_id:
         return redirect('/accounts/login')
+    try:
+        user = User.objects.get(pk=user_id)
+        rewards = Reward.objects.order_by('pointsNeeded')
+        profile = Profile.objects.get(user=user)
+    except User.DoesNotExist:
+        return redirect('/accounts/signup')
+    except Profile.DoesNotExist:
+        profile = Profile()
+        profile.user = user
+        profile.save()
+    except Reward.DoesNotExist:
+        rewards = None
+    # Find out which rewards have already been withdrawn by this user:
+    withdrawnrewards = RewardWithdrawer.objects.filter(withdrawer=profile)
+    for reward in rewards:
+        if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
+            reward.alreadyWithdrawn = True
+    events_attending = EventGoer.objects.filter(user=user)
+    for event in events_attending:
+        event.recommend_link = 'reward.startupdisrupt.com/rew/e'+str(event.event.id)+'/'+str(user.id)
+    if request.GET.get('msg'):
+        message_to_display = request.GET.get('msg')
     else:
-        try:
-            user = User.objects.get(pk=user_id)
-            rewards = Reward.objects.order_by('pointsNeeded')
-            profile = Profile.objects.get(user=user)
-        except User.DoesNotExist:
-            return redirect('/accounts/signup')
-        except Profile.DoesNotExist:
-            profile = Profile()
-            profile.user = user
-            profile.save()
-        except Reward.DoesNotExist:
-            rewards = None
-        # Find out which rewards have already been withdrawn by this user:
-        withdrawnrewards = RewardWithdrawer.objects.filter(withdrawer=profile)
-        for reward in rewards:
-            if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
-                reward.alreadyWithdrawn = True
-        events_attending = EventGoer.objects.filter(user=user)
-        for event in events_attending:
-            event.recommend_link = 'localhost:8000/rew/e'+str(event.event.id)+'/'+str(user.id)
-        if request.GET.get('msg'):
-            message_to_display = request.GET.get('msg')
-        else:
-            message_to_display = None
-        context = {'user':user,'profile':profile,'events_attending':events_attending,'rewards':rewards,'message':message_to_display}
-        return render(request,'system/mypage.html',context)
+        message_to_display = None
+    context = {'user':user,'profile':profile,'events_attending':events_attending,'rewards':rewards,'message':message_to_display}
+    return render(request,'system/mypage.html',context)
 
 def recommendedEventPage(request,event_id,user_id):
     # When someone clicks the 'Register' button, he sends us form (POST)
@@ -98,11 +105,12 @@ def recommendedEventPage(request,event_id,user_id):
             event = Event.objects.get(pk=event_id)
             eventGoer = EventGoer.objects.get(user=recommendor,event=event)
             # Create instance of this recommendor inviting this specific IP address = RecommendedPerson model
-            recommendedPerson = RecommendedPerson.objects.filter(ipAddress=request.META["REMOTE_ADDR"],recommendor=eventGoer)
+            client_ip, is_routable = get_client_ip(request)
+            recommendedPerson = RecommendedPerson.objects.filter(ipAddress=client_ip,recommendor=eventGoer)
             if len(recommendedPerson) >= 1:
                 return redirect(linkToRegister)
             else:
-                newRecommendedPerson = RecommendedPerson.objects.create(ipAddress=request.META["REMOTE_ADDR"],recommendor=eventGoer)
+                newRecommendedPerson = RecommendedPerson.objects.create(ipAddress=client_ip,recommendor=eventGoer)
                 newRecommendedPerson.save()
             eventGoer.numOfRecommended += 1
             eventGoer.save()
@@ -115,15 +123,26 @@ def recommendedEventPage(request,event_id,user_id):
         except User.DoesNotExist:
             return redirect(linkToRegister)
     else:
-        if request.user.id == user_id:
-            recommendorHerselfComingToThisPage = True
-        else:
-            recommendorHerselfComingToThisPage = False
-        # If this is a valid recommendor link (recommendor with this id exists) and if the event exists then fine:
         try:
             recommendor = User.objects.get(pk=user_id)
-            recommendedEvent = Event.objects.get(pk=event_id)
-            context = {'recommendor':recommendor,'event':recommendedEvent,'recommendorHerselfComingToThisPage':recommendorHerselfComingToThisPage}
+            event = Event.objects.get(pk=event_id)
+            recommendorEventGoer = EventGoer.objects.get(user=recommendor,event=event)
+            # if the lookup below finds an instance, it means that this guy has already been recommended or the person accessing this page is the recommendor herself
+            client_ip, is_routable = get_client_ip(request)
+            recommendedPersonFraud = RecommendedPerson.objects.get(ipAddress=client_ip,recommendor=recommendorEventGoer)
+            recommendorHerselfComingToThisPage = True
+        except RecommendedPerson.DoesNotExist:
+            recommendorHerselfComingToThisPage = False
+            pass
+        except:
+            recommendorHerselfComingToThisPage = True
+            pass
+        logger.critical(recommendorHerselfComingToThisPage)
+        # If this is a valid recommendor link (recommendor with this id exists) and if the event exists then fine:
+        try:
+            #recommendor = User.objects.get(pk=user_id)
+            #recommendedEvent = Event.objects.get(pk=event_id)
+            context = {'recommendor':recommendor,'event':event,'recommendorHerselfComingToThisPage':recommendorHerselfComingToThisPage}
             return render(request,'system/eventpage.html',context)
         # If recommender_id or event_id is not found:
         except:

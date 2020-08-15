@@ -2,10 +2,14 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .models import Profile
-from system.models import EventGoer,Event
+from system.models import EventGoer,Event,RecommendedPerson
 from django.contrib import auth
+from ipware import get_client_ip
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+import logging
+
+logger = logging.getLogger('django')
 
 def registration(request):
     if request.method == 'POST':
@@ -47,12 +51,20 @@ def registration(request):
                             except:
                                 return redirect('/accounts/signup')
                             if event:
+                                logger.critical('event has been found, now look for an eventGoer')
                                 eventGoer = EventGoer.objects.filter(event=event,user=user)
                                 if len(eventGoer) == 0:
                                     newEventGoer = EventGoer()
                                     newEventGoer.event = event
                                     newEventGoer.user = user
                                     newEventGoer.save()
+                                    client_ip, is_routable = get_client_ip(request)
+                                    recommendedPersonByHimself = RecommendedPerson.objects.filter(ipAddress=client_ip,recommendor=newEventGoer)
+                                    logger.critical('recommendedPersonByHimself has been filtered and either found or not, let us find its len')
+                                    if len(recommendedPersonByHimself) == 0:
+                                        logger.critical('len of recommendedPersonByHimself is 0, so let us create a new one')
+                                        newRecommendedPersonByHimself = RecommendedPerson.objects.create(ipAddress=client_ip,recommendor=newEventGoer)
+                                        newRecommendedPersonByHimself.save()
                         # If it is basic /account/signup url --> then we don't care about eventGoer model:
                         except:
                             pass
@@ -100,6 +112,11 @@ def login(request):
                         newEventGoer.event = event
                         newEventGoer.user = user
                         newEventGoer.save()
+                        client_ip, is_routable = get_client_ip(request)
+                        recommendedPersonByHimself = RecommendedPerson.objects.filter(ipAddress=client_ip,recommendor=newEventGoer)
+                        if len(recommendedPersonByHimself) == 0:
+                                newRecommendedPersonByHimself = RecommendedPerson.objects.create(ipAddress=client_ip,recommendor=newEventGoer)
+                                newRecommendedPersonByHimself.save()
                 except:
                     pass
                 auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -140,6 +157,8 @@ def deleteAccount(request,userid):
 def oauthRedirect(request):
     try:
         new_user_id = request.user.id
+        response = redirect('/')
+        response.set_cookie('oauth',True)
         try:
             # If the OAuth was for specific event:
             event_id = int(request.COOKIES['eventid'])
@@ -154,14 +173,13 @@ def oauthRedirect(request):
                     newEventGoer.event = event
                     newEventGoer.user = request.user
                     newEventGoer.save()
-                    print("Before response")
-                    response = HttpResponse('/rew/mypage/'+new_user_id)
-                    print(response)
-                    response.delete_cookie("eventid")
-                    print("hey")
+                    responseEventGoer = HttpResponse('/rew/mypage/'+new_user_id)
+                    responseEventGoer.set_cookie('oauth',True)
+                    responseEventGoer.delete_cookie("eventid")
         # If it is basic signup without eventGoer instance:
         except:
             pass
-        return response
+        return responseEventGoer
     except:
-        return redirect('/')
+        logger.critical("now I'm sending the response with the cookie back")
+        return response

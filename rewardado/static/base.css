@@ -5,7 +5,7 @@ html {
 }
 body {
     min-height: 100vh;
-    font-family: 'League Spartan'; 
+    font-family: 'league_spartanbold'; 
     background-color: #dae0ec;
     background-size: cover;
     background-repeat: no-repeat;
@@ -236,7 +236,7 @@ Home page ---->
     padding-left: 18vw;
 }
 .head_text_box p span {
-    color: #0093AF;
+    color: #0093FF;
     padding-top: 4px;
 }
 .head_text_box h6 {
@@ -247,7 +247,7 @@ Home page ---->
     margin-top: 40px;
 }
 .head_text_box h6 span {
-    color: #0093AF;
+    color: #0093FF;
 }
 .log_reg_box {
     position: absolute;
@@ -466,6 +466,9 @@ Registration and Login pages (forms)---->
     grid-template-columns: 50px calc(100% - 50px);
     max-width: 70%;
     margin: auto;
+}
+.form_line input {
+    border-radius: 0;
 }
 .form_box input {
     height: 50px;
@@ -727,8 +730,9 @@ MyPage----->
     background-color: #0000ff;
     border: solid #0000ff 2px;
     color: #fff;
+    font-size: 14px;
     border-radius: 4px;
-    padding: 18px 50px 12px 50px;
+    padding: 18px 24px 12px 24px;
     margin-top: 30px;
     margin-bottom: 20px;
 }
@@ -864,7 +868,7 @@ MyPage----->
     display: inline;
 }
 .recommend_link_input {
-    padding: 13px 0 9px 3%;
+    padding: 13.5px 0 9px 3%;
     border: 0px;
     width: 50%;
     height: 50px;
@@ -876,7 +880,7 @@ MyPage----->
     border: 0px;
     padding: 0px 14px;
     right: 8px;
-    top: -1px;
+    top: 0px;
     font-size: 22px;
     border-radius: 0px 6px 6px 0;
     height: 50px;
@@ -1028,7 +1032,7 @@ MyPage----->
         border: 0px;
         padding: 0px 14px;
         right: 8px;
-        top: -1px;
+        top: 0px;
         font-size: 22px;
         border-radius: 0px 6px 6px 0;
         height: 42px;
@@ -1051,7 +1055,7 @@ MyPage----->
         margin-bottom: 0;
     }
     #reward_name {
-        font-size: 17px;
+        font-size: 20px;
     }
     #reward_modal_box_middle_body p {
         font-size: 12px;
@@ -1455,7 +1459,7 @@ My Buddies ----->
     max-height: 120px;
     border: 0px;
     border-radius: 0 0 5px 5px;
-    border-top: 1.5px #d6c5f0 solid;
+    border-top: 1.5px #83aacc solid;
     outline: 0px;
     width: 90%;
     margin-right: 10%;
@@ -1472,17 +1476,19 @@ My Buddies ----->
     position: relative;
 }
 .submit_box i {
+    font-style: normal;
     position: absolute;
-    top: 4px;
+    top: 0px;
     right: 11.5%;
     color: #042d50;
     font-size: 25px;
-    padding: 10px 10px 9px 10px;
+    padding: 8px 12px 6px 12px;
     border-radius: 15px;
 }
 .submit_box i:hover {
-    background-color: #d6c5f0; 
+    color: #085699;
     opacity: 0.7;
+    cursor: pointer;
 }
 .chat-log {
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
@@ -1570,6 +1576,7 @@ Settings----->
     color: #fff;
     margin: auto;
     margin-top: 50px;
+    padding-bottom: 100px;
 }
 .settings_container .on_off_form, .settings_container_forms form {
     margin-bottom: 30px;
@@ -1682,7 +1689,6 @@ footer {
     width: 100vw;
     color: white;
     text-align: center;
-    z-index: 8;
 }
 footer p {
     font-size: 11px;

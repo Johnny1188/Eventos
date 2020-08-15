@@ -35,4 +35,11 @@
     </div>
 </div>
 
+{% if user.is_authenticated is False %}
+<script>
+let menu_hamburger = document.getElementById("toggle");
+menu_hamburger.style.display = "none";
+</script>
+{% endif %}
+
 {% endblock %}

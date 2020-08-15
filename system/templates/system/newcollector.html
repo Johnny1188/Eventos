@@ -189,15 +189,22 @@
                     <button onclick="open_registration_modal()" id="copy_box"><i class="fas fa-clone"></i></button>
                 </div>
             </div>
-        <div class="empty_box">
+        <!--<div class="empty_box">
             <a href="{% url 'eventlist' %}" class="discover_more_events">
                 <div class="recommend_link_box_empty">
                     <h2>+ Explore more events</h2>
                 </div>
             </a>
-        </div>
+        </div>-->
     </div>
 </div>
+
+{% if user.is_authenticated is False %}
+<script>
+let menu_hamburger = document.getElementById("toggle");
+menu_hamburger.style.display = "none";
+</script>
+{% endif %}
 
 <script defer>
     let error = '{{ error }}';
