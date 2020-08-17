@@ -59,6 +59,15 @@
     </div>
     {% endif %}
 
+    <!-- GDPR and COOKIES pop-up box -->
+    <div id="gdpr_cookies_consent_container">
+        <h6>This website uses cookies and asks and stores your personal data to allow you using this website.</h6>
+        <div class="buttons_in_gdpr_consent_container">
+            <button id="gdpr_consent_agree_btn">OK, I AGREE</button>
+            <a href="https://www.startupdisrupt.com/privacy-policy/" id="gdpr_consent_privacy_link"><button id="gdpr_consent_privacy_btn">PRIVACY POLICY</button>
+        </div>
+    </div>
+
     <footer class="footer py-3">
         <div class="mx-auto">
             <h6 class="text-center">Startup Disrupt</h6>
@@ -69,5 +78,20 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<!-- GDPR and COOKIES consent -->
+<script>
+let gdpr_consent = window.sessionStorage.getItem("gdpr-cookies-consent");
+if(gdpr_consent == null) {
+    let gdpr_consent_box = document.getElementById("gdpr_cookies_consent_container");
+    let gdpr_consent_agree_btn = document.getElementById("gdpr_consent_agree_btn");
+    gdpr_consent_agree_btn.addEventListener("click",() => {
+        gdpr_consent_box.style.display = "none";
+        window.sessionStorage.setItem("gdpr-cookies-consent",true);
+    })
+    gdpr_consent_box.style.display = "block";
+}
+</script>
+
 </body>
 </html>

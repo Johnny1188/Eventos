@@ -10,6 +10,54 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 }
+#gdpr_cookies_consent_container {
+    position: fixed;
+    bottom: 25px;
+    left: 30vw;
+    z-index: 1000;
+    display: none;
+    width: 40vw;
+    background-color: #dae0ec;
+    box-shadow: 10px 10px 30px #042d50;
+    text-align: center;
+    padding: 30px 40px;
+}
+.buttons_in_gdpr_consent_container {
+    width: 100%;
+}
+.buttons_in_gdpr_consent_container button {
+    color: #dae0ec;
+    border: 0px;
+    padding: 8px 15px 3px 15px;
+}
+#gdpr_consent_agree_btn {
+    background-color: #000099;
+    margin-right: 15px;
+}
+#gdpr_consent_privacy_btn {
+    background-color: #042250c7;
+}
+.buttons_in_gdpr_consent_container button:hover {
+    opacity: 0.8;
+}
+@media only screen and (max-width: 1020px) {
+    #gdpr_cookies_consent_container {
+        width: 70vw;
+        left: 15vw;
+    }
+}
+@media only screen and (max-width: 580px) {
+    #gdpr_cookies_consent_container {
+        width: 90vw;
+        min-height: unset;
+        left: 5vw;
+        font-size: 10px;
+        padding: 20px 14px;
+    }
+    #gdpr_cookies_consent_container h6 {
+        font-size: 13px;
+    }
+}
 
 /*
 Header ---->
