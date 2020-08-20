@@ -702,8 +702,8 @@ MyPage----->
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.8);
-    display: none;
     z-index: 2;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -1717,6 +1717,23 @@ Settings----->
 }
 
 
+/*
+Privacy Policy-------->
+*/
+.privacypolicy_container h1 {
+    color: #95a7be;
+    margin: 60px 15px 40px 7vw;
+}
+.privacypolicy_text_container {
+    background-color: #dae0ec;
+    box-shadow: 10px 10px 30px #042d50;
+    width: 90vw;
+    margin: auto;
+    margin-bottom: 300px;
+    padding: 60px 30px;
+}
+
+
 
 /* 
 Footer---->
@@ -1737,6 +1754,7 @@ footer {
     width: 100vw;
     color: white;
     text-align: center;
+    z-index: 3;
 }
 footer p {
     font-size: 11px;

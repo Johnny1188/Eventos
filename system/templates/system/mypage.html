@@ -121,8 +121,10 @@
     </div>
 </div>
 
-{% if message is not None %}
-<script defer type="text/javascript">open_reward_modal('{{ message }}',"","{% static 'success.png' %}","",true)</script>
-{% endif %}
+{% endblock %}
 
+{% block javascript-bottom %}
+    {% if message is not None %}
+    <script defer type="text/javascript">open_reward_modal('{{ message }}',"","{% static 'success.png' %}","",true)</script>
+    {% endif %}
 {% endblock %}

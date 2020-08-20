@@ -64,14 +64,14 @@
         <h6>This website uses cookies and asks and stores your personal data to allow you using this website.</h6>
         <div class="buttons_in_gdpr_consent_container">
             <button id="gdpr_consent_agree_btn">OK, I AGREE</button>
-            <a href="https://www.startupdisrupt.com/privacy-policy/" id="gdpr_consent_privacy_link"><button id="gdpr_consent_privacy_btn">PRIVACY POLICY</button>
+            <a href="{% url 'privacypolicy' %}" id="gdpr_consent_privacy_link"><button id="gdpr_consent_privacy_btn">PRIVACY POLICY</button></a>
         </div>
     </div>
 
     <footer class="footer py-3">
         <div class="mx-auto">
             <h6 class="text-center">Startup Disrupt</h6>
-            <p>By continuing to use our site you agree with our <a href="https://www.startupdisrupt.com/privacy-policy/">terms and conditions.</a></p>
+            <p>By continuing to use our site you agree with our <a href="{% url 'privacypolicy' %}">terms and conditions.</a></p>
         </div>
     </footer>
 
@@ -93,5 +93,8 @@ if(gdpr_consent == null) {
 }
 </script>
 
+
+{% block javascript-bottom %}
+{% endblock %}
 </body>
 </html>

@@ -51,7 +51,6 @@ def registration(request):
                             except:
                                 return redirect('/accounts/signup')
                             if event:
-                                logger.critical('event has been found, now look for an eventGoer')
                                 eventGoer = EventGoer.objects.filter(event=event,user=user)
                                 if len(eventGoer) == 0:
                                     newEventGoer = EventGoer()
@@ -60,9 +59,7 @@ def registration(request):
                                     newEventGoer.save()
                                     client_ip, is_routable = get_client_ip(request)
                                     recommendedPersonByHimself = RecommendedPerson.objects.filter(ipAddress=client_ip,recommendor=newEventGoer)
-                                    logger.critical('recommendedPersonByHimself has been filtered and either found or not, let us find its len')
                                     if len(recommendedPersonByHimself) == 0:
-                                        logger.critical('len of recommendedPersonByHimself is 0, so let us create a new one')
                                         newRecommendedPersonByHimself = RecommendedPerson.objects.create(ipAddress=client_ip,recommendor=newEventGoer)
                                         newRecommendedPersonByHimself.save()
                         # If it is basic /account/signup url --> then we don't care about eventGoer model:

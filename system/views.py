@@ -56,7 +56,6 @@ def newRewardCollector(request,event_id):
 @login_required(login_url='/accounts/login')
 def myPage(request,user_id):
     # OAuth -> COOKIES['oauth'] is set to true:
-    client_ip, is_routable = get_client_ip(request)
     try:
         if request.COOKIES['oauth']:
             oauth_user = DefaultSocialAccountAdapter()
@@ -85,6 +84,16 @@ def myPage(request,user_id):
         if RewardWithdrawer.objects.filter(withdrawer=profile,reward=reward).exists():
             reward.alreadyWithdrawn = True
     events_attending = EventGoer.objects.filter(user=user)
+    # When user registers through rew/newrewardcollector/x by OAuth, the RecommendedPerson instance does not create, we need to do it here (after redirection from OAuth, the person has cookie 'oauth' set to true):
+    client_ip, is_routable = get_client_ip(request)
+    try:
+        if request.COOKIES['oauth']:
+            recommendedPersonByHimself = RecommendedPerson.objects.filter(ipAddress=client_ip,recommendor=events_attending[0])
+            if len(recommendedPersonByHimself) == 0:
+                newRecommendedPersonByHimself = RecommendedPerson.objects.create(ipAddress=client_ip,recommendor=events_attending[0])
+                newRecommendedPersonByHimself.save()
+    except:
+        pass
     for event in events_attending:
         event.recommend_link = 'reward.startupdisrupt.com/rew/e'+str(event.event.id)+'/'+str(user.id)
     if request.GET.get('msg'):
@@ -194,6 +203,9 @@ def settingsPage(request,user_id):
             auth.logout(request)
             return redirect('/accounts/login')
         return render(request,'system/settingspage.html',context)
+
+def privacyPolicy(request):
+    return render(request,'system/privacypolicy.html')
 
 @login_required(login_url='/accounts/login')
 def changePreference(request):

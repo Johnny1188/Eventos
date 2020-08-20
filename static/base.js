@@ -27,9 +27,11 @@ function copy_link(event_id) {
 
 // Function used onclick on reward images in mypage.html to expand the reward modal:
 function open_reward_modal(name,description,imageURL,rewID,justInfo=false) {
+    var footer = document.getElementsByClassName("footer");
     var reward_modal = document.getElementById("reward_modal");
     var reward_modal_box = document.getElementById("reward_modal_box");
     var body = document.getElementsByTagName("html");
+    footer[0].style.zIndex = 2;
     reward_modal_box.style.backgroundColor = "#fff";
     reward_modal.style.display = "flex";
     body[0].style.overflowY = "hidden";
@@ -97,8 +99,11 @@ function open_reward_modal(name,description,imageURL,rewID,justInfo=false) {
 
 // Function used onclick on the cross button in mypage.html to close the reward modal:
 function close_modal() {
+    var footer = document.getElementsByClassName("footer");
     var reward_modal = document.getElementById("reward_modal");
     var body = document.getElementsByTagName("html");
+    footer[0].style.zIndex = 8;
+    console.log(footer[0].style.zIndex);
     close_btn = document.getElementById("reward_modal_box_close");
     body[0].style.overflowY = "auto";
     reward_modal.style.display = "none";

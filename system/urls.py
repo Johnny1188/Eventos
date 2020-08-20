@@ -9,6 +9,7 @@ urlpatterns = [
     path('newrewardcollector/<int:event_id>/', views.newRewardCollector, name="newcollector"),
     path('mybuddies/<int:user_id>/', views.myBuddies, name="mybuddies"),
     path('settings/<int:user_id>/', views.settingsPage, name="settingspage"),
+    path('privacypolicy', views.privacyPolicy, name="privacypolicy"),
     path('e'+'<int:event_id>/<int:user_id>/', views.recommendedEventPage),
     path('events', views.eventlist, name="eventlist"),
     path('rewarder/<int:rewID>/', views.getReward, name="rewarder"),

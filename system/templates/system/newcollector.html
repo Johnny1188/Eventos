@@ -12,10 +12,12 @@
     }
 
     function open_registration_modal() {
+        var footer = document.getElementsByClassName("footer");
         var reward_modal = document.getElementById("reward_modal");
         var reward_modal_box = document.getElementById("reward_modal_box");
         var reward_modal_box_close = document.getElementById("reward_modal_box_close");
         var body = document.getElementsByTagName("html");
+        footer[0].style.zIndex = 2;
         reward_modal_box_close.style.backgroundColor = "#fff";
         reward_modal_box_close.style.color = "#000099";
         reward_modal_box.style.backgroundColor = "#00006b";
